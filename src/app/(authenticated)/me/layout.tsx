@@ -4,7 +4,5 @@ import { Metadata } from 'next/types'
 export const metadata: Metadata = pageMeta('My profile')
 
 export default function MeLayout({ children }: { children: any }) {
-  return (<div className={`container py-4`}>
-    {children}
-  </div>)
+  return (<>{children}</>)
 }

@@ -17,9 +17,9 @@ const LayoutClientSide = () => {
     Cookies.set('deviceId', newDeviceId)
   }
   useEffect(() => {
-    if (Cookies.get('admintoken') && (pathName.startsWith('/auth') || pathName == '/')) {
-      router.push('/home')
-    } else if (!Cookies.get('admintoken') && !pathName.startsWith('/auth')) {
+    if (Cookies.get('token') && (pathName.startsWith('/auth') || pathName == '/')) {
+      router.push('/')
+    } else if (!Cookies.get('token') && !pathName.startsWith('/auth')) {
       router.push('/auth/login')
     }
   }, [])

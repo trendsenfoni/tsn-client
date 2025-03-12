@@ -11,7 +11,7 @@ import { Switch } from '@/components/ui/switch'
 import CustomLink from '@/components/custom-link'
 import { Textarea } from '@/components/ui/textarea'
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
-import { AdminUserType } from '@/types/AdminUserType'
+import { AdminUserType } from '@/typesUserType'
 import { ButtonConfirm } from '@/components/button-confirm'
 interface Props {
   params: {
@@ -21,27 +21,27 @@ interface Props {
 export default function PageEdit({ params }: Props) {
   const router = useRouter()
   const { toast } = useToast()
-  const [admintoken, setAdmintoken] = useState('')
+  const [token, setToken] = useState('')
   const [adminUser, setAdminUser] = useState<AdminUserType>({})
 
 
   const save = () => {
-    putItem(`/admin/adminUsers/${params.id}`, admintoken, adminUser)
+    putItem(`Users/${params.id}`, token, adminUser)
       .then(result => {
         toast({ description: 'Kayit basarili' })
-        setTimeout(() => router.push('/adminUsers'), 1000)
+        setTimeout(() => router.push('Users'), 1000)
       })
       .catch(err => toast({ title: 'Error', description: err, variant: 'destructive' }))
   }
 
-  useEffect(() => { !admintoken && setAdmintoken(Cookies.get('admintoken') || '') }, [])
+  useEffect(() => { !token && setToken(Cookies.get('token') || '') }, [])
   useEffect(() => {
-    if (admintoken) {
-      getItem(`/admin/adminUsers/${params.id}`, admintoken)
+    if (token) {
+      getItem(`Users/${params.id}`, token)
         .then(result => setAdminUser(result as AdminUserType))
         .catch(err => toast({ title: 'Error', description: err || '', variant: 'destructive' }))
     }
-  }, [admintoken])
+  }, [token])
   return (<div>
     <div className="w-fu11ll m11ax-w-3xl mx-auto py-8 px-0 md:px-6">
       <div className="flex items-center gap-4 mb-6">
@@ -92,10 +92,10 @@ export default function PageEdit({ params }: Props) {
           text='Admin user silinsin mi?'
           description={`${adminUser && adminUser.email}  | ${adminUser && adminUser.fullName}\n`}
           onOk={() => {
-            deleteItem(`/admin/adminUsers/${params.id}`, admintoken)
+            deleteItem(`Users/${params.id}`, token)
               .then(result => {
                 toast({ description: 'Kayıt silindi' })
-                setTimeout(() => router.push('/adminUsers'), 1000)
+                setTimeout(() => router.push('Users'), 1000)
               })
               .catch(err => toast({ title: 'Error', description: err, variant: 'destructive' }))
           }}

@@ -11,20 +11,20 @@ import { Input } from "@/components/ui/input"
 import { getItem } from '@/lib/fetch'
 import CustomLink from '@/components/custom-link'
 import Cookies from 'js-cookie'
-import { AdminUserType } from '@/types/AdminUserType'
+import { AdminUserType } from '@/typesUserType'
 
 const MePage = () => {
-  const [admintoken, setAdmintoken] = useState('')
+  const [token, setToken] = useState('')
   const [user, setUser] = useState<AdminUserType | null>(null)
 
-  useEffect(() => { !admintoken && setAdmintoken(Cookies.get('admintoken') || '') }, [])
+  useEffect(() => { !token && setToken(Cookies.get('token') || '') }, [])
   useEffect(() => {
-    if (admintoken) {
-      getItem('/admin/me', admintoken)
+    if (token) {
+      getItem('/me', token)
         .then(result => setUser(result as AdminUserType))
         .catch(err => console.log(err))
     }
-  }, [admintoken])
+  }, [token])
 
   return (<>
     {user && <>

@@ -1,9 +1,9 @@
 import { cookies } from 'next/headers'
 import { v4 } from 'uuid'
 import Cookies from 'js-cookie'
-export function getAuthAdminToken() {
-  const admintoken = cookies().get('admintoken')?.value || ''
-  return admintoken
+export function getAuthToken() {
+  const token = cookies().get('token')?.value || ''
+  return token
 }
 
 // export function getAuthUser() {

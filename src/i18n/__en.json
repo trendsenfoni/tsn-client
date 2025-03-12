@@ -1,0 +1,9 @@
+{
+  "Home": "Home",
+  "Sales": "Sales",
+  "Purchasing": "Purchasing",
+  "Finance": "Finance",
+  "Inventory": "Inventory",
+  "Production": "Production",
+  "exit_question": "Do you want to exit?"
+}

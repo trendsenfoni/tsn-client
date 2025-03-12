@@ -21,12 +21,12 @@ interface Props {
 export default function ConnectorPage({ params }: Props) {
   const router = useRouter()
   const { toast } = useToast()
-  const [admintoken, setAdmintoken] = useState('')
+  const [token, setToken] = useState('')
   const [manager, setManager] = useState<ManagerType>({})
   const [connector, setConnector] = useState<ConnectorType>({})
 
   const save = () => {
-    putItem(`/admin/managerSettings/${params?.id}`, admintoken, {
+    putItem(`/managerSettings/${params?.id}`, token, {
       connector: connector
     })
       .then(result => {
@@ -92,7 +92,7 @@ export default function ConnectorPage({ params }: Props) {
                   variant="secondary"
                   title='Connector test'
                   onClick={() => {
-                    postItem(`/admin/managerSettings/connectorTest`, admintoken, { clientId: connector.clientId, clientPass: connector.clientPass })
+                    postItem(`/managerSettings/connectorTest`, token, { clientId: connector.clientId, clientPass: connector.clientPass })
                       .then(result => setTestResult(`OK\nServer Tarihi:\n${result}`))
                       .catch(err => setTestResult(`Hata:\n${err}`))
                   }}
@@ -234,7 +234,7 @@ export default function ConnectorPage({ params }: Props) {
                 <Button
                   variant="secondary"
                   onClick={() => {
-                    postItem(`/admin/managerSettings/mssqlTest`, admintoken, {
+                    postItem(`/managerSettings/mssqlTest`, token, {
                       clientId: connector.clientId,
                       clientPass: connector.clientPass,
                       mssql: connector.mssql,
@@ -265,10 +265,10 @@ export default function ConnectorPage({ params }: Props) {
     </>
   }
 
-  useEffect(() => { !admintoken && setAdmintoken(Cookies.get('admintoken') || '') }, [])
+  useEffect(() => { !token && setToken(Cookies.get('token') || '') }, [])
   useEffect(() => {
-    if (admintoken) {
-      getItem(`/admin/managerSettings/${params?.id}`, admintoken)
+    if (token) {
+      getItem(`/managerSettings/${params?.id}`, token)
         .then(result => {
           console.log('result:', result)
           setConnector(result?.connector as ConnectorType)
@@ -278,7 +278,7 @@ export default function ConnectorPage({ params }: Props) {
       // .catch(err => console.log('err:', err))
 
     }
-  }, [admintoken])
+  }, [token])
   return (
     <div className='flex flex-col gap-4'>
       <h1>Manager Connector</h1>

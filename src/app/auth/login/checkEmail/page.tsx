@@ -1,7 +1,7 @@
 "use client"
 import { Label } from "@/components/ui/label"
 
-import ThemeToggleButton from '@/components/theme-toggle-button'
+import { ThemeToggleButton } from '@/components/theme-toggle-button'
 import { HeaderLogo2 } from '@/components/logo'
 import { redirect, useSearchParams, useRouter } from 'next/navigation'
 import Link from 'next/link'

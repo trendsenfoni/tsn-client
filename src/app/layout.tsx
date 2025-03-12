@@ -2,7 +2,7 @@ import type { Metadata, Viewport } from "next"
 import { Inter } from "next/font/google"
 import "@fortawesome/fontawesome-free/css/all.min.css"
 import "./globals.css"
-import LayoutClientSide from './(authenticated)/layout-client'
+import LayoutClientSide from './layout-client'
 import { ThemeProvider } from '@/components/theme-provider'
 const inter = Inter({ subsets: ["latin"] })
 import { RedirectType, redirect } from 'next/navigation'
@@ -36,7 +36,7 @@ const RootLayout = ({ children }: { children: React.ReactNode }) => {
         <link rel="manifest" href={`/manifest.json`} />
       </head>
       <body className={inter.className} suppressHydrationWarning >
-
+        <LayoutClientSide />
         <ThemeProvider
           attribute="class"
           defaultTheme="dark"

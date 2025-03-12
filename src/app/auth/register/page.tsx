@@ -2,7 +2,7 @@
 import Link from "next/link"
 // import { Separator } from '@/components/ui/separator'
 // import HorizontalLineWithText from '@/components/horizontal-line-with-text'
-// import ThemeToggleButton from '@/components/theme-toggle-button'
+// import { ThemeToggleButton } from '@/components/theme-toggle-button'
 // import { HeaderLogo2 } from '@/components/logo'
 // import MagicLinkSignIn from '../(components)/magic-link-signin'
 // import EmailPasswordRegister from '../(components)/email-password-register'

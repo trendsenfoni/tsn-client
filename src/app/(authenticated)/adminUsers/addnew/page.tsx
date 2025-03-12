@@ -11,29 +11,29 @@ import { Switch } from '@/components/ui/switch'
 import CustomLink from '@/components/custom-link'
 import { Textarea } from '@/components/ui/textarea'
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
-import { AdminUserType } from '@/types/AdminUserType'
+import { AdminUserType } from '@/typesUserType'
 
 export default function PageAddNew() {
   const router = useRouter()
   const { toast } = useToast()
-  const [admintoken, setAdmintoken] = useState('')
+  const [token, setToken] = useState('')
   const [adminUser, setAdminUser] = useState<AdminUserType>({})
   const [newLink, setNewLink] = useState('')
 
   const save = () => {
-    postItem(`/admin/adminUsers`, admintoken, adminUser)
+    postItem(`Users`, token, adminUser)
       .then(result => {
         toast({ description: 'Kayit basarili' })
-        setTimeout(() => router.push('/adminUsers'), 1000)
+        setTimeout(() => router.push('Users'), 1000)
       })
       .catch(err => toast({ title: 'Error', description: err, variant: 'destructive' }))
   }
-  useEffect(() => { !admintoken && setAdmintoken(Cookies.get('admintoken') || '') }, [])
+  useEffect(() => { !token && setToken(Cookies.get('token') || '') }, [])
   useEffect(() => {
-    if (admintoken) {
+    if (token) {
 
     }
-  }, [admintoken])
+  }, [token])
   return (<div>
     <div className="w-fu11ll m11ax-w-3xl mx-auto py-8 px-0 md:px-6">
       <div className="flex items-center gap-4 mb-6">

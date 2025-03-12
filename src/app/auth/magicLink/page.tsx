@@ -11,16 +11,16 @@ import { ErrorPanel } from '@/components/error-panel'
 
 export default function MagicLinkPage({ }) {
   const searchParams = useSearchParams()
-  const magicadmintoken = searchParams.get('magicadmintoken')
+  const magictoken = searchParams.get('magictoken')
   const [error, setError] = useState()
   const router = useRouter()
-  console.log('magicadmintoken:', magicadmintoken)
+  console.log('magictoken:', magictoken)
 
   const magicLogin = () => {
-    postItem('/auth/magicLogin', '', { magicadmintoken: 'hata' + magicadmintoken + 'hata' })
+    postItem('/auth/magicLogin', '', { magictoken: 'hata' + magictoken + 'hata' })
       .then(result => {
 
-        Cookies.set('admintoken', result.admintoken, { secure: true })
+        Cookies.set('token', result.token, { secure: true })
         Cookies.set('user', JSON.stringify(result.user), { secure: true })
         Cookies.set('dbList', JSON.stringify(result.dbList || []), { secure: true })
         Cookies.set('db', result.db || '', { secure: true })
@@ -30,7 +30,7 @@ export default function MagicLinkPage({ }) {
         router.push('/home')
       })
       .catch(err => setError(err))
-    // authSignIn(magicadmintoken || '')
+    // authSignIn(magictoken || '')
     //   .then(() => {
     //     router.push('/databases')
     //   })
@@ -41,13 +41,13 @@ export default function MagicLinkPage({ }) {
 
   useEffect(() => {
     magicLogin()
-  }, [magicadmintoken])
+  }, [magictoken])
 
   return (<div className='flex flex-col w-full px-6'>
     <h2 className='text-2xl'>Magic Link Page</h2>
-    {magicadmintoken && (
+    {magictoken && (
       <p className='font-mono text-wrap '>
-        Magic admintoken: {magicadmintoken}
+        Magic token: {magictoken}
       </p>
     )}
     {error && <>

@@ -20,12 +20,12 @@ interface Props {
 export default function PageEdit({ params }: Props) {
   const router = useRouter()
   const { toast } = useToast()
-  const [admintoken, setAdmintoken] = useState('')
+  const [token, setToken] = useState('')
   const [manager, setManager] = useState<ManagerType>({})
 
 
   const save = () => {
-    putItem(`/admin/managers/${params.id}`, admintoken, manager)
+    putItem(`/managers/${params.id}`, token, manager)
       .then(result => {
         toast({ description: 'Kayit basarili' })
         setTimeout(() => router.push('/managers'), 1000)
@@ -33,14 +33,14 @@ export default function PageEdit({ params }: Props) {
       .catch(err => toast({ title: 'Error', description: err, variant: 'destructive' }))
   }
 
-  useEffect(() => { !admintoken && setAdmintoken(Cookies.get('admintoken') || '') }, [])
+  useEffect(() => { !token && setToken(Cookies.get('token') || '') }, [])
   useEffect(() => {
-    if (admintoken) {
-      getItem(`/admin/managers/${params.id}`, admintoken)
+    if (token) {
+      getItem(`/managers/${params.id}`, token)
         .then(result => setManager(result as ManagerType))
         .catch(err => toast({ title: 'Error', description: err || '', variant: 'destructive' }))
     }
-  }, [admintoken])
+  }, [token])
   return (<div>
     <div className="w-fu11ll m11ax-w-3xl mx-auto py-8 px-0 md:px-6">
       <div className="flex items-center gap-4 mb-6">

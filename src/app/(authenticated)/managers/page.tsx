@@ -27,7 +27,7 @@ import Loading from '@/components/loading'
 import { Input } from '@/components/ui/input'
 import { SearchIcon } from 'lucide-react'
 export default function ManagerListPage() {
-  const [admintoken, setAdmintoken] = useState('')
+  const [token, setToken] = useState('')
   const { toast } = useToast()
   const [list, setList] = useState<ManagerType[]>([])
   const [pagination, setPagination] = useState<PaginationType>({ pageCount: 0, page: 1, pageSize: 10, totalDocs: 0 })
@@ -35,14 +35,14 @@ export default function ManagerListPage() {
   const [search, setSearch] = useState('')
 
   const load = (pageNo?: number, s?: string) => {
-    let url = `/admin/managers?pageSize=${pagination.pageSize}&page=${pageNo || pagination.page}`
+    let url = `/managers?pageSize=${pagination.pageSize}&page=${pageNo || pagination.page}`
     if (s != undefined)
       url += `&search=` + encodeURIComponent(s)
     else if (search)
       url += `&search=` + encodeURIComponent(search)
 
     setLoading(true)
-    getList(url, admintoken)
+    getList(url, token)
       .then(result => {
         setList(result.docs as ManagerType[])
         setPagination(result as PaginationType)
@@ -50,8 +50,8 @@ export default function ManagerListPage() {
       .catch(err => toast({ title: 'error', description: err || '', variant: 'destructive' }))
       .finally(() => setLoading(false))
   }
-  useEffect(() => { !admintoken && setAdmintoken(Cookies.get('admintoken') || '') }, [])
-  useEffect(() => { admintoken && load() }, [admintoken])
+  useEffect(() => { !token && setToken(Cookies.get('token') || '') }, [])
+  useEffect(() => { token && load() }, [token])
 
   return (
     <div className='flex flex-col gap-4'>

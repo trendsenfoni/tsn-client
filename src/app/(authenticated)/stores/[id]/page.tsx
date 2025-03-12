@@ -22,13 +22,13 @@ interface Props {
 export default function PageEdit({ params }: Props) {
   const router = useRouter()
   const { toast } = useToast()
-  const [admintoken, setAdmintoken] = useState('')
+  const [token, setToken] = useState('')
   const [store, setStore] = useState<StoreType>({})
   const [inUseIdentifier, setInUseIdentifier] = useState(-1)
 
   const save = () => {
     if (params.id == 'addnew') {
-      postItem(`/admin/stores/${params.id}`, admintoken, store)
+      postItem(`/stores/${params.id}`, token, store)
         .then(result => {
           toast({ description: 'Kayit basarili' })
           setTimeout(() => router.push('/stores'), 1000)
@@ -36,7 +36,7 @@ export default function PageEdit({ params }: Props) {
         .catch(err => toast({ title: 'Error', description: err, variant: 'destructive' }))
 
     } else {
-      putItem(`/admin/stores/${params.id}`, admintoken, store)
+      putItem(`/stores/${params.id}`, token, store)
         .then(result => {
           toast({ description: 'Kayit basarili' })
           setTimeout(() => router.push('/stores'), 1000)
@@ -46,18 +46,18 @@ export default function PageEdit({ params }: Props) {
     }
   }
 
-  useEffect(() => { !admintoken && setAdmintoken(Cookies.get('admintoken') || '') }, [])
+  useEffect(() => { !token && setToken(Cookies.get('token') || '') }, [])
   useEffect(() => {
-    if (admintoken) {
+    if (token) {
       if (params.id != 'addnew') {
-        getItem(`/admin/stores/${params.id}`, admintoken)
+        getItem(`/stores/${params.id}`, token)
           .then(result => {
             setStore(result as StoreType)
           })
           .catch(err => toast({ title: 'Error', description: err || '', variant: 'destructive' }))
       }
     }
-  }, [admintoken])
+  }, [token])
   return (<div>
     <div className="w-full max-w-4xl flex flex-col justify-center mx-auto py-8 px-0 md:px-6 space-y-2">
       <div className="flex items-center gap-4 mb-6 w-full max-w-4xl">
@@ -91,7 +91,7 @@ export default function PageEdit({ params }: Props) {
               onBlur={e => {
                 e.target.value = e.target.value.toLocaleLowerCase().replaceAll(' ', '_')
                 setStore({ ...store, identifier: e.target.value })
-                getItem(`/admin/stores/check/${e.target.value}`, admintoken)
+                getItem(`/stores/check/${e.target.value}`, token)
                   .then(result => {
                     if (result.inUse) {
                       setInUseIdentifier(1)

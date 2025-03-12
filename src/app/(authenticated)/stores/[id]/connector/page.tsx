@@ -22,12 +22,12 @@ interface Props {
 export default function ConnectorPage({ params }: Props) {
   const router = useRouter()
   const { toast } = useToast()
-  const [admintoken, setAdmintoken] = useState('')
+  const [token, setToken] = useState('')
   const [store, setStore] = useState<StoreType>({})
   const [connector, setConnector] = useState<ConnectorType>()
 
   const save = () => {
-    putItem(`/admin/stores/${params?.id}`, admintoken, {
+    putItem(`/stores/${params?.id}`, token, {
       connector: connector
     })
       .then(result => {
@@ -93,7 +93,7 @@ export default function ConnectorPage({ params }: Props) {
                   variant="secondary"
                   title='Connector test'
                   onClick={() => {
-                    postItem(`/admin/stores/connectorTest`, admintoken, { clientId: connector?.clientId, clientPass: connector?.clientPass })
+                    postItem(`/stores/connectorTest`, token, { clientId: connector?.clientId, clientPass: connector?.clientPass })
                       .then(result => setTestResult(`OK\nServer Tarihi:\n${result}`))
                       .catch(err => setTestResult(`Hata:\n${err}`))
                   }}
@@ -235,7 +235,7 @@ export default function ConnectorPage({ params }: Props) {
                 <Button
                   variant="secondary"
                   onClick={() => {
-                    postItem(`/admin/stores/mssqlTest`, admintoken, {
+                    postItem(`/stores/mssqlTest`, token, {
                       clientId: connector?.clientId,
                       clientPass: connector?.clientPass,
                       mssql: connector?.mssql,
@@ -266,10 +266,10 @@ export default function ConnectorPage({ params }: Props) {
     </>
   }
 
-  useEffect(() => { !admintoken && setAdmintoken(Cookies.get('admintoken') || '') }, [])
+  useEffect(() => { !token && setToken(Cookies.get('token') || '') }, [])
   useEffect(() => {
-    if (admintoken) {
-      getItem(`/admin/stores/${params?.id}`, admintoken)
+    if (token) {
+      getItem(`/stores/${params?.id}`, token)
         .then((result: StoreType) => {
           setConnector(result?.connector)
           setStore(result)
@@ -278,7 +278,7 @@ export default function ConnectorPage({ params }: Props) {
       // .catch(err => console.log('err:', err))
 
     }
-  }, [admintoken])
+  }, [token])
   return (
     <div className='flex flex-col gap-4'>
       <h1>Manager Connector</h1>

@@ -1,4 +1,4 @@
-export interface AdminUserType {
+export interface UserType {
   _id?: string
   username?: string
   email?: string

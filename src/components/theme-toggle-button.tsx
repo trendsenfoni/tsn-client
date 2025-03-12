@@ -1,36 +1,42 @@
 "use client"
 
 // import * as React from "react"
-import { Moon, Sun } from "lucide-react"
+import { MoonIcon, SunIcon } from "lucide-react"
 import { useTheme } from "next-themes"
 
 import { Button } from "@/components/ui/button"
+import Link from 'next/link'
 export interface ThemeToggleButtonProps {
   className?: string
   title?: string
 }
-export const ThemeToggleButton = ({
+export function ThemeToggleButton({
   className = '',
   title = 'For a greener 🌍Earth, please use 🌙Dark Mode'
-}: ThemeToggleButtonProps) => {
+}: ThemeToggleButtonProps) {
   const { theme, setTheme } = useTheme()
 
   return (
-    <>
-      <Button
-        variant="outline" size="icon" onClick={(e) => {
-          theme === 'light' ? setTheme("dark") : setTheme("light")
-        }}
-        className={`${className}`}
-        title={title}
-      >
-        <Moon className="h-[1.6rem] w-[1.6rem] rotate-0 scale-100 transition-all dark:-rotate-90 dark:scale-0" />
-        <Sun className="absolute h-[1.6rem] w-[1.6rem] rotate-90 scale-0 transition-all dark:rotate-0 dark:scale-100" />
-        {/* <span className="sr-only">Toggle theme</span> */}
-      </Button>
-    </>
+
+    // <div
+    //   onClick={(e) => {
+    //     theme === 'light' ? setTheme("dark") : setTheme("light")
+    //   }}
+    //   className={`cursor-pointer ps-1 pe-2 py-1 border rounded ${className}`}
+    //   title={title}
+    // >
+    <Button
+      variant="outline" size="sm" onClick={(e) => {
+        theme === 'light' ? setTheme("dark") : setTheme("light")
+      }}
+      className={`${className}`}
+      title={title}
+    >
+      {theme === 'light' && <MoonIcon />}
+      {theme != 'light' && <SunIcon />}
+
+    </Button>
 
   )
 }
-
-export default ThemeToggleButton
+{/* */ }

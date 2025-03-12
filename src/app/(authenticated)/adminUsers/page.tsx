@@ -20,14 +20,14 @@ import { useToast } from "@/components/ui/use-toast"
 import { useRouter } from 'next/navigation'
 import { Switch } from '@/components/ui/switch'
 import ButtonLink from '@/components/button-link'
-import { MemberType } from '@/types/ManagerType'
+import { MemberType } from '@/types/MemberType'
 import Pagination from '@/components/pagination'
 import { PaginationType } from '@/types/PaginationType'
 import Loading from '@/components/loading'
 import { Input } from '@/components/ui/input'
 import { SearchIcon } from 'lucide-react'
 export default function MemberListPage() {
-  const [admintoken, setAdmintoken] = useState('')
+  const [token, setToken] = useState('')
   const { toast } = useToast()
   const [list, setList] = useState<MemberType[]>([])
   const [pagination, setPagination] = useState<PaginationType>({ pageCount: 0, page: 1, pageSize: 10, totalDocs: 0 })
@@ -35,14 +35,14 @@ export default function MemberListPage() {
   const [search, setSearch] = useState('')
 
   const load = (pageNo?: number, s?: string) => {
-    let url = `/admin/adminUsers?pageSize=${pagination.pageSize}&page=${pageNo || pagination.page}`
+    let url = `Users?pageSize=${pagination.pageSize}&page=${pageNo || pagination.page}`
     if (s != undefined)
       url += `&search=` + encodeURIComponent(s)
     else if (search)
       url += `&search=` + encodeURIComponent(search)
 
     setLoading(true)
-    getList(url, admintoken)
+    getList(url, token)
       .then(result => {
         setList(result.docs as MemberType[])
         setPagination(result as PaginationType)
@@ -50,8 +50,8 @@ export default function MemberListPage() {
       .catch(err => toast({ title: 'error', description: err || '', variant: 'destructive' }))
       .finally(() => setLoading(false))
   }
-  useEffect(() => { !admintoken && setAdmintoken(Cookies.get('admintoken') || '') }, [])
-  useEffect(() => { admintoken && load() }, [admintoken])
+  useEffect(() => { !token && setToken(Cookies.get('token') || '') }, [])
+  useEffect(() => { token && load() }, [token])
 
   return (
     <div className='flex flex-col gap-4'>
@@ -83,7 +83,7 @@ export default function MemberListPage() {
               <TableHead className="">Admin</TableHead>
               <TableHead colSpan={2}>Email</TableHead>
               <TableHead className="text-center w-18 text-2xl">
-                <ButtonLink href={`/adminUsers/addnew`} type={'success'}>
+                <ButtonLink href={`Users/addnew`} type={'success'}>
                   <i className="fa-solid fa-square-plus"></i>
                 </ButtonLink>
               </TableHead>
@@ -95,7 +95,7 @@ export default function MemberListPage() {
                 <TableCell className="font-medium">{e.fullName}</TableCell>
                 <TableCell colSpan={2}>{e.email}</TableCell>
                 <TableCell className="flex justify-center gap-4 text-xl">
-                  <ButtonLink href={`/adminUsers/${e._id}`} type=''>
+                  <ButtonLink href={`Users/${e._id}`} type=''>
                     <i className="fa-solid fa-edit"></i>
                   </ButtonLink>
                 </TableCell>

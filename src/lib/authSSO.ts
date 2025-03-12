@@ -114,7 +114,7 @@ const authOptions = {
         console.log('deviceId:', deviceId)
         const result = await postItem(url, '', { deviceId: deviceId, user, account, profile })
         console.log('postItem result2:', result)
-        cookies().set('admintoken', result.admintoken, { secure: true })
+        cookies().set('token', result.token, { secure: true })
         cookies().set('user', JSON.stringify(result.user), { secure: true })
         // cookies().set('dbList', JSON.stringify(result.dbList), { secure: true })
         // cookies().set('db', result.db || '', { secure: true })

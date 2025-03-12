@@ -11,18 +11,18 @@ import { getItem, postItem } from '@/lib/fetch'
 import CustomLink from '@/components/custom-link'
 import { Textarea } from '@/components/ui/textarea'
 import { Switch } from '@/components/ui/switch'
-import { AdminUserType } from '@/types/AdminUserType'
+import { AdminUserType } from '@/typesUserType'
 import { useToast } from '@/components/ui/use-toast'
 
 export default function MeEditPage() {
   const router = useRouter()
   const { toast } = useToast()
-  const [admintoken, setAdmintoken] = useState('')
+  const [token, setToken] = useState('')
   const [user, setUser] = useState<AdminUserType>({})
   const [newLink, setNewLink] = useState('')
 
   const save = () => {
-    postItem('/admin/me', admintoken, user)
+    postItem('/me', token, user)
       .then(result => {
         console.log('autoSave result:', result)
         Cookies.set('user', JSON.stringify(result))
@@ -31,14 +31,14 @@ export default function MeEditPage() {
       .catch(err => console.log(err))
   }
 
-  useEffect(() => { !admintoken && setAdmintoken(Cookies.get('admintoken') || '') }, [])
+  useEffect(() => { !token && setToken(Cookies.get('token') || '') }, [])
   useEffect(() => {
-    if (admintoken) {
-      getItem('/admin/me', admintoken)
+    if (token) {
+      getItem('/me', token)
         .then(result => setUser(result as AdminUserType))
         .catch(err => toast({ title: 'Error', description: err || '', variant: 'destructive' }))
     }
-  }, [admintoken])
+  }, [token])
   return (<>
     {user && <>
 

@@ -1,7 +1,9 @@
 // import LayoutClientSide from './layout-client'
 
+import { CopyrightInfo } from '@/components/copyright'
 import { HeaderLogo2 } from '@/components/logo'
-import ThemeToggleButton from '@/components/theme-toggle-button'
+import { SelectLang } from '@/components/select-lang'
+import { ThemeToggleButton } from '@/components/theme-toggle-button'
 import Link from 'next/link'
 
 interface AuthLayoutProps {
@@ -10,16 +12,24 @@ interface AuthLayoutProps {
 
 export default function AuthLayout({ children }: AuthLayoutProps) {
 
-  return (<div className="container relative  h-[85vh] flex-col justify-center px-6 py-14">
-    <div className='absolute end-2 top-2'>
-      <ThemeToggleButton />
-    </div>
-    <div className='absolute start-4 top-2'>
+  return (<div className="container relative  h-[92vh] flex-col justify-center px-6 pb-4 11m-0">
+    <div className='w-full flex justify-between'>
       <Link href={'/auth/login'}>
         <HeaderLogo2 className="h-16 w-30" />
       </Link>
+      <div className='flex items-center gap-2 max-h-12'>
+        <SelectLang />
+        <ThemeToggleButton />
+
+      </div>
     </div>
+
+
     {children}
+    <div className='absolute bottom-1 w-full text-center start-0 text-xs text-muted-foreground'>
+      <CopyrightInfo />
+
+    </div>
   </div>)
 }
 
