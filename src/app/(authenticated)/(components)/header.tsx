@@ -13,6 +13,7 @@ import { BoxesIcon, DatabaseIcon, FactoryIcon, HomeIcon, PiggyBankIcon, Shopping
 import { useLanguage } from '@/i18n'
 import Cookies from 'js-cookie'
 import { DatabaseSelect } from '@/components/database-select'
+import { NotificationButton } from '@/components/notify-icon'
 const MENU = [
   { text: 'Sales', icon: '🛒', href: '/sales' },
   { text: 'Purchasing', icon: '🚚', href: '/purchasing' },
@@ -34,7 +35,7 @@ export function Header() {
         {/* <div className='text-xs flex'><DatabaseIcon size={'16px'} /> {Cookies.get('databaseName') || ''}</div> */}
       </div>
       <div className="flex items-center gap-2">
-        <div className=" hidden gap-4 text-sm font-medium lg:flex me-2 md:items-center">
+        <div className=" hidden gap-4 text-sm font-medium lg:flex  md:items-center">
           {MENU.map((e, index) =>
             <CustomLink key={'menu' + index} className="flex flex-col items-center rounded-md px-3 py-2 hover:bg-gray-100 dark:hover:bg-gray-800" href={e.href}>
               <div className='text-2xl'>{e.icon}</div> {t(e.text)}
@@ -42,6 +43,7 @@ export function Header() {
           )}
 
         </div>
+        <NotificationButton />
         <UserMenu />
         <div className='flex lg:hidden'><MobileMenu /></div>
 

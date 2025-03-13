@@ -97,6 +97,9 @@ export function DatabaseSelect() {
               <SelectLabel>{t('Database List')}</SelectLabel>
               {dbList.map((e, index) => <SelectItem key={'database' + index} value={e._id || ''}>📁{e.name}</SelectItem>)}
             </SelectGroup>
+            <SelectGroup>
+              <SelectLabel onClick={() => alert('redirect')} className='cursor-pointer'>{t('Database List')}</SelectLabel>
+            </SelectGroup>
           </SelectContent>
         </Select>
       }
