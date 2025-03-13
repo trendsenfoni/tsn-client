@@ -6,5 +6,6 @@
   "Inventory": "Inventory",
   "Production": "Production",
   "exit_question": "Do you want to exit?",
-  "Database List": "Database List"
+  "Database List": "Database List",
+  "search...": "search..."
 }

@@ -14,11 +14,12 @@ import { useEffect, useState } from 'react'
 import Cookies from 'js-cookie'
 import { useLanguage } from '@/i18n'
 import { Button } from './ui/button'
-import { RefreshCcwDotIcon } from 'lucide-react'
+import { DatabaseIcon, ListIcon, RefreshCcwDotIcon } from 'lucide-react'
 import { getItem } from '@/lib/fetch'
 import { DatabaseType } from '@/types/DatabaseType'
 import { useToast } from './ui/use-toast'
 import { Skeleton } from './ui/skeleton'
+import { useRouter } from 'next/navigation'
 
 
 export function DatabaseSelect() {
@@ -28,6 +29,7 @@ export function DatabaseSelect() {
   const [loading, setLoading] = useState(false)
   const { t } = useLanguage()
   const { toast } = useToast()
+  const router = useRouter()
 
   const setVariables = (l: DatabaseType[]) => {
     const d = Cookies.get('db') || ''
@@ -90,15 +92,19 @@ export function DatabaseSelect() {
           }}
         >
           <SelectTrigger className={`w-[140px] px-1 border-0`}>
-            <SelectValue placeholder="---" />
+            <SelectValue placeholder={'[' + t('Select Database') + ']'} />
           </SelectTrigger>
           <SelectContent>
             <SelectGroup>
-              <SelectLabel>{t('Database List')}</SelectLabel>
-              {dbList.map((e, index) => <SelectItem key={'database' + index} value={e._id || ''}>📁{e.name}</SelectItem>)}
+              {dbList.map((e, index) => <SelectItem key={'database' + index} value={e._id || ''} >
+                {/* <div className='flex items-center gap-2'> <DatabaseIcon size={'16px'} /> <span className='text-nowrap text-ellipsis text-e11llipsis w-20'>{e.name}</span></div> */}
+                📁 {e.name}
+              </SelectItem>)}
             </SelectGroup>
             <SelectGroup>
-              <SelectLabel onClick={() => alert('redirect')} className='cursor-pointer'>{t('Database List')}</SelectLabel>
+              <SelectLabel onClick={() => router.push('/databases')} className='cursor-pointer flex items-center gap-2'>
+                <ListIcon size={'16px'} />  {t('Database List')}
+              </SelectLabel>
             </SelectGroup>
           </SelectContent>
         </Select>

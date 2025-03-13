@@ -19,11 +19,11 @@ export function NotificationButton({ }: Props) {
       <DropdownMenuTrigger asChild>
         <div className='cursor-pointer relative'>
           <span className='text-2xl'>🔔</span>
-          <div className='text-[10px] font-bold px-[4px] py-[4px] rounded-full absolute top-[-8px] end-[16px] bg-green-800'>93+</div>
+          <div className='text-[10px] font-bold px-[4px] py-[4px] rounded-full absolute top-[-8px] end-[16px] bg-green-800 text-white'>93+</div>
         </div>
       </DropdownMenuTrigger>
       <DropdownMenuContent className="w-40">
-        <DropdownMenuLabel>Appearance</DropdownMenuLabel>
+        <DropdownMenuLabel>Notifications</DropdownMenuLabel>
         <DropdownMenuSeparator />
         <DropdownMenuItem>fidifeireir</DropdownMenuItem>
         <DropdownMenuItem>sdfkdfkd</DropdownMenuItem>
