@@ -44,6 +44,7 @@ export function UserMenu() {
             variant="ghost"
           >
             <Image
+              priority
               alt="Avatar"
               className="rounded-full"
               height="48"

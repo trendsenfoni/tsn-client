@@ -1,14 +1,14 @@
 "use client"
 
 import { useLanguage } from '@/i18n'
-import { ListGrid, Col, Cell, GridCellType } from '../(components)/list-grid'
+import { ListGrid } from '../../(components)/list-grid'
 import { TableCell, TableHead } from '@/components/ui/table'
-
+import { ItemMainGroup } from '@/types/Item'
 export default function DatabasesPage() {
   const { t } = useLanguage()
   return (
     <ListGrid
-      apiPath='/databases'
+      apiPath='/db/itemMainGroups'
       showSearch={true}
       showAddNew={true}
       showEdit={true}
@@ -16,13 +16,13 @@ export default function DatabasesPage() {
       onHeaderPaint={() => {
         return (<>
           <TableHead>Name</TableHead>
-          <TableHead>Identifier</TableHead>
+          <TableHead>Article</TableHead>
         </>)
       }}
       onRowPaint={(e, index) => {
         return (<>
           <TableCell className='font-bold'>{e.name}</TableCell>
-          <TableCell className='font-mono'>{e.identifier}</TableCell>
+          <TableCell className='font-mono'>{e.article}</TableCell>
         </>)
       }}
     />

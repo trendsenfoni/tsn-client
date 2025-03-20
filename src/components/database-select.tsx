@@ -15,7 +15,7 @@ import Cookies from 'js-cookie'
 import { useLanguage } from '@/i18n'
 import { Button } from './ui/button'
 import { DatabaseIcon, ListIcon, RefreshCcwDotIcon } from 'lucide-react'
-import { getItem } from '@/lib/fetch'
+import { getItem, postItem } from '@/lib/fetch'
 import { DatabaseType } from '@/types/DatabaseType'
 import { useToast } from './ui/use-toast'
 import { Skeleton } from './ui/skeleton'
@@ -48,6 +48,19 @@ export function DatabaseSelect() {
       Cookies.remove('databaseName')
     }
   }
+
+  const changeDb = (dbId: string) => {
+    setLoading(true)
+    postItem(`/session/change/db/${dbId}`, token)
+      .then(result => {
+        console.log('result:', result)
+        toast({ title: t('Database changed'), description: `database:${result.db.name}`, variant: 'default', duration: 1500 })
+        setTimeout(() => location.reload(), 1800)
+      })
+      .catch(err => toast({ title: err, variant: 'destructive', duration: 1500 }))
+      .finally(() => setLoading(false))
+  }
+
   const load = () => {
     setLoading(true)
     getItem(`/databases`, token)
@@ -85,7 +98,8 @@ export function DatabaseSelect() {
           onValueChange={e => {
             Cookies.set('db', e)
             setVariables(dbList)
-            location.reload()
+            changeDb(e)
+
           }}
           onOpenChange={e => {
             !e && load()
