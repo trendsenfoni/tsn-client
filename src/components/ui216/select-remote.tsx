@@ -41,7 +41,8 @@ export function SelectRemote({ formData = {}, field, setData, children, classNam
     setLoading(true)
     getList(`${apiPath}?pageSize=2000`, token)
       .then(result => {
-
+        setList(result.docs.map((e: any) => { return ({ _id: e._id, text: e.name }) }))
+        console.log(result.docs.map((e: any) => { return ({ _id: e._id, text: e.name }) }))
       })
       .catch(err => toast({ title: 'Error', description: err || '', variant: 'destructive' }))
       .finally(() => setLoading(false))
@@ -51,9 +52,10 @@ export function SelectRemote({ formData = {}, field, setData, children, classNam
 
   return (<div className='flex flex-col gap-1 my-4'>
     <Label className='ms-2'>{children}</Label>
+
     {!loading &&
       <Select
-        defaultValue={formData[field]}
+        defaultValue={formData[field] && formData[field]._id || formData[field] || ''}
         onValueChange={e => {
           if (setData && formData[field] != e) {
             formData[field] = e
@@ -61,12 +63,12 @@ export function SelectRemote({ formData = {}, field, setData, children, classNam
           }
         }}
       >
-        <SelectTrigger className="w-[180px]">
+        <SelectTrigger className="w-full">
           <SelectValue placeholder="---" />
         </SelectTrigger>
         <SelectContent>
           <SelectGroup>
-            {list && list.map((e, index) => (e._id && <SelectItem value={e._id}>{e.text}</SelectItem>))}
+            {list && list.map((e, index) => (e._id && <SelectItem key={e._id} value={e._id}>{e.text}</SelectItem>))}
           </SelectGroup>
         </SelectContent>
       </Select>
