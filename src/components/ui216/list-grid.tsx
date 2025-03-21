@@ -19,30 +19,11 @@ import {
   TableRow,
 } from "@/components/ui/table"
 import { Input } from '@/components/ui/input'
-import { EditIcon, PlusSquareIcon, Trash2Icon } from 'lucide-react'
+import { EditIcon, FilterIcon, PlusSquareIcon, Trash2Icon } from 'lucide-react'
 import Pagination from '@/components/pagination'
 import { ButtonConfirm } from '@/components/button-confirm'
-
-export interface GridColumnType {
-  children?: any
-  className?: string
-}
-export const Col: FC<GridColumnType> = ({ children, className }) => {
-  return (
-    <TableHead className={className}>{children}</TableHead>
-  )
-}
-export interface GridCellType {
-  children?: string
-  className?: string
-}
-export const Cell: FC<GridCellType> = ({ children, className }) => {
-  return (
-    <TableCell className={className}>
-      {children}
-    </TableCell>
-  )
-}
+import { Label } from '../ui/label'
+import { Panel } from '../panel'
 
 interface OptionProps {
   type?: 'List' | 'Update'
@@ -62,7 +43,7 @@ interface Props {
   onDelete?: (e: any) => void
   options?: OptionProps
   title?: string
-
+  onFilterPanel?: (e: any, setFilter: (a: any) => void) => ReactNode
   // onDataForm?: (e: any, setData: (a: any) => void) => ReactNode
 }
 export function ListGrid({
@@ -72,10 +53,11 @@ export function ListGrid({
   onHeaderPaint,
   onDelete,
   options = {},
-  title = ""
-  // onDataForm
+  title = "",
+  onFilterPanel
 }: Props) {
   const [list, setList] = useState<any[]>([])
+  const [filter, setFilter] = useState<any>({})
   const [token, setToken] = useState('')
   const { toast } = useToast()
   const [loading, setLoading] = useState(false)
@@ -92,8 +74,8 @@ export function ListGrid({
     showEdit: true,
     paging: true,
   }, options)
-  const load = (pageNo?: number, s?: string) => {
-    let url = `${apiPath}?`
+  const load = (pageNo?: number, s?: string, f?: any) => {
+    let url = `${apiPath}${(apiPath || '').indexOf('?') > -1 ? '&' : '?'}`
     if (options.paging == false) {
       url += `pageSize=2000&page=1`
     } else {
@@ -103,7 +85,9 @@ export function ListGrid({
       url += `&search=` + encodeURIComponent(s)
     else if (search)
       url += `&search=` + encodeURIComponent(search)
-
+    if (f) {
+      url += '&' + Object.keys(f).map(key => `${key}=${encodeURIComponent((f[key] || '').trim())}`).join('&')
+    }
     setLoading(true)
     getList(url, token)
       .then(result => {
@@ -125,30 +109,40 @@ export function ListGrid({
   useEffect(() => { token && load() }, [token])
 
 
-  return (<div className='flex flex-col gap-4'>
-    <div className='flex justify-between'>
+  return (<div className='flex flex-col gap-0'>
+    <div className='w-full flex flex-col lg:flex-row lg:justify-between lg:items-center mb-2'>
       <h1 className='text-base lg:text-3xl ms-2'>{title}</h1>
-      {options.showSearch &&
-        <div className="relative">
-          <div className='absolute left-1.5 top-1.5 text-xl'>🔍</div>
-          <Input
-            type='search'
-            className="pl-8 sm:w-[300px] md:w-[200px] lg:w-[300px]"
-            placeholder={t('search...')}
-            defaultValue={search}
-            onChange={e => {
-              setSearch(e.target.value)
-              e.target.value == "" && load(1, "")
-            }}
-            onKeyDown={e => e.code == 'Enter' && load(1, search)}
-          />
-        </div>
-      }
+      <div className='flex items-center'>
+        {options.showSearch &&
+          <div className="relative w-full">
+            <div className='absolute left-1.5 top-1.5 text-xl'>🔍</div>
+            <Input
+              type='search'
+              className="pl-8 sm:w-[300px] md:w-[200px] lg:w-[300px]"
+              placeholder={t('search...')}
+              defaultValue={search}
+              onChange={e => {
+                setSearch(e.target.value)
+                e.target.value == "" && load(1, "")
+              }}
+              onKeyDown={e => e.code == 'Enter' && load(1, search)}
+            />
+          </div>
+        }
+      </div>
     </div>
-
+    {onFilterPanel &&
+      <Panel className='mb-2'
+        title={<div className='flex items-center gap-2'><FilterIcon />{t('Filter')}</div>} defaultOpen={false} name='grid'>
+        {onFilterPanel(filter, (e) => {
+          setFilter(e)
+          load(1, search, e)
+        })}
+      </Panel>
+    }
     <hr />
     {!loading && <>
-      <Table className='lg:text-[120%]'>
+      <Table className='lg:text-[110%]'>
         {onHeaderPaint &&
           <TableHeader >
             <TableRow >
@@ -173,36 +167,38 @@ export function ListGrid({
         }
         <TableBody >
           {list.map((e, index) => (
-            <TableRow key={(e._id || 'grid' + index)}>
+            <TableRow key={(e._id || 'grid' + index)} className='items-center'>
               {onRowPaint && onRowPaint(e, index)}
 
-              <TableCell className="w-18 flex  gap-2 ">
-                {options.type == 'Update' && options.showEdit && e._id && <>
-                  <div
-                    onClick={() => router.push(`${pathName}/${e._id}`)}
-                    className={`cursor-pointer px-2 py-2 rounded-md bg-blue-800 text-white hover:bg-blue-500 hover:text-white`}>
-                    <EditIcon size={'16px'} />
-                  </div>
-                </>}
-
-                {options.type == 'Update' && options.showDelete && e._id &&
-                  <ButtonConfirm
-                    onOk={() => {
-                      if (onDelete) {
-                        onDelete(e)
-                      } else if (e._id) {
-                        deleteRecord(e._id)
-                      }
-                    }}
-                    text={t('Do you want to delete the record?')}
-                    description={<span className='text-lg'>{e.name || e.description || e._id}</span>}
-
-                  >
-                    <div className='px-2 py-2 rounded-md bg-red-800 text-white hover:bg-red-500 hover:text-white'>
-                      <Trash2Icon size={'16px'} />
+              <TableCell className="w-18">
+                <div className='w-full flex gap-2'>
+                  {options.type == 'Update' && options.showEdit && e._id && <>
+                    <div
+                      onClick={() => router.push(`${pathName}/${e._id}`)}
+                      className={`cursor-pointer px-2 py-2 rounded-md bg-blue-800 text-white hover:bg-blue-500 hover:text-white`}>
+                      <EditIcon size={'16px'} />
                     </div>
-                  </ButtonConfirm>
-                }
+                  </>}
+
+                  {options.type == 'Update' && options.showDelete && e._id &&
+                    <ButtonConfirm
+                      onOk={() => {
+                        if (onDelete) {
+                          onDelete(e)
+                        } else if (e._id) {
+                          deleteRecord(e._id)
+                        }
+                      }}
+                      text={t('Do you want to delete the record?')}
+                      description={<span className='text-lg'>{e.name || e.description || e._id}</span>}
+
+                    >
+                      <div className='px-2 py-2 rounded-md bg-red-800 text-white hover:bg-red-500 hover:text-white'>
+                        <Trash2Icon size={'16px'} />
+                      </div>
+                    </ButtonConfirm>
+                  }
+                </div>
               </TableCell>
             </TableRow>
           ))}

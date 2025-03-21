@@ -1,5 +1,5 @@
 import { FC } from 'react'
-import { Metadata } from "next"
+
 
 import Link from "next/link"
 
@@ -10,8 +10,6 @@ import { Footer } from './(components)/footer'
 import { getAuthToken } from '@/lib/authHelper'
 import React from 'react'
 import '@/styles/piechart-style.css'
-
-
 
 
 export interface AppLayoutProps {

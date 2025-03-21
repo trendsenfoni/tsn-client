@@ -1,7 +1,7 @@
 "use client"
 
 import { useLanguage } from '@/i18n'
-import { ListGrid, Col, Cell, GridCellType } from '../../../components/ui216/list-grid'
+import { ListGrid } from '@/components/ui216/list-grid'
 import { TableCell, TableHead } from '@/components/ui/table'
 
 export default function DatabasesPage() {
@@ -9,14 +9,11 @@ export default function DatabasesPage() {
   return (
     <ListGrid
       apiPath='/databases'
-      showSearch={true}
-      showAddNew={true}
-      showEdit={true}
-      showDelete={true}
+      title={t('Database List')}
       onHeaderPaint={() => {
         return (<>
-          <TableHead>Name</TableHead>
-          <TableHead>Identifier</TableHead>
+          <TableHead>{t('Name')}</TableHead>
+          <TableHead>{t('Identifier')}</TableHead>
         </>)
       }}
       onRowPaint={(e, index) => {

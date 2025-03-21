@@ -13,12 +13,8 @@ import {
 import { LanguagesIcon } from 'lucide-react'
 import { useEffect, useState } from 'react'
 import { useLanguage } from '@/i18n'
+import Cookies from 'js-cookie'
 
-// interface Props {
-//   onChange?: (e: string) => void
-//   defaultValue?: string
-// }
-// export function SelectLang({ defaultValue, onChange }: Props) {
 export function SelectLang() {
   const { langList } = useLanguage()
   const [lang, setLang] = useState('')
@@ -28,7 +24,7 @@ export function SelectLang() {
       const navLang = navigator.language.substring(0, 2)
       const l = langList.indexOf(navLang) > -1 ? navLang : 'en'
       setDefaultLang(lang)
-      setLang(localStorage.getItem('lang') || l)
+      setLang(Cookies.get('lang') || l)
     }
   }, [])
 
@@ -38,7 +34,7 @@ export function SelectLang() {
       value={lang}
       onValueChange={e => {
         setLang(e)
-        localStorage.setItem('lang', e)
+        Cookies.set('lang', e)
         location.reload()
       }}
 

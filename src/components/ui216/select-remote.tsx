@@ -27,9 +27,10 @@ interface ListType {
 interface Props extends FormItem {
   apiPath?: string
   textField?: string
+  all?: boolean
 }
 export function SelectRemote({ formData = {}, field, setData, children, className, onChange, onBlur,
-  apiPath, textField = 'name'
+  apiPath, textField = 'name', all
 }: Props) {
   const [token, setToken] = useState('')
   const { toast } = useToast()
@@ -39,10 +40,9 @@ export function SelectRemote({ formData = {}, field, setData, children, classNam
 
   const load = () => {
     setLoading(true)
-    getList(`${apiPath}?pageSize=2000`, token)
+    getList(`${apiPath}${(apiPath || '').indexOf('?') > -1 ? '&' : '?'}pageSize=2000`, token)
       .then(result => {
-        setList(result.docs.map((e: any) => { return ({ _id: e._id, text: e.name }) }))
-        console.log(result.docs.map((e: any) => { return ({ _id: e._id, text: e.name }) }))
+        setList(result.docs.map((e: any) => { return ({ _id: e._id, text: e[textField] }) }))
       })
       .catch(err => toast({ title: 'Error', description: err || '', variant: 'destructive' }))
       .finally(() => setLoading(false))
@@ -50,7 +50,7 @@ export function SelectRemote({ formData = {}, field, setData, children, classNam
   useEffect(() => { !token && setToken(Cookies.get('token') || '') }, [])
   useEffect(() => { token && load() }, [token])
 
-  return (<div className='flex flex-col gap-1 my-4'>
+  return (<div className='flex flex-col gap-1'>
     <Label className='ms-2'>{children}</Label>
 
     {!loading &&
@@ -64,16 +64,22 @@ export function SelectRemote({ formData = {}, field, setData, children, classNam
         }}
       >
         <SelectTrigger className="w-full">
-          <SelectValue placeholder="---" />
+          {!all && <SelectValue placeholder="---" />}
+          {all && <SelectValue placeholder="*" />}
         </SelectTrigger>
         <SelectContent>
+          {all &&
+            <SelectGroup>
+              <SelectItem value=" ">*</SelectItem>
+            </SelectGroup>
+          }
           <SelectGroup>
             {list && list.map((e, index) => (e._id && <SelectItem key={e._id} value={e._id}>{e.text}</SelectItem>))}
           </SelectGroup>
         </SelectContent>
       </Select>
     }
-    {loading && <Skeleton className='h-12 w-[180px]' />}
+    {loading && <Skeleton className='h-10 w-full mt-4' />}
     {/* <Input defaultValue={formData[field]}
       onBlur={e => {
         if (setData && formData[field] != e.target.value) {

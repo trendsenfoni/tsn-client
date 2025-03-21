@@ -1,21 +1,19 @@
 "use client"
 
 import { useLanguage } from '@/i18n'
-import { ListGrid } from '../../../../components/ui216/list-grid'
+import { ListGrid } from '@/components/ui216/list-grid'
 import { TableCell, TableHead } from '@/components/ui/table'
-import { ItemMainGroup } from '@/types/Item'
-import { FormItemText } from '../../../../components/ui216/data-form'
 export default function DatabasesPage() {
   const { t } = useLanguage()
   return (
     <ListGrid
       apiPath='/db/itemMainGroups'
       options={{ type: 'Update' }}
-      title="Ana Gruplar"
+      title={t('Item Main Groups')}
       onHeaderPaint={() => {
         return (<>
-          <TableHead>Name</TableHead>
-          <TableHead>Article</TableHead>
+          <TableHead>{t('Name')}</TableHead>
+          <TableHead>{t('Article')}</TableHead>
         </>)
       }}
       onRowPaint={(e, index) => {

@@ -19,9 +19,9 @@ export default function EditPage({ params }: Props) {
         return (<>
           <SelectRemote formData={formData} field='itemMainGroup' setData={setData}
             apiPath='/db/itemMainGroups'
-          >Main Group</SelectRemote>
-          <InputText formData={formData} field='name' setData={setData}  >Isim</InputText>
-          <InputText formData={formData} field='article' setData={setData} >Artikel</InputText>
+          >{t('Main Group')}</SelectRemote>
+          <InputText formData={formData} field='name' setData={setData}  >{t('Name')}</InputText>
+          <InputText formData={formData} field='article' setData={setData} >{t('Article')}</InputText>
         </>)
       }}
     />

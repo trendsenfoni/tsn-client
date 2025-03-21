@@ -1,4 +1,4 @@
-import pageMeta from '@/lib/meta-info'
+import { pageMeta } from '@/lib/meta-info'
 import { Metadata } from 'next/types'
 
 export const metadata: Metadata = pageMeta('Databases')

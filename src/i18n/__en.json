@@ -1,4 +1,6 @@
 {
+  "name required": "Name required",
+  "main group required": "Main group required",
   "Home": "Home",
   "Sales": "Sales",
   "Purchasing": "Purchasing",
@@ -10,5 +12,14 @@
   "search...": "search...",
   "Database changed": "Database changed",
   "Items": "Items",
-  "Item Main Groups": "Item Main Groups"
+  "Item Main Groups": "Item Main Groups",
+  "Item Groups": "Item Groups",
+  "Main Group": "Main Group",
+  "Group": "Group",
+  "Filter": "Filter",
+  "Name": "Name",
+  "Article": "Article",
+  "Identifier": "Identifier",
+  "Error": "Error",
+  "Description": "Description"
 }

@@ -11,6 +11,7 @@ import { Label } from '@/components/ui/label'
 import { Button } from '@/components/ui/button'
 import { CheckIcon, CheckSquare2Icon, XIcon } from 'lucide-react'
 import { ButtonCancel, ButtonOK } from '@/components/icon-buttons'
+import { useLanguage } from '@/i18n'
 
 interface Props {
   id: string
@@ -29,12 +30,13 @@ export function DataForm({
   const { toast } = useToast()
   const [loading, setLoading] = useState(false)
   const router = useRouter()
+  const { t } = useLanguage()
 
   const load = () => {
     setLoading(true)
     getItem(`${apiPath}/${id}`, token)
       .then(result => { setFormData(result) })
-      .catch(err => toast({ title: 'Error', description: err || '', variant: 'destructive' }))
+      .catch(err => toast({ title: t('Error'), description: t(err || ''), variant: 'destructive' }))
       .finally(() => setLoading(false))
   }
 
@@ -43,12 +45,12 @@ export function DataForm({
     if (id == 'addnew') {
       postItem(`${apiPath}`, token, formData)
         .then(result => router.back())
-        .catch(err => toast({ title: 'Error', description: err || '', variant: 'destructive' }))
+        .catch(err => toast({ title: t('Error'), description: t(err || ''), variant: 'destructive' }))
         .finally(() => setLoading(false))
     } else {
       putItem(`${apiPath}/${id}`, token, formData)
         .then(result => router.back())
-        .catch(err => toast({ title: 'Error', description: err || '', variant: 'destructive' }))
+        .catch(err => toast({ title: t('Error'), description: t(err || ''), variant: 'destructive' }))
         .finally(() => setLoading(false))
     }
 

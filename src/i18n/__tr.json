@@ -1,4 +1,6 @@
 {
+  "name required": "İsim gereklidir",
+  "main group required": "Ana grup gereklidir",
   "Home": "Ana Sayfa",
   "Sales": "Satış",
   "Purchasing": "Satın Alma",
@@ -7,5 +9,17 @@
   "Production": "Üretim",
   "exit_question": "Çıkmak istiyor musunuz?",
   "Database List": "Veri Tabanı Listesi",
-  "search...": "ara..."
+  "search...": "ara...",
+  "Database changed": "Veritabanı değişti",
+  "Items": "Kalemler",
+  "Item Main Groups": "Kalem Ana Grupları",
+  "Item Groups": "Kalem Grupları",
+  "Main Group": "Ana Grup",
+  "Group": "Grup",
+  "Filter": "Filtre",
+  "Name": "İsim",
+  "Article": "Artikel",
+  "Identifier": "Tanımlayıcı",
+  "Error": "Hata",
+  "Description": "Açıklama"
 }

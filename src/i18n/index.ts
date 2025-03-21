@@ -4,7 +4,7 @@ import { useEffect, useState } from "react"
 import __en from "./__en.json"
 import __tr from "./__tr.json"
 import { createGlobalState } from "react-hooks-global-state"
-
+import Cookies from 'js-cookie'
 export const LANG_LISTS: any = {
   en: __en,
   tr: __tr,
@@ -22,21 +22,17 @@ export const useLanguage = () => {
   useEffect(() => {
     const navLang = navigator.language.substring(0, 2)
     setDefaultLang(Object.keys(LANG_LISTS).indexOf(navLang) > -1 ? navLang : 'en')
-    if (!localStorage.getItem("lang")) {
-      localStorage.setItem("lang", defaultLang)
+    if (!Cookies.get("lang")) {
+      Cookies.set("lang", defaultLang)
     }
-    setLang(localStorage.getItem("lang") || defaultLang)
+    setLang(Cookies.get("lang") || defaultLang)
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   const t = (key: string) => {
-    const key2 = key.replace(/\s/g, "_").toLowerCase()
-
     const list = LANG_LISTS[lang || defaultLang] || __en
 
-    if (Object.keys(list).includes(key2)) {
-      return list[key2] as string
-    } else if (Object.keys(list).includes(key)) {
+    if (Object.keys(list).includes(key)) {
       return list[key] as string
     } else {
       return key
