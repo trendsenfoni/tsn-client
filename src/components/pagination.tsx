@@ -27,13 +27,13 @@ const Pagination: FC<PaginationProps> = ({
         <div>{pagination?.totalDocs}</div>
         <div><i className="fa-solid fa-book-open"></i></div>
       </div>
-      <div className='flex gap-2'>
+      <div className='flex gap-2 text-sm'>
         {buttonList.map((no, index) => {
           no = no + 1
           if (no == pagination?.page) {
             return <span
               key={index}
-              className={`inline-flex w-11 h-11 items-center justify-center rounded-full bg-primary text-gray-400 dark:text-gray-400`}
+              className={`inline-flex w-8 h-8 items-center justify-center rounded-full bg-gray-400 font-bold dark:bg-primary-foreground`}
             >
               {no}
             </span>
@@ -41,7 +41,7 @@ const Pagination: FC<PaginationProps> = ({
             return <Link
               href="#"
               key={index}
-              className={`inline-flex w-11 h-11 items-center justify-center rounded-full bg-neutral-100 hover:bg-neutral-300 border border-neutral-900 text-neutral-600 dark:text-neutral-400 dark:bg-neutral-900 dark:hover:bg-neutral-800 dark:border-neutral-700`}
+              className={`inline-flex w-8 h-8 items-center justify-center rounded-full bg-neutral-600 hover:bg-neutral-300 border border-neutral-900 text-neutral-600 dark:text-neutral-600 dark:bg-neutral-900 dark:hover:bg-neutral-800 dark:border-neutral-700`}
               onClick={(e) => {
                 e.preventDefault()
                 if (onPageClick != undefined) {

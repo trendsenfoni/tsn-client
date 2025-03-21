@@ -15,5 +15,8 @@ export default function InventoryPage() {
     <Button onClick={() => router.push('/inventory/itemMainGroups')} variant={'outline'} className='flex gap-4'>
       <GroupIcon />{t('Item Main Groups')}
     </Button>
+    <Button onClick={() => router.push('/inventory/itemGroups')} variant={'outline'} className='flex gap-4'>
+      <GroupIcon />{t('Item Groups')}
+    </Button>
   </div>)
 }

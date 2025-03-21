@@ -1,7 +1,7 @@
 "use client"
 
 import { useLanguage } from '@/i18n'
-import { ListGrid } from '../../(components)/list-grid'
+import { ListGrid } from '../../../../components/ui216/list-grid'
 import { TableCell, TableHead } from '@/components/ui/table'
 
 export default function DatabasesPage() {

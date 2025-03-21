@@ -9,19 +9,21 @@ export default function DatabasesPage() {
   const { t } = useLanguage()
   return (
     <ListGrid
-      apiPath='/db/itemMainGroups'
+      apiPath='/db/itemGroups'
       options={{ type: 'Update' }}
       title="Ana Gruplar"
       onHeaderPaint={() => {
         return (<>
+          <TableHead>Main Group</TableHead>
           <TableHead>Name</TableHead>
           <TableHead>Article</TableHead>
         </>)
       }}
       onRowPaint={(e, index) => {
         return (<>
-          <TableCell className='font-bold'>{e.name}</TableCell>
-          <TableCell className='font-mono'>{e.article}</TableCell>
+          <TableCell className=''>{e.itemMainGroup.name}</TableCell>
+          <TableCell className=''>{e.name}</TableCell>
+          <TableCell className=''>{e.article}</TableCell>
         </>)
       }}
 

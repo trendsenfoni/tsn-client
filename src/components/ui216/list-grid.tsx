@@ -19,10 +19,8 @@ import {
   TableRow,
 } from "@/components/ui/table"
 import { Input } from '@/components/ui/input'
-import ButtonLink from '@/components/button-link'
 import { EditIcon, PlusSquareIcon, Trash2Icon } from 'lucide-react'
 import Pagination from '@/components/pagination'
-import { Button } from '@/components/ui/button'
 import { ButtonConfirm } from '@/components/button-confirm'
 
 export interface GridColumnType {
@@ -45,6 +43,16 @@ export const Cell: FC<GridCellType> = ({ children, className }) => {
     </TableCell>
   )
 }
+
+interface OptionProps {
+  type?: 'List' | 'Update'
+  paging?: boolean
+  showSearch?: boolean
+  showAddNew?: boolean
+  showEdit?: boolean
+  showDelete?: boolean
+
+}
 interface Props {
   // headers?: ReactNode[]
   // cells?: GridCellType[]
@@ -52,10 +60,10 @@ interface Props {
   onHeaderPaint?: () => ReactNode
   onRowPaint?: (e: any, colIndex: number) => ReactNode
   onDelete?: (e: any) => void
-  showSearch?: boolean
-  showAddNew?: boolean
-  showEdit?: boolean
-  showDelete?: boolean
+  options?: OptionProps
+  title?: string
+
+  // onDataForm?: (e: any, setData: (a: any) => void) => ReactNode
 }
 export function ListGrid({
   // headers = [],
@@ -63,10 +71,9 @@ export function ListGrid({
   onRowPaint,
   onHeaderPaint,
   onDelete,
-  showSearch = true,
-  showAddNew = false,
-  showEdit = false,
-  showDelete = false,
+  options = {},
+  title = ""
+  // onDataForm
 }: Props) {
   const [list, setList] = useState<any[]>([])
   const [token, setToken] = useState('')
@@ -77,9 +84,21 @@ export function ListGrid({
   const [pagination, setPagination] = useState<PaginationType>({ pageCount: 0, page: 1, pageSize: 10, totalDocs: 0 })
   const [search, setSearch] = useState('')
   const { t } = useLanguage()
-
+  options = Object.assign({
+    type: 'Update',
+    showSearch: true,
+    showAddNew: true,
+    showDelete: true,
+    showEdit: true,
+    paging: true,
+  }, options)
   const load = (pageNo?: number, s?: string) => {
-    let url = `${apiPath}?pageSize=${pagination.pageSize}&page=${pageNo || pagination.page}`
+    let url = `${apiPath}?`
+    if (options.paging == false) {
+      url += `pageSize=2000&page=1`
+    } else {
+      url += `pageSize=${pagination.pageSize}&page=${pageNo || pagination.page}`
+    }
     if (s != undefined)
       url += `&search=` + encodeURIComponent(s)
     else if (search)
@@ -108,8 +127,8 @@ export function ListGrid({
 
   return (<div className='flex flex-col gap-4'>
     <div className='flex justify-between'>
-      <h1 className='text-3xl ms-2'>Mağazalar | {pathName}</h1>
-      {showSearch &&
+      <h1 className='text-base lg:text-3xl ms-2'>{title}</h1>
+      {options.showSearch &&
         <div className="relative">
           <div className='absolute left-1.5 top-1.5 text-xl'>🔍</div>
           <Input
@@ -134,18 +153,19 @@ export function ListGrid({
           <TableHeader >
             <TableRow >
               {onHeaderPaint()}
-              {(showAddNew || showEdit || showDelete) &&
-                <TableHead className="text-center w-28 t11ext-2xl">
-                  {showAddNew &&
-                    <Button
-                      onClick={() => router.push(`${pathName}/addnew`)}
-                      size={'icon'} variant={'default'}
-                      className='px-2 bg-green-800 text-white hover:bg-green-500 hover:text-white'>
+              {options.type == 'Update' && (options.showAddNew || options.showEdit || options.showDelete) &&
+                <TableHead className=" w-12 ">
+                  <div className='w-full flex justify-center'>
+                    {options.showAddNew &&
+                      <div
+                        onClick={() => router.push(`${pathName}/addnew`)}
+                        className={`w-8 cursor-pointer px-2 py-2 rounded-md bg-green-800 text-white hover:bg-green-500 hover:text-white`}>
+                        <PlusSquareIcon size={'16px'} />
+                      </div>
 
-                      <PlusSquareIcon />
-                    </Button>
-                  }
-                  {!showAddNew && <>#</>}
+                    }
+                    {!options.showAddNew && <>#</>}
+                  </div>
                 </TableHead>
               }
             </TableRow>
@@ -156,16 +176,16 @@ export function ListGrid({
             <TableRow key={(e._id || 'grid' + index)}>
               {onRowPaint && onRowPaint(e, index)}
 
-              <TableCell className="w-28 flex  gap-2 text-xl">
-                {showEdit && e._id &&
-                  <Button
+              <TableCell className="w-18 flex  gap-2 ">
+                {options.type == 'Update' && options.showEdit && e._id && <>
+                  <div
                     onClick={() => router.push(`${pathName}/${e._id}`)}
-                    size={'icon'} variant={'ghost'}
-                    className='px-2 bg-blue-800 text-white hover:bg-blue-500 hover:text-white'>
-                    <EditIcon />
-                  </Button>
-                }
-                {showDelete && e._id &&
+                    className={`cursor-pointer px-2 py-2 rounded-md bg-blue-800 text-white hover:bg-blue-500 hover:text-white`}>
+                    <EditIcon size={'16px'} />
+                  </div>
+                </>}
+
+                {options.type == 'Update' && options.showDelete && e._id &&
                   <ButtonConfirm
                     onOk={() => {
                       if (onDelete) {
@@ -179,21 +199,15 @@ export function ListGrid({
 
                   >
                     <div className='px-2 py-2 rounded-md bg-red-800 text-white hover:bg-red-500 hover:text-white'>
-                      <Trash2Icon />
+                      <Trash2Icon size={'16px'} />
                     </div>
                   </ButtonConfirm>
-                  // <Button
-                  //   onClick={() => router.push(`${pathName}/${e._id}`)}
-                  //   size={'icon'} variant={'ghost'}
-                  //   className='px-2 bg-red-800 text-white hover:bg-red-500 hover:text-white'>
-                  //   <Trash2Icon />
-                  // </Button>
                 }
               </TableCell>
             </TableRow>
           ))}
         </TableBody>
-        <TableFooter className='bg-transparent'>
+        {options.paging && <TableFooter className='bg-transparent'>
           <TableRow className=' hover:bg-transparent'>
             <TableCell colSpan={5} >
               <Pagination pagination={pagination} onPageClick={(pageNo: number) => {
@@ -202,6 +216,7 @@ export function ListGrid({
             </TableCell>
           </TableRow>
         </TableFooter>
+        }
       </Table>
     </>}
     {loading && <div className='flex w-full h-full justify-center items-center'>
