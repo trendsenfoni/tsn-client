@@ -38,6 +38,7 @@ export function Panel({ name, children, title, defaultOpen = true, className }: 
   }, [])
   return (
     <Collapsible
+      defaultOpen={true}
       open={isOpen}
       onOpenChange={e => {
         setIsOpen(e)
@@ -67,7 +68,7 @@ export function Panel({ name, children, title, defaultOpen = true, className }: 
           </div>
         </CollapsibleTrigger>
       </div>
-      <CollapsibleContent className="w-full border border-dashed border-opacity-100 rounded-md p-2">
+      <CollapsibleContent asChild className="w-full border border-dashed border-opacity-100 rounded-md p-2">
         {children}
       </CollapsibleContent>
     </Collapsible>

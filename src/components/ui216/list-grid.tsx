@@ -20,10 +20,10 @@ import {
 } from "@/components/ui/table"
 import { Input } from '@/components/ui/input'
 import { EditIcon, FilterIcon, PlusSquareIcon, Trash2Icon } from 'lucide-react'
-import Pagination from '@/components/pagination'
+import Pagination from '@/components/ui216/pagination'
 import { ButtonConfirm } from '@/components/button-confirm'
 import { Label } from '../ui/label'
-import { Panel } from '../panel'
+import { Panel } from './panel'
 
 interface OptionProps {
   type?: 'List' | 'Update'
@@ -142,7 +142,7 @@ export function ListGrid({
     }
     <hr />
     {!loading && <>
-      <Table className='lg:text-[110%]'>
+      <Table className='text-[70%] md:text-base lg:text-[110%]'>
         {onHeaderPaint &&
           <TableHeader >
             <TableRow >

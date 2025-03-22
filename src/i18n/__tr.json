@@ -23,5 +23,22 @@
   "Error": "Hata",
   "Description": "Açıklama",
   "Sub Group": "Alt Grup",
-  "Taxes": "Vergiler"
+  "Taxes": "Vergiler",
+  "Do you want to delete the record?": "Kaydı silmek istediğinizden emin misiniz?",
+  "Confirm": "Onayla",
+  "Cancel": "Vazgeç",
+  "Close": "Kapat",
+  "Vat Rate": "KDV Oran",
+  "Withholding Vat Rate": "Tevkifat Oran",
+  "Passive?": "Pasif?",
+  "Passives": "Pasifler",
+  "Actives": "Aktifler",
+  "Customer Candidate": "Müşteri Adayı",
+  "Customer Candidates": "Müşteri Adayları",
+  "Customer": "Müşteri",
+  "Customers": "Müşteriler",
+  "Vendor": "Tedarikçi",
+  "Vendors": "Tedarikçiler",
+  "Customer & Vendor": "Müşteri & Tedarikçi",
+  "Type": "Tür"
 }

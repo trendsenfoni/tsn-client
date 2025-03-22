@@ -1,11 +1,11 @@
 import { AddressType, CountryType } from './AddressType'
 
-export interface FirmType {
+export interface Firm {
   _id?: string
-  type?: string | 'customer' | 'vendor' | undefined
+  type?: string | 'c' | 'v' | 'cv' | undefined
   name?: string
   currency?: string
-  itemArticle?: string
+  article?: string
   billingInfo?: {
     individual?: boolean
     companyName?: string

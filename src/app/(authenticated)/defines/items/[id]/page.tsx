@@ -14,6 +14,8 @@ import { StandartForm } from '@/components/ui216/standart-form'
 import { TsnTextarea } from '@/components/ui216/tsn-textarea'
 import { TsnSelectRemote } from '@/components/ui216/tsn-select-remote'
 import { TsnSelect } from '@/components/ui216/tsn-select'
+import { withholdingTaxRateList } from '@/lib/utils'
+import { TsnSwitch } from '@/components/ui216/tsn-switch'
 interface Props {
   params: { id: string }
 }
@@ -60,7 +62,7 @@ export default function EditPage({ params }: Props) {
 
 
   return (<StandartForm
-    title={t('Items') + ' ' + (itemMainGroup || '') + ' sub:' + (item && item.itemGroup?._id || '')}
+    title={t('Items')}
     onSaveClick={save}
     onCancelClick={() => router.back()}
   >
@@ -88,30 +90,19 @@ export default function EditPage({ params }: Props) {
       <TsnTextarea title={t('Description')} defaultValue={item?.description} onChange={e => setItem({ ...item, description: e.target.value })} />
 
       <div className='grid grid-cols-1 md:grid-cols-2 md:gap-4'>
-        <TsnInput type='number' title={t('Vat Rate %')} defaultValue={item?.vatRate} min={0} max={100} onBlur={e => {
+        <TsnInput type='number' title={t('Vat Rate') + ' %'} defaultValue={item?.vatRate} min={0} max={100} onBlur={e => {
           let val = Number(e.target.value)
           setItem({ ...item, vatRate: isNaN(val) ? 0 : val })
         }} />
-        <TsnSelect title={t('Withholding Vat Rate %')}
-          list={[
-            { _id: '0', text: '0/10' },
-            { _id: '0.1', text: '1/10' },
-            { _id: '0.2', text: '2/10' },
-            { _id: '0.3', text: '3/10' },
-            { _id: '0.4', text: '4/10' },
-            { _id: '0.5', text: '5/10' },
-            { _id: '0.6', text: '6/10' },
-            { _id: '0.7', text: '7/10' },
-            { _id: '0.8', text: '8/10' },
-            { _id: '0.9', text: '9/10' },
-            { _id: '0.10', text: '10/10' },
-          ]}
+        <TsnSelect title={t('Withholding Vat Rate') + ' %'}
+          list={withholdingTaxRateList}
           defaultValue={item?.withHoldingTaxRate?.toString()}
           onValueChange={e => {
             let val = Number(e)
             setItem({ ...item, withHoldingTaxRate: isNaN(val) ? 0 : val })
           }} />
       </div>
+      <TsnSwitch title={t('Passive?')} defaultChecked={item?.passive} onCheckedChange={e => setItem({ ...item, passive: e })} />
     </>}
   </StandartForm>)
 }

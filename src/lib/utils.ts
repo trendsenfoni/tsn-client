@@ -62,3 +62,23 @@ export function showWithholdingTax(val?: number) {
     return ''
   }
 }
+
+export const withholdingTaxRateList = [
+  { _id: '0', text: '0/10' },
+  { _id: '0.1', text: '1/10' },
+  { _id: '0.2', text: '2/10' },
+  { _id: '0.3', text: '3/10' },
+  { _id: '0.4', text: '4/10' },
+  { _id: '0.5', text: '5/10' },
+  { _id: '0.6', text: '6/10' },
+  { _id: '0.7', text: '7/10' },
+  { _id: '0.8', text: '8/10' },
+  { _id: '0.9', text: '9/10' },
+  { _id: '0.10', text: '10/10' },
+]
+export const firmTypeList = [
+  { _id: 'c', text: 'Customer' },
+  { _id: 'v', text: 'Vendor' },
+  { _id: 'cv', text: 'Customer & Vendor' },
+  { _id: 'cc', text: 'Customer Candidate' },
+]

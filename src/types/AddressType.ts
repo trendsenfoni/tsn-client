@@ -1,8 +1,8 @@
-import { FirmType } from './FirmType'
+import { Firm } from './Firm'
 
 export interface AddressType {
   _id?: string
-  firm?: FirmType
+  firm?: Firm
   name?: string
   room?: string
   streetName?: string

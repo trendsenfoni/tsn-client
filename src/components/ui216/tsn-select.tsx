@@ -1,6 +1,6 @@
 import { Label } from '@/components/ui/label'
 import { Input } from '@/components/ui/input'
-import { ReactNode } from 'react'
+import { ReactNode, useEffect } from 'react'
 import { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue } from '../ui/select'
 import * as SelectPrimitive from "@radix-ui/react-select"
 
@@ -16,7 +16,13 @@ export interface TsnSelectProps extends SelectPrimitive.SelectProps {
   className?: string
 }
 export function TsnSelect({ all, list, title, onValueChange, ...props }: TsnSelectProps) {
-  return (<div className={`flex flex-col gap-1 my-4 ${props.className}`} >
+  useEffect(() => {
+    if ((props.defaultValue || '').trim() != '') {
+      onValueChange && onValueChange(props.defaultValue || '')
+    }
+  }, [])
+
+  return (<div className={`flex flex-col gap-1 my-4 w-full min-w-32 ${props.className}`} >
     <Label className='ms-2'>{title}</Label>
     <Select
       onValueChange={onValueChange}
@@ -26,7 +32,7 @@ export function TsnSelect({ all, list, title, onValueChange, ...props }: TsnSele
         {!all && <SelectValue placeholder="---" />}
         {all && <SelectValue placeholder="*" />}
       </SelectTrigger>
-      <SelectContent>
+      <SelectContent className='w-full min-w-32'>
         {all &&
           <SelectGroup>
             <SelectItem value=" ">*</SelectItem>

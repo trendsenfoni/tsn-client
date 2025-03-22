@@ -12,6 +12,7 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog"
+import { CheckIcon, XIcon } from 'lucide-react'
 
 interface Props {
   className?: string
@@ -43,8 +44,9 @@ export function ButtonConfirm({
           </AlertDialogDescription>}
         </AlertDialogHeader>
         <AlertDialogFooter>
-          <AlertDialogCancel onClick={() => onCancel && onCancel()}>Cancel</AlertDialogCancel>
-          <AlertDialogAction onClick={() => onOk && onOk()}>Confirm</AlertDialogAction>
+          <AlertDialogAction className='bg-blue-600 text-white hover:bg-blue-800 hover:text-white' onClick={() => onOk && onOk()}><CheckIcon /></AlertDialogAction>
+          <AlertDialogCancel className='bg-gray-600 text-white hover:bg-gray-800 hover:text-white' onClick={() => onCancel && onCancel()}><XIcon /></AlertDialogCancel>
+
         </AlertDialogFooter>
       </AlertDialogContent>
     </AlertDialog>

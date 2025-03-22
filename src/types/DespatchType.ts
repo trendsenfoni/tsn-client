@@ -1,10 +1,10 @@
 import { AddressField } from './AddressField'
-import { FirmType } from './FirmType'
+import { Firm } from './Firm'
 import { InventoryType } from './InventoryType'
 
 export interface DespatchType {
   _id?: string
-  firm?: FirmType
+  firm?: Firm
   ioType?: number | 0 | 1
   issueDate?: string
   issueTime?: string

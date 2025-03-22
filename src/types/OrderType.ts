@@ -1,9 +1,9 @@
 import { AddressField } from './AddressField'
-import { FirmType } from './FirmType'
+import { Firm } from './Firm'
 
 export interface OrderType {
   _id?: string
-  firm?: FirmType
+  firm?: Firm
   ioType?: number | 0 | 1
   issueDate?: string
   documentNumber?: string

@@ -23,5 +23,22 @@
   "Error": "Error",
   "Description": "Description",
   "Sub Group": "Sub Group",
-  "Taxes": "Taxes"
+  "Taxes": "Taxes",
+  "Do you want to delete the record?": "Do you want to delete the record?",
+  "Confirm": "Confirm",
+  "Cancel": "Cancel",
+  "Close": "Close",
+  "Vat Rate": "Vat Rate",
+  "Withholding Vat Rate": "Withholding Vat Rate",
+  "Passive?": "Passive?",
+  "Passives": "Passives",
+  "Actives": "Actives",
+  "Customer Candidate": "Customer Candidate",
+  "Customer Candidates": "Customer Candidates",
+  "Customer": "Customer",
+  "Customers": "Customers",
+  "Vendor": "Vendor",
+  "Vendors": "Vendors",
+  "Customer & Vendor": "Customer & Vendor",
+  "Type": "Type"
 }

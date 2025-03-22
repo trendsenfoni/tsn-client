@@ -2,9 +2,8 @@ import type { Metadata } from "next"
 import Link from 'next/link'
 // import {redirect, useRouter} from 'next/navigation'
 export const metadata: Metadata = {
-  title: 'Page Not Found - AliAbi-org',
-  description: 'TODO: description eklenecek. Excepteur fugiat labore labore enim aliqua deserunt aliqua amet.',
-  icons: '/img/webicon.png',
+  title: 'Page Not Found - TrendSenfoni',
+  // description: 'TODO: description eklenecek. Excepteur fugiat labore labore enim aliqua deserunt aliqua amet.',
 }
 
 const Page404 = () => {
