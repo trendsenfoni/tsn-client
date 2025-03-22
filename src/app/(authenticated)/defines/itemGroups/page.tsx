@@ -4,7 +4,7 @@ import { useLanguage } from '@/i18n'
 import { ListGrid } from '@/components/ui216/list-grid'
 import { TableCell, TableHead } from '@/components/ui/table'
 import { SelectRemote } from '@/components/ui216/select-remote'
-export default function DatabasesPage() {
+export default function ListPage() {
   const { t } = useLanguage()
   return (
     <ListGrid

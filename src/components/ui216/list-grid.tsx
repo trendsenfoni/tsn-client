@@ -24,6 +24,8 @@ import Pagination from '@/components/ui216/pagination'
 import { ButtonConfirm } from '@/components/button-confirm'
 import { Label } from '../ui/label'
 import { Panel } from './panel'
+import { ButtonInfo } from './button-information'
+import { FilterPanel } from './filter-panel'
 
 interface OptionProps {
   type?: 'List' | 'Update'
@@ -44,6 +46,7 @@ interface Props {
   options?: OptionProps
   title?: string
   onFilterPanel?: (e: any, setFilter: (a: any) => void) => ReactNode
+  defaultFilter?: any
   // onDataForm?: (e: any, setData: (a: any) => void) => ReactNode
 }
 export function ListGrid({
@@ -54,10 +57,11 @@ export function ListGrid({
   onDelete,
   options = {},
   title = "",
-  onFilterPanel
+  onFilterPanel,
+  defaultFilter = {}
 }: Props) {
   const [list, setList] = useState<any[]>([])
-  const [filter, setFilter] = useState<any>({})
+  const [filter, setFilter] = useState<any>(defaultFilter)
   const [token, setToken] = useState('')
   const { toast } = useToast()
   const [loading, setLoading] = useState(false)
@@ -106,13 +110,25 @@ export function ListGrid({
       .catch(err => toast({ title: 'error', description: err || '', variant: 'destructive' }))
   }
   useEffect(() => { !token && setToken(Cookies.get('token') || '') }, [])
-  useEffect(() => { token && load() }, [token])
+  useEffect(() => { token && load(1, '', filter) }, [token])
 
 
   return (<div className='flex flex-col gap-0'>
     <div className='w-full flex flex-col lg:flex-row lg:justify-between lg:items-center mb-2'>
-      <h1 className='text-base lg:text-3xl ms-2'>{title}</h1>
-      <div className='flex items-center'>
+      <h1 className='text-2xl lg:text-3xl lg:ms-2'>{title}</h1>
+      <div className='flex items-center gap-2'>
+
+        {onFilterPanel &&
+          <FilterPanel
+            trigger={<div className='px-2 py-1 rounded bg-orange-600 text-white hover:bg-orange-400 hover:text-white'>
+              <FilterIcon />
+            </div>}>
+            {onFilterPanel(filter, (e) => {
+              setFilter(e)
+              token && load(1, search, e)
+            })}
+          </FilterPanel>
+        }
         {options.showSearch &&
           <div className="relative w-full">
             <div className='absolute left-1.5 top-1.5 text-xl'>🔍</div>
@@ -131,15 +147,7 @@ export function ListGrid({
         }
       </div>
     </div>
-    {onFilterPanel &&
-      <Panel className='mb-2'
-        title={<div className='flex items-center gap-2'><FilterIcon />{t('Filter')}</div>} defaultOpen={false} name='grid'>
-        {onFilterPanel(filter, (e) => {
-          setFilter(e)
-          load(1, search, e)
-        })}
-      </Panel>
-    }
+
     <hr />
     {!loading && <>
       <Table className='text-[70%] md:text-base lg:text-[110%]'>
@@ -149,7 +157,7 @@ export function ListGrid({
               {onHeaderPaint()}
               {options.type == 'Update' && (options.showAddNew || options.showEdit || options.showDelete) &&
                 <TableHead className=" w-12 ">
-                  <div className='w-full flex justify-center'>
+                  <div className='w-full flex justify-end lg:justify-center'>
                     {options.showAddNew &&
                       <div
                         onClick={() => router.push(`${pathName}/addnew`)}

@@ -6,22 +6,23 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover"
+import { ReactNode } from 'react'
 interface Props {
   className?: string
-  text?: string
+  trigger?: any
   children?: any
 }
 export function ButtonInfo({
   className = "",
-  text = "?",
+  trigger = "?",
   children = undefined,
 }: Props) {
   return (
     <Popover>
       <PopoverTrigger asChild>
-        <Button variant={'outline'} className={`${className}`}>{text}</Button>
+        {trigger}
       </PopoverTrigger>
-      <PopoverContent className="w-80 max-h-60 overflow-y-scroll">
+      <PopoverContent className={`min-w-80 min-h-80`}>
         {children}
       </PopoverContent>
     </Popover>

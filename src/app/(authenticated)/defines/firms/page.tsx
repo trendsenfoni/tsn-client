@@ -6,7 +6,7 @@ import { TableCell, TableHead } from '@/components/ui/table'
 import { Firm } from '@/types/Firm'
 import { firmTypeList } from '@/lib/utils'
 import { TsnSelect } from '@/components/ui216/tsn-select'
-export default function DatabasesPage() {
+export default function ListPage() {
   const { t } = useLanguage()
   return (
     <ListGrid
@@ -32,7 +32,9 @@ export default function DatabasesPage() {
           </TableCell>
         </>)
       }}
+      defaultFilter={{ passive: false }}
       onFilterPanel={(filter, setFilter) => {
+
         return (<div className='flex flex-col lg:flex-row  gap-4 lg:items-center '>
           <TsnSelect title={t('Passive?')}
             className='mb-1 mt-1 lg:max-w-36'

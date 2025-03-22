@@ -9,7 +9,7 @@ import { TsnSelectRemote } from '@/components/ui216/tsn-select-remote'
 import { Item, ItemGroup } from '@/types/Item'
 import { showWithholdingTax } from '@/lib/utils'
 import { TsnSelect } from '@/components/ui216/tsn-select'
-export default function DatabasesPage() {
+export default function ListPage() {
   const { t } = useLanguage()
   return (
     <ListGrid
@@ -48,11 +48,11 @@ export default function DatabasesPage() {
           </TableCell>
         </>)
       }}
+      defaultFilter={{ passive: false }}
       onFilterPanel={(filter, setFilter) => {
-        // useEffect(() => setFilter({ ...filter, passive: false }), [])
-        return (<div className='flex flex-col lg:flex-row  gap-4 lg:items-center '>
+        return (<div className='flex flex-col lg:flex-r11ow  gap-4 lg:it11ems-center '>
           <TsnSelect title={t('Passive?')}
-            className='mb-1 mt-1 lg:max-w-36'
+            className='mb-1 mt-1'
             list={[{ _id: ' ', text: '*' }, { _id: 'false', text: t('Actives') }, { _id: 'true', text: t('Passives') }]}
             defaultValue={filter.passive || 'false'}
             onValueChange={e => setFilter({ ...filter, passive: e })}
@@ -71,7 +71,7 @@ interface ItemGroupMainGroupProps {
   className?: string
 }
 export function ItemGroupMainGroup({
-  filter, setFilter, className = 'w-full grid grid-cols-1 md:grid-cols-4 gap-4'
+  filter, setFilter, className
 }: ItemGroupMainGroupProps) {
   const [loading, setLoading] = useState(false)
   const { t } = useLanguage()
@@ -82,7 +82,7 @@ export function ItemGroupMainGroup({
     filter.itemMainGroup = ''
     filter.itemGroup = ''
   }, [filter._id])
-  return (<div className={className}>
+  return (<>
 
     <TsnSelectRemote
       className='mt-1 mb-1'
@@ -106,6 +106,5 @@ export function ItemGroupMainGroup({
         all
       >{t('Group')}</TsnSelectRemote>
     }
-    {loading && <Skeleton className='w-full h-10 mt-4' />}
-  </div>)
+  </>)
 }
