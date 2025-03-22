@@ -21,5 +21,7 @@
   "Article": "Article",
   "Identifier": "Identifier",
   "Error": "Error",
-  "Description": "Description"
+  "Description": "Description",
+  "Sub Group": "Sub Group",
+  "Taxes": "Taxes"
 }

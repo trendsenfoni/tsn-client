@@ -21,5 +21,7 @@
   "Article": "Artikel",
   "Identifier": "Tanımlayıcı",
   "Error": "Hata",
-  "Description": "Açıklama"
+  "Description": "Açıklama",
+  "Sub Group": "Alt Grup",
+  "Taxes": "Vergiler"
 }

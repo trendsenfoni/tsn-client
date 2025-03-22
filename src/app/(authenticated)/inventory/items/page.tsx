@@ -6,6 +6,9 @@ import { TableCell, TableHead } from '@/components/ui/table'
 import { SelectRemote } from '@/components/ui216/select-remote'
 import { useEffect, useState } from 'react'
 import { Skeleton } from '@/components/ui/skeleton'
+import { TsnSelectRemote } from '@/components/ui216/tsn-select-remote'
+import { ItemGroup } from '@/types/Item'
+import { showWithholdingTax } from '@/lib/utils'
 export default function DatabasesPage() {
   const { t } = useLanguage()
   return (
@@ -16,7 +19,8 @@ export default function DatabasesPage() {
       onHeaderPaint={() => {
         return (<>
           <TableHead>{t('Name')}</TableHead>
-          <TableHead>{t('Description')}</TableHead>
+          <TableHead>{t('Taxes')}</TableHead>
+          <TableHead className='hidden lg:table-cell'>{t('Description')}</TableHead>
         </>)
       }}
       onRowPaint={(e, index) => {
@@ -27,9 +31,15 @@ export default function DatabasesPage() {
               <span className='text-[8pt] lg:text-sm text-wrap px-1 rounded-sm bg-amber-500 bg-opacity-50 t11ext-white'>{e.itemGroup?.itemMainGroup?.name}</span>
               <span className='text-[8pt] lg:text-sm text-wrap px-1 rounded-sm bg-stone-500 bg-opacity-50'>{e.itemGroup?.name}</span>
             </div>
+          </TableCell>
+          <TableCell className='text-sm flex items-center gap-2'>
+            {e.vatRate > 0 && <span>%{e.vatRate}</span>}
+            {e.withHoldingTaxRate > 0 &&
+              <span className='text-xs rounded-sm p-1 bg-amber-400 text-gray-600'>w:{showWithholdingTax(e.withHoldingTaxRate)}</span>
+            }
 
           </TableCell>
-          <TableCell className=''>{e.description}</TableCell>
+          <TableCell className='hidden lg:table-cell'>{e.description}</TableCell>
         </>)
       }}
       onFilterPanel={(filter, setFilter) => <ItemGroupMainGroup filter={filter} setFilter={setFilter} />}
@@ -39,8 +49,8 @@ export default function DatabasesPage() {
 }
 
 interface ItemGroupMainGroupProps {
-  filter?: any
-  setFilter?: (e: any) => void
+  filter: any
+  setFilter: (e: ItemGroup) => void
   className?: string
 }
 export function ItemGroupMainGroup({
@@ -49,42 +59,33 @@ export function ItemGroupMainGroup({
   const [loading, setLoading] = useState(false)
   const { t } = useLanguage()
 
-  useEffect(() => { }, [])
-  useEffect(() => { }, [])
+  // useEffect(() => { }, [])
+  // useEffect(() => { }, [])
   useEffect(() => {
-    if (filter && setFilter) {
-      if (filter.itemGroup?.itemMainGroup) {
-        setLoading(true)
-        filter.itemMainGroup = filter.itemGroup?.itemMainGroup
-        // setFilter(filter)
-        setFilter({ ...filter, itemMainGroup: filter.itemGroup?.itemMainGroup })
-        if (filter.itemGroup) {
-          setFilter({ ...filter, itemGroup: filter.itemGroup })
-          // filter.itemGroup = filter.itemGroup?._id
-          // setFilter(filter)
-          console.log(`filter:`, filter)
-          setTimeout(() => setLoading(false), 1000)
-        }
-      }
-    }
-
+    filter.itemMainGroup = ''
+    filter.itemGroup = ''
   }, [filter._id])
   return (<div className={className}>
-    <SelectRemote
-      formData={filter} field='itemMainGroup' setData={e => {
+
+    <TsnSelectRemote
+      title={t('Main Group')}
+      defaultValue={filter.itemMainGroup}
+      onValueChange={e => {
         setLoading(true)
-        setFilter && setFilter({ ...filter, itemMainGroup: e.itemMainGroup.trim(), itemGroup: '' })
+        setFilter({ ...filter, itemMainGroup: e.trim(), itemGroup: '' })
         setTimeout(() => setLoading(false), 100)
       }}
       apiPath='/db/itemMainGroups'
       all
-    >{t('Main Group')}</SelectRemote>
-    {filter.itemMainGroup && !loading &&
-      <SelectRemote
-        formData={filter.itemGroup} field='itemGroup' setData={setFilter}
-        apiPath={`/db/itemGroups?itemMainGroup=${filter.itemMainGroup._id}`}
+    >{t('Main Group')}</TsnSelectRemote>
+    {!loading && filter.itemMainGroup &&
+      <TsnSelectRemote
+        title={t('Sub Group')}
+        defaultValue={filter.itemGroup}
+        onValueChange={e => setFilter({ ...filter, itemGroup: e })}
+        apiPath={`/db/itemGroups?itemMainGroup=${filter.itemMainGroup}`}
         all
-      >{t('Group')}</SelectRemote>
+      >{t('Group')}</TsnSelectRemote>
     }
     {loading && <Skeleton className='w-full h-10 mt-4' />}
   </div>)

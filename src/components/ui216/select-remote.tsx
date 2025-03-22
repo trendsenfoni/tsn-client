@@ -80,15 +80,6 @@ export function SelectRemote({ formData = {}, field, setData, children, classNam
       </Select>
     }
     {loading && <Skeleton className='h-10 w-full mt-4' />}
-    {/* <Input defaultValue={formData[field]}
-      onBlur={e => {
-        if (setData && formData[field] != e.target.value) {
-          formData[field] = e.target.value
-          setData(formData)
-        }
-        onBlur && onBlur(e)
-      }}
-      className={className}
-    /> */}
+
   </div>)
 }
