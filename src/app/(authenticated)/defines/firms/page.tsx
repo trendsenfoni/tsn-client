@@ -16,6 +16,7 @@ export default function ListPage() {
       onHeaderPaint={() => {
         return (<>
           <TableHead>{t('Name')}</TableHead>
+          <TableHead>{t('Address')}</TableHead>
           <TableHead className='hidden lg:table-cell text-center'>{t('Passive?')}</TableHead>
         </>)
       }}
@@ -23,8 +24,14 @@ export default function ListPage() {
         return (<>
           <TableCell className=''>
             <div className='flex flex-col'>
-              <span className='lg:font-semibold'>{e.name}</span>
+              <span className=''>{e.name}</span>
               <span className='text-[8pt] text-muted-foreground'>{t(firmTypeList.find(f => f._id == e.type)?.text || '')}</span>
+            </div>
+          </TableCell>
+          <TableCell className=''>
+            <div className='flex flex-col'>
+              <span className='lg:font-semibold'>{e.address?.cityName}</span>
+              <span className='text-[10pt] text-muted-foreground'>{e.address?.district}</span>
             </div>
           </TableCell>
           <TableCell className='hidden lg:table-cell text-center'>

@@ -1,3 +1,4 @@
+import { AddressField } from './AddressField'
 import { AddressType, CountryType } from './AddressType'
 
 export interface Firm {
@@ -15,19 +16,20 @@ export interface Firm {
     taxNumber?: string
     idCardNo?: string
   }
-  address?: {
-    room?: string
-    streetName?: string
-    blockName?: string
-    buildingName?: string
-    buildingNumber?: string
-    citySubdivisionName?: string
-    cityName?: string
-    postalZone?: string
-    postbox?: string
-    region?: string
-    district?: string
-    country?: CountryType
-  }
+  address?: AddressField
+  // address?: {
+  //   room?: string
+  //   streetName?: string
+  //   blockName?: string
+  //   buildingName?: string
+  //   buildingNumber?: string
+  //   citySubdivisionName?: string
+  //   cityName?: string
+  //   postalZone?: string
+  //   postbox?: string
+  //   region?: string
+  //   district?: string
+  //   country?: CountryType
+  // }
   passive?: boolean
 }

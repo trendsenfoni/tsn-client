@@ -82,3 +82,4 @@ export const firmTypeList = [
   { _id: 'cv', text: 'Customer & Vendor' },
   { _id: 'cc', text: 'Customer Candidate' },
 ]
+

@@ -12,7 +12,9 @@ export function TsnSwitch(props: Props) {
 
     <Switch
       {...props} className=''
-    />
+    ></Switch>
     <Label className='ms-2'>{props.title}</Label>
+
+
   </div>)
 }

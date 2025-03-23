@@ -40,5 +40,18 @@
   "Vendor": "Vendor",
   "Vendors": "Vendors",
   "Customer & Vendor": "Customer & Vendor",
-  "Type": "Type"
+  "Type": "Type",
+  "Address": "Address",
+  "City": "City",
+  "District": "District",
+  "Street": "Street",
+  "Country": "Country",
+  "Postal Zone": "Postal Zone",
+  "Room": "Room",
+  "Building Name": "Building Name",
+  "Building Number": "Building Number",
+  "Block": "Block",
+  "Region": "Region",
+  "Region/State": "Region/State",
+  "Billing Info": "Billing Info"
 }

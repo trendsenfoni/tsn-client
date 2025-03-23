@@ -40,5 +40,18 @@
   "Vendor": "Tedarikçi",
   "Vendors": "Tedarikçiler",
   "Customer & Vendor": "Müşteri & Tedarikçi",
-  "Type": "Tür"
+  "Type": "Tür",
+  "Address": "Adres",
+  "City": "Şehir",
+  "District": "İlçe",
+  "Street": "Sokak",
+  "Country": "Ülke",
+  "Postal Zone": "Posta Kodu",
+  "Room": "Oda",
+  "Building Name": "Bina/Site Adı",
+  "Building Number": "Bina Numarası",
+  "Block": "Blok",
+  "Region": "Bölge",
+  "Region/State": "Bölge/Eyalet",
+  "Billing Info": "Fatura Bilgileri"
 }

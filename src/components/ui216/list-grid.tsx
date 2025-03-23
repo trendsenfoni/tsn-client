@@ -22,9 +22,6 @@ import { Input } from '@/components/ui/input'
 import { EditIcon, FilterIcon, PlusSquareIcon, Trash2Icon } from 'lucide-react'
 import Pagination from '@/components/ui216/pagination'
 import { ButtonConfirm } from '@/components/button-confirm'
-import { Label } from '../ui/label'
-import { Panel } from './panel'
-import { ButtonInfo } from './button-information'
 import { FilterPanel } from './filter-panel'
 
 interface OptionProps {

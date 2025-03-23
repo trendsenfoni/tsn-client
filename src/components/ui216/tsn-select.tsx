@@ -22,7 +22,7 @@ export function TsnSelect({ all, list, title, onValueChange, ...props }: TsnSele
     }
   }, [])
 
-  return (<div className={`flex flex-col gap-1 my-4 w-full min-w-32 ${props.className}`} >
+  return (<div className={`flex flex-col gap-1 my-4 w-full min-w-24 ${props.className}`} >
     <Label className='ms-2'>{title}</Label>
     <Select
       onValueChange={onValueChange}
@@ -32,7 +32,7 @@ export function TsnSelect({ all, list, title, onValueChange, ...props }: TsnSele
         {!all && <SelectValue placeholder="---" />}
         {all && <SelectValue placeholder="*" />}
       </SelectTrigger>
-      <SelectContent className='w-full min-w-32'>
+      <SelectContent className='w-fu11ll min-w1-22'>
         {all &&
           <SelectGroup>
             <SelectItem value=" ">*</SelectItem>
