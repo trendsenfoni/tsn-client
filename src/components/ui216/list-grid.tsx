@@ -116,19 +116,9 @@ export function ListGrid({
   return (<div className='flex flex-col gap-0'>
     <div className='w-full flex flex-col lg:flex-row lg:justify-between lg:items-center mb-2'>
       <h1 className='text-2xl lg:text-3xl lg:ms-2'>{title}</h1>
-      <div className='flex items-center gap-2'>
+      <div className='flex items-center gap-4'>
 
-        {onFilterPanel &&
-          <FilterPanel
-            trigger={<div className='px-2 py-1 rounded bg-orange-600 text-white hover:bg-orange-400 hover:text-white'>
-              <FilterIcon />
-            </div>}>
-            {onFilterPanel(filter, (e) => {
-              setFilter(e)
-              token && load(1, search, e)
-            })}
-          </FilterPanel>
-        }
+
         {options.showSearch &&
           <div className="relative w-full">
             <div className='absolute left-1.5 top-1.5 text-xl'>🔍</div>
@@ -144,6 +134,17 @@ export function ListGrid({
               onKeyDown={e => e.code == 'Enter' && load(1, search)}
             />
           </div>
+        }
+        {onFilterPanel &&
+          <FilterPanel
+            trigger={<div className='px-2 py-1 rounded bg-orange-600 text-white hover:bg-orange-400 hover:text-white'>
+              <FilterIcon />
+            </div>}>
+            {onFilterPanel(filter, (e) => {
+              setFilter(e)
+              token && load(1, search, e)
+            })}
+          </FilterPanel>
         }
       </div>
     </div>

@@ -19,7 +19,7 @@ export function FilterPanel({
       <div className='cursor-pointer' onClick={() => setOpen(!open)}>
         {trigger}
       </div>
-      <div className={`z-10 absolute end-auto start-0 top-8 min-w-80 min-h-60 pt-2 pb-10 px-4 bg-popover shadow-lg rounded border border-dashed ${className} ${!open ? 'hidden' : ''}`}>
+      <div className={`z-10 absolute start-auto end-0 top-8 min-w-80 min-h-60 pt-2 pb-10 px-4 bg-popover shadow-lg rounded border border-dashed ${className} ${!open ? 'hidden' : ''}`}>
         {children}
         <ButtonOK className='absolute end-1 bottom-1' onClick={() => setOpen(false)} />
       </div>
