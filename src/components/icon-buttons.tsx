@@ -1,4 +1,4 @@
-import { CheckIcon, XIcon } from 'lucide-react'
+import { CheckIcon, ListTreeIcon, PlusCircleIcon, PlusIcon, PlusSquareIcon, XIcon } from 'lucide-react'
 import { Button } from './ui/button'
 
 interface ButtonProps {
@@ -27,6 +27,18 @@ export function ButtonCancel({ className, onClick }: ButtonProps) {
       onClick={() => onClick && onClick()}
     >
       <XIcon size={'24px'} />
+    </Button>
+  )
+}
+export function ButtonLinePlus({ className, onClick }: ButtonProps) {
+  return (
+    <Button
+      className={`bg-green-600 text-white hover:bg-green-800 hover:text-white px-2 flex gap-1 ${className}`}
+      variant={'outline'}
+      size={'sm'}
+      onClick={() => onClick && onClick()}
+    >
+      <ListTreeIcon size={'24px'} /><PlusSquareIcon size={'24px'} />
     </Button>
   )
 }

@@ -32,8 +32,8 @@ const RootLayout = ({ children }: { children: React.ReactNode }) => {
   return (
     <html lang="en" suppressHydrationWarning>
       <head>
-        {/* <link rel="icon" href={`/img/icon.svg`} type="image/svg+xml" /> */}
-        <link rel="icon" href={`/img/icon.png`} type="image/png" />
+        <link rel="icon" href={`/img/icon.svg`} type="image/svg+xml" />
+        {/* <link rel="icon" href={`/img/icon.png`} type="image/png" /> */}
         <link rel="manifest" href={`/manifest.json`} />
       </head>
       <body className={inter.className} suppressHydrationWarning >

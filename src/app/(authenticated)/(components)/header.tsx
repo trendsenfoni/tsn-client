@@ -16,7 +16,7 @@ import { DatabaseSelect } from '@/components/database-select'
 import { NotificationButton } from '@/components/notify-icon'
 const MENU = [
   { text: 'Sales', icon: '🛒', href: '/sales' },
-  { text: 'Purchasing', icon: '🚚', href: '/purchasing' },
+  { text: 'Purchase', icon: '🚚', href: '/purchase' },
   { text: 'Finance', icon: '💰', href: '/finance' },
   { text: 'Inventory', icon: '📦', href: '/inventory' },
   { text: 'Production', icon: '🏭', href: '/production' },

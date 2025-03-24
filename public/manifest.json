@@ -23,7 +23,7 @@
   },
   "icons": [
     {
-      "src": "img/icon.png",
+      "src": "img/icon-black.png",
       "sizes": "512x512",
       "type": "image/png",
       "purpose": "any"

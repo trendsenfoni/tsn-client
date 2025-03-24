@@ -1,9 +1,11 @@
 import { AddressField } from './AddressField'
 import { Firm } from './Firm'
+import { Item } from './Item'
 
-export interface OrderType {
+export interface Order {
   _id?: string
   firm?: Firm
+  draft?: boolean
   ioType?: number | 0 | 1
   issueDate?: string
   documentNumber?: string
@@ -20,19 +22,16 @@ export interface OrderType {
   closed?: boolean
 }
 
-export interface OrderLineType {
+export interface OrderLine {
   _id?: string
-  order?: OrderType
+  order?: string
   ioType?: number | 0 | 1
   issueDate?: string
+  item?: Item
   description?: string
   quantity?: number
   delivered?: number
   remainder?: number
-  thickness?: number
-  width?: number
-  length?: number
-  weight?: number
   price?: number
   total?: number
   currency?: string | 'USD' | 'TRY' | 'EUR' | 'RUB' | 'GBP' | undefined
@@ -42,3 +41,7 @@ export interface OrderLineType {
   closed?: boolean
 }
 
+export const OrderTypeList = [
+  { _id: '0', text: 'Sales' },
+  { _id: '1', text: 'Purchase' }
+]

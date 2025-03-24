@@ -2,7 +2,7 @@
 
 import { Button } from '@/components/ui/button'
 import { useLanguage } from '@/i18n'
-import { BoxesIcon, FolderTreeIcon, GroupIcon, UsersIcon } from 'lucide-react'
+import { BoxesIcon, FolderTreeIcon, GroupIcon, NotebookPenIcon, UsersIcon } from 'lucide-react'
 import { useRouter } from 'next/navigation'
 export default function InventoryPage() {
   const router = useRouter()
@@ -12,6 +12,8 @@ export default function InventoryPage() {
     <Button onClick={() => router.push('/defines/firms')} variant={'outline'} className='flex justify-start gap-4'>
       <UsersIcon />{t('Firms')}
     </Button>
-
+    <Button onClick={() => router.push('/bizdocs/orders')} variant={'outline'} className='flex justify-start gap-4'>
+      <NotebookPenIcon />{t('Orders')}
+    </Button>
   </div>)
 }

@@ -150,8 +150,8 @@ export function ListGrid({
     {!loading && <>
       <Table className='text-[70%] md:text-base lg:text-[110%]'>
         {onHeaderPaint &&
-          <TableHeader >
-            <TableRow >
+          <TableHeader>
+            <TableRow>
               {onHeaderPaint()}
               {options.type == 'Update' && (options.showAddNew || options.showEdit || options.showDelete) &&
                 <TableHead className=" w-12 ">
