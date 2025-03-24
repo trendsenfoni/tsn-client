@@ -110,7 +110,7 @@ export function GridOrderLine({ orderId }: Props) {
             </TableCell>
             <TableCell colSpan={2} className=''>
               <div className='flex flex-col items-end'>
-                <span className=''>{moneyFormat(e.price)} {e.currency}</span>
+                <span className=''>{moneyFormat(e.price, 5)} {e.currency}</span>
               </div>
             </TableCell>
             <TableCell colSpan={2} className=''>

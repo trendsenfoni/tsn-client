@@ -79,20 +79,15 @@ export default function EditPage({ params }: Props) {
         defaultValue={order.firm?._id}
         onValueChange={e => setOrder({ ...order, firm: { ...order.firm, _id: e } })}
       />
-      <div className='grid grid-cols-1 gap-4'>
-
-        <TsnPanel
-          name='order_address'
-          trigger={t('Address')}
-        >
-          <TsnInputAddress defaultValue={order?.address} onChange={e => setOrder({ ...order, address: e })} />
-        </TsnPanel>
-      </div>
+      <TsnPanel name='order_address' trigger={t('Address')}>
+        <TsnInputAddress defaultValue={order?.address} onChange={e => setOrder({ ...order, address: e })} />
+      </TsnPanel>
       {order._id && <GridOrderLine orderId={order._id} />}
-      <TsnTextarea title={t('Note')} defaultValue={order?.note} onBlur={e => setOrder({ ...order, note: e.target.value })} />
-      <TsnSwitch title={t('Closed?')} defaultChecked={order?.closed} onCheckedChange={e => setOrder({ ...order, closed: e })} />
-      <TsnSwitch title={t('Draft?')} defaultChecked={order?.draft} onCheckedChange={e => setOrder({ ...order, draft: e })} />
-
+      <TsnPanel name='order_note_passive' trigger={t('Notes')}>
+        <TsnTextarea title={t('Note')} defaultValue={order?.note} onBlur={e => setOrder({ ...order, note: e.target.value })} />
+        <TsnSwitch title={t('Closed?')} defaultChecked={order?.closed} onCheckedChange={e => setOrder({ ...order, closed: e })} />
+        <TsnSwitch title={t('Draft?')} defaultChecked={order?.draft} onCheckedChange={e => setOrder({ ...order, draft: e })} />
+      </TsnPanel>
     </>}
   </StandartForm>)
 }
