@@ -196,7 +196,7 @@ export function ListGrid({
                         }
                       }}
                       text={t('Do you want to delete the record?')}
-                      description={<span className='text-lg'>{e.name || e.description || e._id}</span>}
+                      description={<span className='text-lg'>{e.name || e.description || e.documentNumber || e.issueDate || e._id}</span>}
 
                     >
                       <div className='px-2 py-2 rounded-md bg-red-800 text-white hover:bg-red-500 hover:text-white'>

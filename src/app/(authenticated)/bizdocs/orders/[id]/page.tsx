@@ -38,16 +38,23 @@ export default function EditPage({ params }: Props) {
       .catch(err => toast({ title: t('Error'), description: t(err || ''), variant: 'destructive' }))
       .finally(() => setLoading(false))
   }
-  const save = () => {
+  const save = (back?: boolean, o?: Order) => {
+    o && setOrder(o)
     setLoading(true)
     if (params.id == 'addnew') {
-      postItem(`/db/orders`, token, order)
-        .then(result => router.back())
+      postItem(`/db/orders`, token, o || order)
+        .then(result => {
+          setOrder(result as Order)
+          back && router.back()
+        })
         .catch(err => toast({ title: t('Error'), description: t(err || ''), variant: 'destructive' }))
         .finally(() => setLoading(false))
     } else {
-      putItem(`/db/orders/${params.id}`, token, order)
-        .then(result => router.back())
+      putItem(`/db/orders/${params.id}`, token, o || order)
+        .then(result => {
+          setOrder(result as Order)
+          back && router.back()
+        })
         .catch(err => toast({ title: t('Error'), description: t(err || ''), variant: 'destructive' }))
         .finally(() => setLoading(false))
     }
@@ -59,36 +66,54 @@ export default function EditPage({ params }: Props) {
 
   return (<StandartForm
     title={t('Orders')}
-    onSaveClick={save}
+    onSaveClick={() => {
+      save(true)
+      // if (order._id)
+      //   save(true)
+      // else
+      //   save(false)
+    }}
     onCancelClick={() => router.back()}
   >
-    {!loading && <>
+    {!loading && <div className='flex flex-col gap-4'>
       <div className='grid grid-cols-1 lg:grid-cols-3 gap-4'>
+
+
+        <TsnSwitch title={t('Draft?')} defaultChecked={order?.draft} onCheckedChange={e => setOrder({ ...order, draft: e })} />
         <TsnSelect title={t('Type')}
           defaultValue={order?.ioType?.toString()}
           list={OrderTypeList.map(e => ({ _id: e._id, text: t(e.text) }))}
           onValueChange={e => setOrder({ ...order, ioType: Number(e) })}
         />
-
-        <TsnInput type='date' title={t('Date')} defaultValue={order?.issueDate} onBlur={e => setOrder({ ...order, issueDate: e.target.value })} />
-        <TsnInput title={t('Document Number')} defaultValue={order?.documentNumber} onBlur={e => setOrder({ ...order, documentNumber: e.target.value })} />
       </div>
-      <TsnSelectRemote
-        apiPath='/db/firms'
-        title={t('Firm')}
-        defaultValue={order.firm?._id}
-        onValueChange={e => setOrder({ ...order, firm: { ...order.firm, _id: e } })}
-      />
+      <div className='grid grid-cols-1 lg:grid-cols-3 gap-4'>
+        <TsnInput type='date' title={t('Date')} defaultValue={order?.issueDate}
+          onBlur={e => setOrder({ ...order, issueDate: e.target.value })
+          } />
+        <TsnInput title={t('Document Number')} defaultValue={order?.documentNumber}
+          onBlur={e => setOrder({ ...order, documentNumber: e.target.value })} />
+        <TsnSelectRemote
+          apiPath='/db/firms'
+          title={t('Firm')}
+          defaultValue={order.firm?._id}
+          onValueChange={e => setOrder({ ...order, firm: { ...order.firm, _id: e } })}
+        />
+      </div>
+
       <TsnPanel name='order_address' trigger={t('Address')}>
         <TsnInputAddress defaultValue={order?.address} onChange={e => setOrder({ ...order, address: e })} />
       </TsnPanel>
-      {order._id && <GridOrderLine orderId={order._id} />}
       <TsnPanel name='order_note_passive' trigger={t('Notes')}>
         <TsnTextarea title={t('Note')} defaultValue={order?.note} onBlur={e => setOrder({ ...order, note: e.target.value })} />
         <TsnSwitch title={t('Closed?')} defaultChecked={order?.closed} onCheckedChange={e => setOrder({ ...order, closed: e })} />
-        <TsnSwitch title={t('Draft?')} defaultChecked={order?.draft} onCheckedChange={e => setOrder({ ...order, draft: e })} />
+
       </TsnPanel>
-    </>}
+      <div>
+        {t('Items')}
+      </div>
+      {/* {order._id && <GridOrderLine orderId={order._id} />} */}
+
+    </div>}
   </StandartForm>)
 }
 
