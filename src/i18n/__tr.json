@@ -62,6 +62,7 @@
   "Purchase Orders": "Satın Alma Siparişleri",
   "Date": "Tarih",
   "Closed": "Kapalı",
+  "Closed?": "Kapalı?",
   "Date/Number": "Tarih/No",
   "Total": "Toplam",
   "Firm": "Firma",
@@ -77,5 +78,6 @@
   "Sub Total": "Ara Toplam",
   "VAT": "KDV",
   "WHT": "Tevkifat",
-  "Net Total": "Net Toplam"
+  "Net Total": "Net Toplam",
+  "Draft?": "Taslak?"
 }

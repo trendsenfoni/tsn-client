@@ -62,6 +62,7 @@
   "Purchase Orders": "Purchase Orders",
   "Date": "Date",
   "Closed": "Closed",
+  "Closed?": "Closed?",
   "Date/Number": "Date/Number",
   "Total": "Total",
   "Firm": "Firm",
@@ -76,5 +77,6 @@
   "Sub Total": "Sub Total",
   "VAT": "VAT",
   "WHT": "Withholding Tax",
-  "Net Total": "Net Total"
+  "Net Total": "Net Total",
+  "Draft?": "Draft?"
 }

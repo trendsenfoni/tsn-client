@@ -2,7 +2,7 @@
 
 import { FC, ReactNode, useEffect, useState } from 'react'
 import { deleteItem, getItem, getList } from '@/lib/fetch'
-import { usePathname, useRouter } from 'next/navigation'
+import { usePathname, useRouter, useSearchParams } from 'next/navigation'
 import Cookies from 'js-cookie'
 import { useToast } from '@/components/ui/use-toast'
 import { PaginationType } from '@/types/PaginationType'
@@ -41,10 +41,10 @@ interface Props {
   onRowPaint?: (e: any, colIndex: number) => ReactNode
   onDelete?: (e: any) => void
   options?: OptionProps
-  title?: string
+  title?: any
   onFilterPanel?: (e: any, setFilter: (a: any) => void) => ReactNode
   defaultFilter?: any
-  // onDataForm?: (e: any, setData: (a: any) => void) => ReactNode
+  params?: any
 }
 export function ListGrid({
   // headers = [],
@@ -53,9 +53,10 @@ export function ListGrid({
   onHeaderPaint,
   onDelete,
   options = {},
-  title = "",
+  title,
   onFilterPanel,
-  defaultFilter = {}
+  defaultFilter = {},
+  params
 }: Props) {
   const [list, setList] = useState<any[]>([])
   const [filter, setFilter] = useState<any>(defaultFilter)
@@ -67,6 +68,7 @@ export function ListGrid({
   const [pagination, setPagination] = useState<PaginationType>({ pageCount: 0, page: 1, pageSize: 10, totalDocs: 0 })
   const [search, setSearch] = useState('')
   const { t } = useLanguage()
+  const searchParams = useSearchParams()
   options = Object.assign({
     type: 'Update',
     showSearch: true,
@@ -158,7 +160,7 @@ export function ListGrid({
                   <div className='w-full flex justify-end l11g:ju11stify-center'>
                     {options.showAddNew &&
                       <div
-                        onClick={() => router.push(`${pathName}/addnew`)}
+                        onClick={() => router.push(`${pathName}/addnew?${searchParams.toString()}`)}
                         className={`w-8 cursor-pointer px-2 py-2 rounded-md bg-green-800 text-white hover:bg-green-500 hover:text-white`}>
                         <PlusSquareIcon size={'16px'} />
                       </div>

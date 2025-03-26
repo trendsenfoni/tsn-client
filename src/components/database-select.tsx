@@ -14,7 +14,7 @@ import { useEffect, useState } from 'react'
 import Cookies from 'js-cookie'
 import { useLanguage } from '@/i18n'
 import { Button } from './ui/button'
-import { DatabaseIcon, ListIcon, RefreshCcwDotIcon } from 'lucide-react'
+import { DatabaseIcon, DatabaseZapIcon, ListIcon, RefreshCcwDotIcon } from 'lucide-react'
 import { getItem, postItem } from '@/lib/fetch'
 import { DatabaseType } from '@/types/DatabaseType'
 import { useToast } from './ui/use-toast'
@@ -34,7 +34,6 @@ export function DatabaseSelect() {
   const setVariables = (l: DatabaseType[]) => {
     const d = Cookies.get('db') || ''
     const foundIndex = l.findIndex((e: DatabaseType) => e._id == d)
-    setDbList(l)
     if (foundIndex > -1) {
       setDb(d)
       Cookies.set('databaseName', l[foundIndex].name || '')
@@ -44,7 +43,6 @@ export function DatabaseSelect() {
     } else {
       setDb('')
       Cookies.remove('db')
-      Cookies.remove('dbList')
       Cookies.remove('databaseName')
     }
   }
@@ -53,9 +51,8 @@ export function DatabaseSelect() {
     setLoading(true)
     postItem(`/session/change/db/${dbId}`, token)
       .then(result => {
-        console.log('result:', result)
         toast({ title: t('Database changed'), description: `database:${result.db.name}`, variant: 'default', duration: 1500 })
-        setTimeout(() => location.reload(), 1800)
+        setTimeout(() => location.reload(), 400)
       })
       .catch(err => toast({ title: err, variant: 'destructive', duration: 1500 }))
       .finally(() => setLoading(false))
@@ -65,63 +62,58 @@ export function DatabaseSelect() {
     setLoading(true)
     getItem(`/databases`, token)
       .then(result => {
-        const l = result.docs as DatabaseType[]
-        Cookies.set('dbList', JSON.stringify(l))
-        setVariables(l)
+        setDbList(result.docs as DatabaseType[])
+        // Cookies.set('dbList', JSON.stringify(l))
+        setVariables(result.docs as DatabaseType[])
       })
       .catch(err => toast({ title: err, variant: 'destructive', duration: 1500 }))
       .finally(() => setLoading(false))
   }
   useEffect(() => { !token && setToken(Cookies.get('token') || '') }, [])
-  useEffect(() => {
-    try {
-      if (token) {
-        if (Cookies.get('dbList')) {
-          const l = (JSON.parse(Cookies.get('dbList') || '[]') || []) as DatabaseType[]
-          setVariables(l)
-        } else {
-          load()
-        }
-      }
-    } catch { }
-
-  }, [token])
+  useEffect(() => { token && load() }, [token])
 
   return (
     <>
-      {/* <Button className='text-2xl' size={'icon'} variant={'outline'} onClick={() => load()}>
-        🔄
-      </Button> */}
-      {!loading &&
-        <Select
-          value={db}
-          onValueChange={e => {
-            Cookies.set('db', e)
-            setVariables(dbList)
-            changeDb(e)
 
-          }}
-          onOpenChange={e => {
-            !e && load()
-          }}
-        >
-          <SelectTrigger className={`w-[140px] px-1 border-0`}>
-            <SelectValue placeholder={'[' + t('Select Database') + ']'} />
-          </SelectTrigger>
-          <SelectContent>
-            <SelectGroup>
-              {dbList.map((e, index) => <SelectItem key={'database' + index} value={e._id || ''} >
-                {/* <div className='flex items-center gap-2'> <DatabaseIcon size={'16px'} /> <span className='text-nowrap text-ellipsis text-e11llipsis w-20'>{e.name}</span></div> */}
-                📁 {e.name}
-              </SelectItem>)}
-            </SelectGroup>
-            <SelectGroup>
-              <SelectLabel onClick={() => router.push('/databases')} className='cursor-pointer flex items-center gap-2'>
-                <ListIcon size={'16px'} />  {t('Database List')}
-              </SelectLabel>
-            </SelectGroup>
-          </SelectContent>
-        </Select>
+      {!loading &&
+        <div className='flex gap-4'>
+          <Select
+            defaultValue={db}
+            onValueChange={e => {
+              Cookies.set('db', e)
+              setVariables(dbList)
+              changeDb(e)
+
+            }}
+          // onOpenChange={e => {
+          //   !e && load()
+          // }}
+          >
+            <SelectTrigger className={`w-[180px] px-1 border-0`}>
+              <SelectValue placeholder={'[' + t('Select Database') + ']'} />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectGroup>
+                {dbList.map((e, index) =>
+                  <SelectItem key={'database' + index} value={e._id || ''}>
+                    <div className={`flex gap-2 items-center uppercase ${db == e._id ? 'text-[#1e40af] dark:text-[#eab308] font-bold' : ''}`}>
+                      {db == e._id && <DatabaseZapIcon />}
+                      {db != e._id && <DatabaseIcon />}
+                      {e.name}
+                    </div>
+
+                  </SelectItem>)
+                }
+              </SelectGroup>
+              <SelectGroup>
+                <SelectLabel onClick={() => router.push('/databases')} className='cursor-pointer flex items-center gap-2'>
+                  <ListIcon size={'16px'} />  {t('Database List')}
+                </SelectLabel>
+              </SelectGroup>
+            </SelectContent>
+          </Select>
+
+        </div>
       }
       {loading && <Skeleton className='w-[140px]' />}
     </>

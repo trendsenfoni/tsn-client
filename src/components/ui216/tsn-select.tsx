@@ -6,10 +6,10 @@ import * as SelectPrimitive from "@radix-ui/react-select"
 
 export interface TsnListType {
   _id?: string
-  text?: string | ReactNode
+  text?: any
 }
 export interface TsnSelectProps extends SelectPrimitive.SelectProps {
-  title?: string
+  title?: any
   all?: boolean
   list?: TsnListType[]
   onValueChange?: (e: string) => void

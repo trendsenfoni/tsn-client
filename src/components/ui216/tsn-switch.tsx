@@ -4,7 +4,7 @@ import * as SwitchPrimitives from "@radix-ui/react-switch"
 import { Switch } from '../ui/switch'
 
 interface Props extends SwitchPrimitives.SwitchProps {
-  title?: string
+  title?: any
 
 }
 export function TsnSwitch(props: Props) {

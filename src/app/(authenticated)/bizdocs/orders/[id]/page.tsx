@@ -2,7 +2,7 @@
 
 import { TsnInput } from '@/components/ui216/tsn-input'
 import { useLanguage } from '@/i18n'
-import { usePathname, useRouter } from 'next/navigation'
+import { usePathname, useRouter, useSearchParams } from 'next/navigation'
 import { useToast } from '@/components/ui/use-toast'
 import { useEffect, useState } from 'react'
 import Cookies from 'js-cookie'
@@ -18,6 +18,7 @@ import { TsnSelectRemote } from '@/components/ui216/tsn-select-remote'
 import { GridOrderLine } from './order-lines'
 import { Label } from '@/components/ui/label'
 import { moneyFormat } from '@/lib/utils'
+import { NotepadTextDashedIcon } from 'lucide-react'
 interface Props {
   params: { id: string }
 }
@@ -27,12 +28,15 @@ export default function EditPage({ params }: Props) {
   const [loading, setLoading] = useState(false)
   const router = useRouter()
   const { t } = useLanguage()
+  const searchParams = useSearchParams()
+  const io = Number(searchParams.get('io') || 0)
   const pathName = usePathname()
   const [orderId, setOrderId] = useState(params.id != 'addnew' ? params.id : '')
   const [order, setOrder] = useState<Order>({
     issueDate: new Date().toISOString().substring(0, 10),
     closed: false,
-    draft: true
+    draft: true,
+    ioType: io
   })
 
   const load = () => {
@@ -76,15 +80,13 @@ export default function EditPage({ params }: Props) {
     onCancelClick={() => router.back()}
   >
     {!loading && <div className='flex flex-col gap-2'>
-      <div className='grid grid-cols-1 lg:grid-cols-3 gap-4'>
-
-        <TsnSwitch title={t('Draft?')} defaultChecked={order?.draft} onCheckedChange={e => setOrder({ ...order, draft: e })} />
+      {/* <div className='grid grid-cols-1 lg:grid-cols-3 gap-4'>
         <TsnSelect title={t('Type')}
           defaultValue={order?.ioType?.toString()}
           list={OrderTypeList.map(e => ({ _id: e._id, text: t(e.text) }))}
           onValueChange={e => setOrder({ ...order, ioType: Number(e) })}
         />
-      </div>
+      </div> */}
       <div className='grid grid-cols-1 lg:grid-cols-3 gap-4'>
         <TsnInput type='date' title={t('Date')} defaultValue={order?.issueDate}
           onBlur={e => setOrder({ ...order, issueDate: e.target.value })
@@ -117,7 +119,8 @@ export default function EditPage({ params }: Props) {
 
       } />
       <div className='flex flex-col-reverse md:flex-row md:items-end justify-between'>
-        <div className='my-4'>
+        <div className='my-4 flex flex-col gap-4'>
+          <TsnSwitch title={t('Draft?')} defaultChecked={order?.draft} onCheckedChange={e => setOrder({ ...order, draft: e })} />
           <TsnSwitch title={t('Closed?')} defaultChecked={order?.closed} onCheckedChange={e => setOrder({ ...order, closed: e })} />
         </div>
         <div className='ms-2 min-w-[320px] flex flex-col gap-2 font-mono'>

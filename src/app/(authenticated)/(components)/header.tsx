@@ -31,7 +31,6 @@ export function Header() {
           <HeaderLogo2 className='' />
         </CustomLink>
         <div className='hidden lg:flex'>
-          <img src="/img/prompt.gif" alt="prompt" className='aspect-video' />
           <DatabaseSelect />
         </div>
 

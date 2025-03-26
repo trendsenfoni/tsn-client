@@ -3,8 +3,7 @@ import { Input } from '@/components/ui/input'
 import { LegacyRef } from 'react'
 
 interface Props extends React.InputHTMLAttributes<HTMLInputElement> {
-  title?: string
-  ref?: any
+  title?: any
 }
 export function TsnInput(props: Props) {
   return (<div className={`flex flex-col gap-1 my-1 ${props.className}`} >

@@ -2,7 +2,7 @@ import { Label } from '@/components/ui/label'
 import { Textarea } from '../ui/textarea'
 
 interface Props extends React.TextareaHTMLAttributes<HTMLTextAreaElement> {
-  title?: string
+  title?: any
 }
 export function TsnTextarea(props: Props) {
   return (<div className={`flex flex-col gap-1 my-1 ${props.className}`} >

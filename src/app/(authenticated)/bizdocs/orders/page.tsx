@@ -7,13 +7,16 @@ import { Order } from '@/types/Order'
 
 import { TsnSelect } from '@/components/ui216/tsn-select'
 import { moneyFormat } from '@/lib/utils'
+import { useSearchParams } from 'next/dist/client/components/navigation'
 export default function ListPage() {
   const { t } = useLanguage()
+  const searchParams = useSearchParams()
+  const io = Number(searchParams.get('io') || 0)
   return (
     <ListGrid
       apiPath='/db/orders'
       options={{ type: 'Update' }}
-      title={t('Orders')}
+      title={io == 0 ? t('Sales Orders') : t('Purchase Orders')}
       onHeaderPaint={() => {
         return (<>
           <TableHead>{t('Date/Number')}</TableHead>
