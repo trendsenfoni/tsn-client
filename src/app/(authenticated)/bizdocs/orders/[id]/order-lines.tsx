@@ -6,19 +6,18 @@ import { useRouter } from 'next/navigation'
 import Cookies from 'js-cookie'
 import { OrderLine } from '@/types/Order'
 import { useToast } from '@/components/ui/use-toast'
-import { ListGrid } from '@/components/ui216/list-grid'
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table'
+import { Table, TableBody, TableCell, TableFooter, TableHead, TableHeader, TableRow } from '@/components/ui/table'
 import { useLanguage } from '@/i18n'
 import { moneyFormat } from '@/lib/utils'
-import { ButtonLinePlus } from '@/components/icon-buttons'
 import { OrderLinePopup } from './order-line-popup'
-import { EditIcon, ListTreeIcon, PlusSquareIcon, Trash2Icon } from 'lucide-react'
+import { CheckIcon, EditIcon, ListTreeIcon, PlusSquareIcon, Trash2Icon } from 'lucide-react'
 import { ButtonConfirm } from '@/components/button-confirm'
 
 interface Props {
   orderId?: string
+  onAddNewOrder?: () => void
 }
-export function GridOrderLine({ orderId }: Props) {
+export function GridOrderLine({ orderId, onAddNewOrder }: Props) {
   const [lines, setLines] = useState<OrderLine[]>([])
   const [token, setToken] = useState('')
   const { toast } = useToast()
@@ -27,6 +26,8 @@ export function GridOrderLine({ orderId }: Props) {
   const { t } = useLanguage()
   const [openNewLine, setOpenNewLine] = useState(false)
   const load = () => {
+    console.log('orderId', orderId)
+    if (!orderId) return
     setLoading(true)
     getList(`/db/orderLines?order=${orderId}`, token)
       .then(result => setLines(result.docs as OrderLine[]))
@@ -78,7 +79,7 @@ export function GridOrderLine({ orderId }: Props) {
   useEffect(() => { !token && setToken(Cookies.get('token') || '') }, [])
   useEffect(() => { token && load() }, [token])
 
-  return (<div className='relative px-0 pt-2 pb-8 rounded border border-dashed my-4'>
+  return (<div className='relative px-0 pt-1 pb-10 rounded border border-dashed my-4'>
     <Table className='text-[50%] md:text-sm lg1:te11xt-[110%]'>
       <TableHeader>
         <TableRow>
@@ -162,9 +163,10 @@ export function GridOrderLine({ orderId }: Props) {
           </TableRow>
         ))}
       </TableBody>
+
     </Table>
     <div className='absolute end-1 bottom-1'>
-      {!loading &&
+      {!loading && orderId &&
         <OrderLinePopup
           title={t('New Line')}
           trigger={<div className={`py-1 rounded-lg bg-green-600 text-white hover:bg-green-800 hover:text-white px-2 flex gap-1 `}>
@@ -172,6 +174,15 @@ export function GridOrderLine({ orderId }: Props) {
           </div>}
           onChange={e => saveLine(e)}
         />
+      }
+
+      {!loading && !orderId && onAddNewOrder &&
+        <div
+          className={`cursor-pointer py-1 rounded-lg bg-blue-600 text-white hover:bg-blue-800 hover:text-white px-2 flex gap-1 flex items-center gap-2 `}
+          onClick={() => onAddNewOrder()}
+        >
+          <ListTreeIcon size={'20px'} /><CheckIcon size={'20px'} />{t('Add Line')}
+        </div>
       }
 
     </div>

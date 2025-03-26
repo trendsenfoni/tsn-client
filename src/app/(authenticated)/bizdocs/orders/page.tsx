@@ -19,7 +19,7 @@ export default function ListPage() {
           <TableHead>{t('Date/Number')}</TableHead>
           <TableHead>{t('Firm')}</TableHead>
           <TableHead>{t('Total')}</TableHead>
-          <TableHead>{t('Closed')}</TableHead>
+          <TableHead className='text-center'>{t('Closed')}</TableHead>
         </>)
       }}
       onRowPaint={(e: Order, index) => {
@@ -47,7 +47,7 @@ export default function ListPage() {
               </span>
             </div>
           </TableCell>
-          <TableCell className='hidden lg:table-cell text-center'>
+          <TableCell className='text-center'>
             {e.closed && <>✅</>}
           </TableCell>
         </>)

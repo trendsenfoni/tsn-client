@@ -70,5 +70,11 @@
   "Status": "Status",
   "Quantity": "Quantity",
   "Price": "Price",
-  "Do you want to remove the row?": "Do you want to remove the row?"
+  "Notes": "Notes",
+  "Do you want to remove the row?": "Do you want to remove the row?",
+  "Path `ioType` is required.": "Order type required",
+  "Sub Total": "Sub Total",
+  "VAT": "VAT",
+  "WHT": "Withholding Tax",
+  "Net Total": "Net Total"
 }

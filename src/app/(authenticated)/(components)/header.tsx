@@ -30,7 +30,10 @@ export function Header() {
         <CustomLink className="" href="/">
           <HeaderLogo2 className='' />
         </CustomLink>
-        <div className='hidden lg:flex'><DatabaseSelect /></div>
+        <div className='hidden lg:flex'>
+          <img src="/img/prompt.gif" alt="prompt" className='aspect-video' />
+          <DatabaseSelect />
+        </div>
 
         {/* <div className='text-xs flex'><DatabaseIcon size={'16px'} /> {Cookies.get('databaseName') || ''}</div> */}
       </div>

@@ -56,7 +56,6 @@ export function putItem(path: string, token?: string, item?: any) {
 }
 export function postItem(path: string, token?: string, item?: any) {
   return new Promise<any>((resolve, reject) => {
-    console.log('postItem url:', `${process.env.NEXT_PUBLIC_API_URI}${path}`)
     fetch(`${process.env.NEXT_PUBLIC_API_URI}${path}`, {
       method: 'POST',
       headers: prepareHeaders(token),
@@ -64,7 +63,6 @@ export function postItem(path: string, token?: string, item?: any) {
     })
       .then(ret => ret.json())
       .then(result => {
-        console.log('postItem result:', result)
         if (result.success) {
           resolve(result.data)
         } else {

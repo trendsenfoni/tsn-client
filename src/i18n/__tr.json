@@ -71,5 +71,11 @@
   "Note": "Not",
   "Quantity": "Miktar",
   "Price": "Fiyat",
-  "Do you want to remove the row?": "Satırı kaldırmak istiyor musunuz?"
+  "Notes": "Notlar",
+  "Do you want to remove the row?": "Satırı kaldırmak istiyor musunuz?",
+  "Path `ioType` is required.": "Sipariş türü gereklidir.",
+  "Sub Total": "Ara Toplam",
+  "VAT": "KDV",
+  "WHT": "Tevkifat",
+  "Net Total": "Net Toplam"
 }

@@ -134,7 +134,7 @@ export function ListGrid({
         }
         {onFilterPanel &&
           <FilterPanel
-            trigger={<div className='px-2 py-1 rounded bg-orange-600 text-white hover:bg-orange-400 hover:text-white'>
+            trigger={<div className='px-2 lg:me-2 py-1 rounded bg-orange-600 text-white hover:bg-orange-400 hover:text-white'>
               <FilterIcon />
             </div>}>
             {onFilterPanel(filter, (e) => {
@@ -155,7 +155,7 @@ export function ListGrid({
               {onHeaderPaint()}
               {options.type == 'Update' && (options.showAddNew || options.showEdit || options.showDelete) &&
                 <TableHead className=" w-12 ">
-                  <div className='w-full flex justify-end lg:justify-center'>
+                  <div className='w-full flex justify-end l11g:ju11stify-center'>
                     {options.showAddNew &&
                       <div
                         onClick={() => router.push(`${pathName}/addnew`)}

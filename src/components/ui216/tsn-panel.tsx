@@ -33,7 +33,7 @@ export function TsnPanel({ name, children, trigger, defaultOpen = true, classNam
     }
   }, [])
   return (
-    <div className='flex flex-col'>
+    <div className='flex flex-col my-1'>
       <div
         onClick={() => {
           if (typeof window != 'undefined') {

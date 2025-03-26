@@ -17,7 +17,7 @@ export function TsnInputAddress({ defaultValue, onChange }: TsnInputAddress) {
     JSON.stringify(address) != JSON.stringify(defaultValue) && onChange && onChange(address)
   }, [address])
   return (<>
-    <div className='grid grid-cols-1 md:grid-cols-4 lg:grid-cols-4 gap-2'>
+    <div className='grid grid-cols-1 md:grid-cols-4 lg:grid-cols-4 gap-2 my-1'>
       <TsnSelect title={t('Country')}
         // className='ms-2 my-2 '
         list={clist}

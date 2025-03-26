@@ -3,7 +3,8 @@
 import { useLanguage } from '@/i18n'
 import { ListGrid } from '@/components/ui216/list-grid'
 import { TableCell, TableHead } from '@/components/ui/table'
-import { SelectRemote } from '@/components/ui216/select-remote'
+import { TsnSelectRemote } from '@/components/ui216/tsn-select-remote'
+import { ItemGroup } from '@/types/Item'
 export default function ListPage() {
   const { t } = useLanguage()
   return (
@@ -25,13 +26,16 @@ export default function ListPage() {
           <TableCell className=''>{e.article}</TableCell>
         </>)
       }}
-      onFilterPanel={(e, setFilter) => {
+      onFilterPanel={(filter: any, setFilter) => {
         return (<div className='grid grid-cols-1 md:grid-cols-3 lg:grid-cols-5'>
-          <SelectRemote
-            formData={e} field='itemMainGroup' setData={setFilter}
+          <TsnSelectRemote
             apiPath='/db/itemMainGroups'
+            title={t('Main Group')}
+            defaultValue={filter.itemMainGroup}
+            onValueChange={e => setFilter({ ...filter, itemMainGroup: e })}
             all
-          >{t('Main Group')}</SelectRemote>
+          />
+
         </div>)
       }}
     />

@@ -22,7 +22,7 @@ export function TsnSelect({ all, list, title, onValueChange, ...props }: TsnSele
     }
   }, [])
 
-  return (<div className={`flex flex-col gap-1 my-4 w-full min-w-24 ${props.className}`} >
+  return (<div className={`flex flex-col gap-1 my-1 w-full min-w-24 ${props.className}`} >
     <Label className='ms-2'>{title}</Label>
     <Select
       onValueChange={onValueChange}
