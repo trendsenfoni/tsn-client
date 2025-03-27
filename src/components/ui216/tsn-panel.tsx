@@ -41,7 +41,7 @@ export function TsnPanel({ name, children, trigger, defaultOpen = true, classNam
           }
           setOpen(!open)
         }}
-        className={`cursor-pointer ps-2 bg-slate-900 py-[4px]  ${!open ? 'rounded-lg' : 'rounded-t-lg'} flex gap-2`}
+        className={`cursor-pointer ps-2 bg-slate-500 text-white dark:bg-slate-900 py-[4px]  ${!open ? 'rounded-lg' : 'rounded-t-lg'} flex gap-2`}
       >
         <ChevronsUpDown />
         {trigger}

@@ -51,6 +51,7 @@
   "Room": "Oda",
   "Building Name": "Bina/Site Adı",
   "Building Number": "Bina Numarası",
+  "Building/Residence": "Bina/Site/Rezidans",
   "Block": "Blok",
   "Region": "Bölge",
   "Region/State": "Bölge/Eyalet",
@@ -79,5 +80,13 @@
   "VAT": "KDV",
   "WHT": "Tevkifat",
   "Net Total": "Net Toplam",
-  "Draft?": "Taslak?"
+  "Draft?": "Taslak?",
+  "Unknown": "Bilinmeyen",
+  "Individual Firm": "Şahıs Firması",
+  "Company Name": "Firma Adı",
+  "Tax Office": "Vergi Dairesi",
+  "Tax Number": "Vergi Numarası",
+  "First Name": "İsim",
+  "Last Name": "Soyad",
+  "ID Card Number": "Kimlik Kart Numarası"
 }

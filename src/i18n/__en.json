@@ -51,6 +51,7 @@
   "Room": "Room",
   "Building Name": "Building Name",
   "Building Number": "Building Number",
+  "Building/Residence": "Building/Residence",
   "Block": "Block",
   "Region": "Region",
   "Region/State": "Region/State",
@@ -78,5 +79,13 @@
   "VAT": "VAT",
   "WHT": "Withholding Tax",
   "Net Total": "Net Total",
-  "Draft?": "Draft?"
+  "Draft?": "Draft?",
+  "Unknown": "Unknown",
+  "Individual Firm": "Individual Firm",
+  "Company Name": "Company Name",
+  "Tax Office": "Tax Office",
+  "Tax Number": "Tax Number",
+  "First Name": "First Name",
+  "Last Name": "Last Name",
+  "ID Card Number": "ID Card Number"
 }

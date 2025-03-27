@@ -4,15 +4,22 @@ import { useLanguage } from '@/i18n'
 import { ListGrid } from '@/components/ui216/list-grid'
 import { TableCell, TableHead } from '@/components/ui/table'
 import { Firm } from '@/types/Firm'
-import { firmTypeList } from '@/lib/utils'
-import { TsnSelect } from '@/components/ui216/tsn-select'
+import { firmTypeList, firmTypeName } from '@/lib/utils'
+import { TsnListType, TsnSelect } from '@/components/ui216/tsn-select'
+import { useSearchParams } from 'next/navigation'
+
 export default function ListPage() {
   const { t } = useLanguage()
+  const searchParams = useSearchParams()
+  const firmType = searchParams.get('type') || 'cv'
+
+  const title = firmType == 'c' ? t('Curstomers') : (firmType == 'v' ? t('Vendors') : (firmType == 'cv' ? t('Customers & Vendors') : 'Customer Candidates'))
+
   return (
     <ListGrid
-      apiPath='/db/firms'
+      apiPath={`/db/firms?firmType=${firmType}`}
       options={{ type: 'Update' }}
-      title={t('Firms')}
+      title={title}
       onHeaderPaint={() => {
         return (<>
           <TableHead>{t('Name')}</TableHead>
@@ -25,7 +32,7 @@ export default function ListPage() {
           <TableCell className=''>
             <div className='flex flex-col'>
               <span className=''>{e.name}</span>
-              <span className='text-[8pt] text-muted-foreground'>{t(firmTypeList.find(f => f._id == e.type)?.text || '')}</span>
+              <span className='text-[8pt] text-muted-foreground'>{firmTypeName(e.type || '', t)}</span>
             </div>
           </TableCell>
           <TableCell className=''>
@@ -51,8 +58,8 @@ export default function ListPage() {
           />
           <TsnSelect title={t('Type')}
             className='mb-1 mt-1 lg:max-w-48'
-            defaultValue={filter.type}
-            list={firmTypeList.map(e => ({ _id: e._id, text: t(e.text) }))}
+            defaultValue={firmType}
+            list={firmTypeList(firmType, t)}
             onValueChange={e => setFilter({ ...filter, type: e })}
             all
           />

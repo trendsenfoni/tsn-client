@@ -87,13 +87,14 @@ export default function EditPage({ params }: Props) {
           onValueChange={e => setOrder({ ...order, ioType: Number(e) })}
         />
       </div> */}
-      <div className='grid grid-cols-1 lg:grid-cols-3 gap-4'>
+      <div className='grid grid-cols-1 lg:grid-cols-4 gap-4'>
         <TsnInput type='date' title={t('Date')} defaultValue={order?.issueDate}
           onBlur={e => setOrder({ ...order, issueDate: e.target.value })
           } />
         <TsnInput title={t('Document Number')} defaultValue={order?.documentNumber}
           onBlur={e => setOrder({ ...order, documentNumber: e.target.value })} />
         <TsnSelectRemote
+          className='col-span-2'
           apiPath='/db/firms'
           title={t('Firm')}
           defaultValue={order.firm?._id}

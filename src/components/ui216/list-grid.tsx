@@ -182,7 +182,7 @@ export function ListGrid({
                 <div className='w-full flex gap-2'>
                   {options.type == 'Update' && options.showEdit && e._id && <>
                     <div
-                      onClick={() => router.push(`${pathName}/${e._id}`)}
+                      onClick={() => router.push(`${pathName}/${e._id}?${searchParams.toString()}`)}
                       className={`cursor-pointer px-2 py-2 rounded-md bg-blue-800 text-white hover:bg-blue-500 hover:text-white`}>
                       <EditIcon size={'16px'} />
                     </div>
