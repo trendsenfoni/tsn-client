@@ -7,9 +7,9 @@ export default function DatabasesPage() {
   const { t } = useLanguage()
   return (
     <ListGrid
-      apiPath='/db/itemMainGroups'
+      apiPath='/db/categories'
       options={{ type: 'Update' }}
-      title={t('Item Main Groups')}
+      title={t('Categories')}
       onHeaderPaint={() => {
         return (<>
           <TableHead>{t('Name')}</TableHead>

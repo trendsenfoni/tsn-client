@@ -90,7 +90,8 @@ export default function EditPage({ params }: Props) {
       <TsnTextarea title={t('Description')} defaultValue={item?.description} onChange={e => setItem({ ...item, description: e.target.value })} />
 
       <div className='grid grid-cols-1 md:grid-cols-2 md:gap-4'>
-        <TsnInput type='number' title={t('Vat Rate') + ' %'} defaultValue={item?.vatRate} min={0} max={100} onBlur={e => {
+        {/* TODO: buraya tax secimi gelecek */}
+        {/* <TsnInput type='number' title={t('Vat Rate') + ' %'} defaultValue={item?.vatRate} min={0} max={100} onBlur={e => {
           let val = Number(e.target.value)
           setItem({ ...item, vatRate: isNaN(val) ? 0 : val })
         }} />
@@ -100,7 +101,7 @@ export default function EditPage({ params }: Props) {
           onValueChange={e => {
             let val = Number(e)
             setItem({ ...item, withHoldingTaxRate: isNaN(val) ? 0 : val })
-          }} />
+          }} /> */}
       </div>
       <TsnSwitch title={t('Passive?')} defaultChecked={item?.passive} onCheckedChange={e => setItem({ ...item, passive: e })} />
     </>}

@@ -24,7 +24,6 @@
   "Error": "Hata",
   "Description": "Açıklama",
   "Sub Group": "Alt Grup",
-  "Taxes": "Vergiler",
   "Do you want to delete the record?": "Kaydı silmek istediğinizden emin misiniz?",
   "Confirm": "Onayla",
   "Cancel": "Vazgeç",
@@ -116,5 +115,15 @@
   "ISTISNA": "İstisna",
   "OZELMATRAH": "Özel Matrah",
   "IHRACKAYITLI": "İhraç Kayıtlı",
-  "Profile": "Profil"
+  "Profile": "Profil",
+  "Category": "Kategori",
+  "Categories": "Kategoriler",
+  "Brand": "Marka",
+  "Brands": "Markalar",
+  "Logo": "Logo",
+  "Model": "Model",
+  "Models": "Modeller",
+  "Tax": "Vergi",
+  "Taxes": "Vergiler",
+  "Tax Types": "Vergi Türleri"
 }

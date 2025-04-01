@@ -1,3 +1,4 @@
+import { TaxTotal } from './Invoice'
 
 export interface Item {
   _id?: string
@@ -6,19 +7,39 @@ export interface Item {
   description?: string
   keyword?: string
   brand?: Brand
-  modelName?: string
+  model?: Model
   buyersItemIdentification?: string
   sellersItemIdentification?: string
   manufacturersItemIdentification?: string
-  vatRate?: number
-  withHoldingTaxRate?: number
+  taxType?: TaxType
   unit?: string
   additionalItemIdentification?: string[]
   passive?: boolean
 }
 
+export interface TaxType {
+  _id?: string
+  name?: string
+  taxTotal?: TaxTotal
+  withholdingTaxTotal?: [TaxTotal]
+}
+export interface Category {
+  _id?: string
+  name?: string
+  article?: string
+}
+
 export interface Brand {
   _id?: string
+  category?: Category
+  name?: string
+  logo?: string
+  article?: string
+}
+
+export interface Model {
+  _id?: string
+  category?: Category
   name?: string
   logo?: string
   article?: string
