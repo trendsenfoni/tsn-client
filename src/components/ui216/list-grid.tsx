@@ -89,8 +89,19 @@ export function ListGrid({
     else if (search)
       url += `&search=` + encodeURIComponent(search)
     if (f) {
-      url += '&' + Object.keys(f).map(key => `${key}=${encodeURIComponent((f[key] || '').trim())}`).join('&')
+      let valList = url.split('?')[1].split('&')
+      console.log(`valList:`, valList)
+      let yeniUrl = url.split('?')[0] + '?' + valList.filter(e => {
+        if (Object.keys(f).findIndex(key => key == e.split('=')[0]) < 0) {
+
+          return e
+        }
+      }).join('&')
+      console.log('yeniurl:', yeniUrl)
+      yeniUrl += '&' + Object.keys(f).map(key => `${key}=${encodeURIComponent((f[key] || '').trim())}`).join('&')
+      url = yeniUrl
     }
+    console.log(`list grid url:`, url)
     setLoading(true)
     getList(url, token)
       .then(result => {

@@ -8,16 +8,19 @@ import { firmTypeList, firmTypeName } from '@/lib/utils'
 import { TsnListType, TsnSelect } from '@/components/ui216/tsn-select'
 import { useSearchParams } from 'next/navigation'
 
-export default function ListPage() {
+interface Props {
+  type: string
+}
+export function FirmList({ type }: Props) {
   const { t } = useLanguage()
-  const searchParams = useSearchParams()
-  const firmType = searchParams.get('type') || 'cv'
+  // const searchParams = useSearchParams()
+  // const firmType = type || searchParams.get('type') || 'cv'
 
-  const title = firmType == 'c' ? t('Curstomers') : (firmType == 'v' ? t('Vendors') : (firmType == 'cv' ? t('Customers & Vendors') : 'Customer Candidates'))
+  const title = type == 'c' ? t('Curstomers') : (type == 'v' ? t('Vendors') : (type == 'cv' ? t('Customers & Vendors') : 'Customer Candidates'))
 
   return (
     <ListGrid
-      apiPath={`/db/firms?firmType=${firmType}`}
+      apiPath={`/db/firms?type=${type}`}
       options={{ type: 'Update' }}
       title={title}
       onHeaderPaint={() => {
@@ -58,8 +61,8 @@ export default function ListPage() {
           />
           <TsnSelect title={t('Type')}
             className='mb-1 mt-1 lg:max-w-48'
-            defaultValue={firmType}
-            list={firmTypeList(firmType, t)}
+            defaultValue={type}
+            list={firmTypeList(type, t)}
             onValueChange={e => setFilter({ ...filter, type: e })}
             all
           />

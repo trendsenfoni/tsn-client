@@ -10,34 +10,30 @@ import { Firm } from '@/types/Firm'
 import { getItem, postItem, putItem } from '@/lib/fetch'
 import { StandartForm } from '@/components/ui216/standart-form'
 import { TsnListType, TsnSelect } from '@/components/ui216/tsn-select'
-import { firmTypeList } from '@/lib/utils'
+import { firmTypeList, firmTypeName } from '@/lib/utils'
 import { TsnSwitch } from '@/components/ui216/tsn-switch'
 import { TsnPanel } from '@/components/ui216/tsn-panel'
 import { TsnInputAddress } from '@/components/ui216/tsn-input-address'
 
 interface Props {
-  params: { id: string }
+  id: string
+  ftype?: string
 }
-export default function EditPage({ params }: Props) {
+
+export function FirmForm({ id, ftype }: Props) {
   const [token, setToken] = useState('')
   const { toast } = useToast()
   const [loading, setLoading] = useState(false)
   const router = useRouter()
   const { t } = useLanguage()
-  const searchParams = useSearchParams()
-  // const [firmType,setFirmType] = useState(params.id=='addnew'?searchParams.get('type') || 'cv':'cv')
-  const [firm, setFirm] = useState<Firm>({
-    type: searchParams.get('type') || 'cv'
-  })
-  // const [firmCVList, setFirmCVList] = useState<TsnListType[]>([])
-  // const title = firm.type == 'c' ? t('Curstomer') : (firm.type == 'v' ? t('Vendor') : (firm.type == 'cv' ? t('Customer & Vendor') : 'Customer Candidate'))
+  const [firm, setFirm] = useState<Firm>({ type: ftype })
   const [title, setTitle] = useState('')
 
 
   const load = () => {
     setLoading(true)
     return new Promise<Firm>((resolve, reject) => {
-      getItem(`/db/firms/${params.id}`, token)
+      getItem(`/db/firms/${id}`, token)
         .then(result => {
           setFirm(result as Firm)
           resolve(result as Firm)
@@ -52,13 +48,13 @@ export default function EditPage({ params }: Props) {
   }
   const save = () => {
     setLoading(true)
-    if (params.id == 'addnew') {
+    if (id == 'addnew') {
       postItem(`/db/firms`, token, firm)
         .then(result => router.back())
         .catch(err => toast({ title: t('Error'), description: t(err || ''), variant: 'destructive' }))
         .finally(() => setLoading(false))
     } else {
-      putItem(`/db/firms/${params.id}`, token, firm)
+      putItem(`/db/firms/${id}`, token, firm)
         .then(result => router.back())
         .catch(err => toast({ title: t('Error'), description: t(err || ''), variant: 'destructive' }))
         .finally(() => setLoading(false))
@@ -68,24 +64,13 @@ export default function EditPage({ params }: Props) {
   useEffect(() => { !token && setToken(Cookies.get('token') || '') }, [])
   useEffect(() => {
     if (token) {
-      if (params.id == 'addnew') {
-        const firmType = searchParams.get('type') || 'cv'
-        setFirm({ type: firmType })
-
+      if (id == 'addnew') {
+        setFirm({ type: ftype })
+        setTitle(firmTypeName(ftype || '', t))
       } else {
         load()
           .then(result => {
-            switch (result.type) {
-              case 'c': setTitle(t('Curstomer'))
-                break
-              case 'v': setTitle(t('Vendor'))
-                break
-              case 'cv': setTitle(t('Customer & Vendor'))
-                break
-              case 'cv': setTitle(t('Customer Candidates'))
-                break
-            }
-
+            setTitle(firmTypeName(result.type || '', t))
           })
           .catch()
 
@@ -103,8 +88,8 @@ export default function EditPage({ params }: Props) {
   >
     {!loading && <>
       <TsnSelect title={t('Type')}
-        defaultValue={firm.type}
-        list={firmTypeList(searchParams.get('type') || firm?.type || '', t)}
+        defaultValue={ftype || firm.type}
+        list={firmTypeList(ftype || firm?.type || '', t)}
         onValueChange={e => setFirm({ ...firm, type: e })}
       />
 

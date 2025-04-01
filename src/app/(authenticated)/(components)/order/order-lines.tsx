@@ -120,7 +120,7 @@ export function GridOrderLine({ orderId, onAddNewOrder }: Props) {
               </div>
             </TableCell>
             <TableCell colSpan={1} className='text-center'>
-              {!e.closed && <>✅</>}
+              {e.closed && <>✅</>}
             </TableCell>
             <TableCell className='w-22'>
               <div className='w-full flex justify-center gap-2'>
@@ -178,7 +178,7 @@ export function GridOrderLine({ orderId, onAddNewOrder }: Props) {
 
       {!loading && !orderId && onAddNewOrder &&
         <div
-          className={`cursor-pointer py-1 rounded-lg bg-blue-600 text-white hover:bg-blue-800 hover:text-white px-2 flex gap-1 flex items-center gap-2 `}
+          className={`cursor-pointer py-1 rounded-lg bg-blue-600 text-white hover:bg-blue-800 hover:text-white px-2 flex gap-1 items-center`}
           onClick={() => onAddNewOrder()}
         >
           <ListTreeIcon size={'20px'} /><CheckIcon size={'20px'} />{t('Add Line')}

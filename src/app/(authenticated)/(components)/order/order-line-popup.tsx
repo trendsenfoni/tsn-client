@@ -23,6 +23,7 @@ import { CheckIcon, XIcon } from 'lucide-react'
 import { TsnSelectRemote } from '@/components/ui216/tsn-select-remote'
 import { useLanguage } from '@/i18n'
 import { TsnInput } from '@/components/ui216/tsn-input'
+import { TsnSwitch } from '@/components/ui216/tsn-switch'
 
 interface Props {
   trigger?: any
@@ -34,7 +35,9 @@ interface Props {
 export function OrderLinePopup({
   trigger, defaultValue, onChange, title, description
 }: Props) {
-  const [orderLine, setOrderLine] = useState<OrderLine>(defaultValue || {})
+  const [orderLine, setOrderLine] = useState<OrderLine>(defaultValue || {
+    closed: false
+  })
   const [quantity, setQuantity] = useState(defaultValue?.quantity || 0)
   const [price, setPrice] = useState(defaultValue?.price || 0)
   const [total, setTotal] = useState(defaultValue?.total || 0)
@@ -110,18 +113,26 @@ export function OrderLinePopup({
             }}
           />
           <TsnInput title={t('Description')} defaultValue={orderLine.description} onBlur={e => setOrderLine({ ...orderLine, description: e.target.value })} />
+          <TsnSwitch title={t('Closed?')} defaultChecked={orderLine?.closed} onCheckedChange={e => setOrderLine({ ...orderLine, closed: e })} />
+
         </div>
 
-        <AlertDialogFooter className='flex flex-row justify-end items-center gap-4'>
-          <AlertDialogAction onClick={e => {
-            if (!orderLine.item) {
-              e.preventDefault()
-              toast({ title: t('Item required'), variant: 'destructive' })
-              return
-            }
-            onChange && onChange({ ...orderLine, quantity: quantity, price: price, total: total })
-          }}><CheckIcon /></AlertDialogAction>
-          <AlertDialogCancel className='mt-0'><XIcon /></AlertDialogCancel>
+        <AlertDialogFooter className='flex justify-end items-center gap-4'>
+          <div className='flex justify-start'>
+
+          </div>
+          <div className='flex flex-row justify-end items-center'>
+            <AlertDialogAction onClick={e => {
+              if (!orderLine.item) {
+                e.preventDefault()
+                toast({ title: t('Item required'), variant: 'destructive' })
+                return
+              }
+              onChange && onChange({ ...orderLine, quantity: quantity, price: price, total: total })
+            }}><CheckIcon /></AlertDialogAction>
+            <AlertDialogCancel className='mt-0'><XIcon /></AlertDialogCancel>
+          </div>
+
         </AlertDialogFooter>
       </AlertDialogContent>
     </AlertDialog>

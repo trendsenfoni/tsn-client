@@ -8,15 +8,18 @@ import { Order } from '@/types/Order'
 import { TsnSelect } from '@/components/ui216/tsn-select'
 import { moneyFormat } from '@/lib/utils'
 import { useSearchParams } from 'next/dist/client/components/navigation'
-export default function ListPage() {
+
+interface Props {
+  type: string | any | 'sales' | 'purchase' | 'sales_proposal' | 'purchase_proposal' | 'request' | 'transfer'
+  title?: string
+}
+export function OrderList({ type, title }: Props) {
   const { t } = useLanguage()
-  const searchParams = useSearchParams()
-  const io = Number(searchParams.get('io') || 0)
   return (
     <ListGrid
-      apiPath='/db/orders'
+      apiPath={`/db/orders?type=${type}`}
       options={{ type: 'Update' }}
-      title={io == 0 ? t('Sales Orders') : t('Purchase Orders')}
+      title={title}
       onHeaderPaint={() => {
         return (<>
           <TableHead>{t('Date/Number')}</TableHead>
@@ -63,15 +66,9 @@ export default function ListPage() {
             className='mb-1 mt-1 lg:max-w-36'
             list={[{ _id: ' ', text: '*' }, { _id: 'false', text: t('Open') }, { _id: 'true', text: t('Closed') }]}
             defaultValue={filter.closed || 'false'}
-            onValueChange={e => setFilter({ ...filter, passive: e })}
+            onValueChange={e => setFilter({ ...filter, closed: e })}
           />
-          <TsnSelect title={t('Type')}
-            className='mb-1 mt-1 lg:max-w-48'
-            defaultValue={filter.type}
-            list={[{ _id: '0', text: t('Sales Order') }, { _id: '1', text: t('Purchase Order') }]}
-            onValueChange={e => setFilter({ ...filter, type: e })}
-            all
-          />
+
         </div>)
       }}
 
