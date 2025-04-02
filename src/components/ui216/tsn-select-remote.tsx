@@ -21,7 +21,7 @@ export function TsnSelectRemote({ apiPath, textField = 'name', ...props }: TsnSe
     setLoading(true)
     getList(`${apiPath}${(apiPath || '').indexOf('?') > -1 ? '&' : '?'}pageSize=2000`, token)
       .then(result => {
-        setList(result.docs.map((e: any) => { return ({ _id: e._id, text: e[textField] }) }))
+        setList((result.docs || result || []).map((e: any) => { return ({ _id: e._id, text: e[textField] }) }))
       })
       .catch(err => toast({ title: 'Error', description: err || '', variant: 'destructive' }))
       .finally(() => setLoading(false))

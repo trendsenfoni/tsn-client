@@ -125,5 +125,11 @@
   "Models": "Modeller",
   "Tax": "Vergi",
   "Taxes": "Vergiler",
-  "Tax Types": "Vergi Türleri"
+  "Tax Type": "Vergi Türü",
+  "Tax Types": "Vergi Türleri",
+  "Do you want to remove tax detail?": "Vergi detayını silmek istiyor musunuz?",
+  "Withholding Tax": "Tevkifat",
+  "Sequence": "Sıra",
+  "Percent": "Yüzde",
+  "Tax Code": "Vergi Kodu"
 }

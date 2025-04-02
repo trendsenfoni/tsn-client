@@ -57,6 +57,7 @@ export interface TaxSubtotal {
   taxableAmount?: number
   taxAmount?: number
   percent?: number
+  calculationSequenceNumeric?: number
   taxCategory?: {
     taxExemptionReasonCode?: string
     taxExemptionReason?: string

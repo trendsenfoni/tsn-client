@@ -124,5 +124,11 @@
   "Models": "Models",
   "Tax": "Tax",
   "Taxes": "Taxes",
-  "Tax Types": "Tax Types"
+  "Tax Type": "Tax Type",
+  "Tax Types": "Tax Types",
+  "Do you want to remove tax detail?": "Do you want to remove tax detail?",
+  "Withholding Tax": "Withholding Tax",
+  "Sequence": "Sequence",
+  "Percent": "Percent",
+  "Tax Code": "Tax Code"
 }
