@@ -3,6 +3,7 @@ import { TaxTotal } from './Invoice'
 export interface Item {
   _id?: string
   itemGroup?: ItemGroup
+  category?: Category
   name?: string
   description?: string
   keyword?: string
@@ -12,6 +13,7 @@ export interface Item {
   sellersItemIdentification?: string
   manufacturersItemIdentification?: string
   taxType?: TaxType
+  exportTaxType?: TaxType
   unit?: string
   additionalItemIdentification?: string[]
   passive?: boolean
@@ -21,7 +23,7 @@ export interface TaxType {
   _id?: string
   name?: string
   taxTotal?: TaxTotal
-  withholdingTaxTotal?: [TaxTotal]
+  withholdingTaxTotal?: TaxTotal[]
 }
 export interface Category {
   _id?: string

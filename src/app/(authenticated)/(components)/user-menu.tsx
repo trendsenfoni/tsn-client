@@ -39,14 +39,14 @@ export function UserMenu() {
     {!loading && userInfo &&
       <DropdownMenu >
         <DropdownMenuTrigger asChild  >
-          <Button className="rounded-full border border-gray-200 w-12 h-12 dark:border-gray-800"
+          <Button className="rounded-full border border-gray-200 w-12 h-12 dark:border-gray-800 "
             size="icon"
             variant="ghost"
           >
             <Image
               priority
               alt="Avatar"
-              className="rounded-full"
+              className="rounded-full shadow-lg"
               height="48"
               src={userInfo?.image || "/img/avatar-place-holder.png"}  // TODO:// session user image
               style={{

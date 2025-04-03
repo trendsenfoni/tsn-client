@@ -43,39 +43,7 @@ export function today() {
   return new Date().toISOString().substring(0, 10)
 }
 
-export function showWithholdingTax(val?: number) {
-  if (val != undefined && val > 0) {
-    switch (val) {
-      case 0.1: return '1/10'
-      case 0.2: return '2/10'
-      case 0.3: return '3/10'
-      case 0.4: return '4/10'
-      case 0.5: return '5/10'
-      case 0.6: return '6/10'
-      case 0.7: return '7/10'
-      case 0.8: return '8/10'
-      case 0.9: return '9/10'
-      case 1: return '10/10'
-      default: return 'Unknown Rate'
-    }
-  } else {
-    return ''
-  }
-}
 
-export const withholdingTaxRateList = [
-  { _id: '0', text: '0/10' },
-  { _id: '0.1', text: '1/10' },
-  { _id: '0.2', text: '2/10' },
-  { _id: '0.3', text: '3/10' },
-  { _id: '0.4', text: '4/10' },
-  { _id: '0.5', text: '5/10' },
-  { _id: '0.6', text: '6/10' },
-  { _id: '0.7', text: '7/10' },
-  { _id: '0.8', text: '8/10' },
-  { _id: '0.9', text: '9/10' },
-  { _id: '0.10', text: '10/10' },
-]
 
 export function firmTypeList(firmType: string, t: any) {
   if (firmType == 'c') {

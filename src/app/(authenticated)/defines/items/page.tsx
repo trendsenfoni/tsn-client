@@ -7,8 +7,10 @@ import { useEffect, useState } from 'react'
 import { Skeleton } from '@/components/ui/skeleton'
 import { TsnSelectRemote } from '@/components/ui216/tsn-select-remote'
 import { Item, ItemGroup } from '@/types/Item'
-import { showWithholdingTax } from '@/lib/utils'
+
 import { TsnSelect } from '@/components/ui216/tsn-select'
+import { FilterItemGroupMainGroup } from './filter-itemMainGroup'
+import { FilterCategory } from './filter-category'
 export default function ListPage() {
   const { t } = useLanguage()
   return (
@@ -19,6 +21,7 @@ export default function ListPage() {
       onHeaderPaint={() => {
         return (<>
           <TableHead>{t('Name')}</TableHead>
+          <TableHead>{t('Category')}</TableHead>
           <TableHead>{t('Taxes')}</TableHead>
           <TableHead className='hidden lg:table-cell'>{t('Description')}</TableHead>
           <TableHead className='hidden lg:table-cell text-center'>{t('Passive?')}</TableHead>
@@ -26,23 +29,31 @@ export default function ListPage() {
       }}
       onRowPaint={(e: Item, index) => {
         return (<>
-          <TableCell className='lg:font-semibold flex flex-col'>
-            {e.name}
-            <div className='flex gap-1 text-[8pt] lg:text-xs text-wrap text-muted-foreground'>
-              <span className='border border-dashed px-1 rounded-sm'>{e.itemGroup?.itemMainGroup?.name}</span>
-              <span className='border border-dashed px-1 rounded-sm'>{e.itemGroup?.name}</span>
+          <TableCell className='lg:font-semibold '>
+            <div className='flex flex-col'>
+              {e.name}
+              <div className='flex flex-col md:flex-row gap-1 text-[8pt] lg:text-xs text-wrap text-muted-foreground'>
+                <span className='border border-dashed px-1 rounded-sm'>{e.itemGroup?.itemMainGroup?.name}</span>
+                <span className='border border-dashed px-1 rounded-sm'>{e.itemGroup?.name}</span>
+              </div>
+            </div>
+          </TableCell>
+          <TableCell className=''>
+            <div className='flex flex-col text-sm'>
+              {e.category?.name}
+              <div className='flex flex-col md:flex-row gap-1 text-[8pt] lg:text-xs text-wrap '>
+                <span className='border border-dashed px-1 rounded-sm bg-violet-700 bg-opacity-25 te11xt-white'>{e.brand?.name}</span>
+                <span className='border border-dashed px-1 rounded-sm text-muted-foreground'>{e.model?.name}</span>
+              </div>
             </div>
           </TableCell>
           <TableCell className='text-sm lg:space-x-2'>
             <div className='flex flex-col '>
-              {(e.vatRate || 0) > 0 && <span>%{e.vatRate}</span>}
-              {(e.withHoldingTaxRate || 0) > 0 &&
-                <span className='text-[8pt] text-nowrap text-muted-foreground'>wht:{showWithholdingTax(e.withHoldingTaxRate)}</span>
-              }
+              {e.taxType?.name}
             </div>
           </TableCell>
 
-          <TableCell className='hidden lg:table-cell'>{e.description}</TableCell>
+          <TableCell className='hidden lg:table-cell text-sm text-muted-foreground'>{e.description}</TableCell>
           <TableCell className='hidden lg:table-cell text-center'>
             {e.passive && <>✅</>}
           </TableCell>
@@ -57,54 +68,11 @@ export default function ListPage() {
             defaultValue={filter.passive || 'false'}
             onValueChange={e => setFilter({ ...filter, passive: e })}
           />
-          <ItemGroupMainGroup filter={filter} setFilter={setFilter} />
+          <FilterItemGroupMainGroup filter={filter} setFilter={setFilter} />
+          <FilterCategory filter={filter} setFilter={setFilter} />
         </div>)
       }}
 
     />
   )
-}
-
-interface ItemGroupMainGroupProps {
-  filter: any
-  setFilter: (e: ItemGroup) => void
-  className?: string
-}
-export function ItemGroupMainGroup({
-  filter, setFilter, className
-}: ItemGroupMainGroupProps) {
-  const [loading, setLoading] = useState(false)
-  const { t } = useLanguage()
-
-  // useEffect(() => { }, [])
-  // useEffect(() => { }, [])
-  useEffect(() => {
-    filter.itemMainGroup = ''
-    filter.itemGroup = ''
-  }, [filter._id])
-  return (<>
-
-    <TsnSelectRemote
-      className='mt-1 mb-1'
-      title={t('Main Group')}
-      defaultValue={filter.itemMainGroup}
-      onValueChange={e => {
-        setLoading(true)
-        setFilter({ ...filter, itemMainGroup: e.trim(), itemGroup: '' })
-        setTimeout(() => setLoading(false), 100)
-      }}
-      apiPath='/db/itemMainGroups'
-      all
-    >{t('Main Group')}</TsnSelectRemote>
-    {!loading && filter.itemMainGroup &&
-      <TsnSelectRemote
-        className='mt-1 mb-1'
-        title={t('Sub Group')}
-        defaultValue={filter.itemGroup}
-        onValueChange={e => setFilter({ ...filter, itemGroup: e })}
-        apiPath={`/db/itemGroups?itemMainGroup=${filter.itemMainGroup}`}
-        all
-      >{t('Group')}</TsnSelectRemote>
-    }
-  </>)
 }

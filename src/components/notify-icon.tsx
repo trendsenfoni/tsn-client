@@ -18,7 +18,7 @@ export function NotificationButton({ }: Props) {
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
         <div className='cursor-pointer relative'>
-          <span className='text-2xl'>🔔</span>
+          <span className='text-2xl' style={{ textShadow: '1px 1px 1px black' }}>🔔</span>
           <div className='text-[10px] font-bold px-[4px] py-[4px] rounded-full absolute top-[-8px] end-[16px] bg-green-800 text-white'>93+</div>
         </div>
       </DropdownMenuTrigger>

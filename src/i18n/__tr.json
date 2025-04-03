@@ -131,5 +131,6 @@
   "Withholding Tax": "Tevkifat",
   "Sequence": "Sıra",
   "Percent": "Yüzde",
-  "Tax Code": "Vergi Kodu"
+  "Tax Code": "Vergi Kodu",
+  "Rate": "Oran"
 }

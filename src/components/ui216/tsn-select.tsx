@@ -15,8 +15,9 @@ export interface TsnSelectProps extends SelectPrimitive.SelectProps {
   list?: TsnListType[]
   onValueChange?: (e: string, text?: string) => void
   className?: string
+  autoFocus?: boolean
 }
-export function TsnSelect({ all, list, title, onValueChange, ...props }: TsnSelectProps) {
+export function TsnSelect({ all, list, title, onValueChange, autoFocus, ...props }: TsnSelectProps) {
   useEffect(() => {
     if (props.defaultValue && list) {
       const findex = list.findIndex(e => e._id == props.defaultValue)
@@ -31,6 +32,7 @@ export function TsnSelect({ all, list, title, onValueChange, ...props }: TsnSele
   return (<div className={`flex flex-col gap-1 my-1 w-full min-w-24 ${props.className}`} >
     <Label className='ms-2'>{title}</Label>
     <Select
+
       // onValueChange={onValueChange}
       onValueChange={val => {
         if (onValueChange) {
@@ -40,7 +42,7 @@ export function TsnSelect({ all, list, title, onValueChange, ...props }: TsnSele
       }}
       {...props}
     >
-      <SelectTrigger className="w-full">
+      <SelectTrigger className="w-full" autoFocus={autoFocus}>
         {!all && <SelectValue placeholder="---" />}
         {all && <SelectValue placeholder="*" />}
       </SelectTrigger>
