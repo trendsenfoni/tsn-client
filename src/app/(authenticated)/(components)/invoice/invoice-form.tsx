@@ -19,6 +19,7 @@ import { GridInvoiceLine } from './invoice-lines'
 import { Label } from '@/components/ui/label'
 import { moneyFormat } from '@/lib/utils'
 import { NotepadTextDashedIcon } from 'lucide-react'
+import { currencyList, Settings } from '@/types/Settings'
 interface Props {
   id: string
   ioType: number
@@ -29,12 +30,9 @@ export function InvoiceForm({ id, ioType }: Props) {
   const [loading, setLoading] = useState(false)
   const router = useRouter()
   const { t } = useLanguage()
+  const settings = JSON.parse(Cookies.get('dbSettings') || '{}') as Settings
   const [invoiceId, setInvoiceId] = useState(id != 'addnew' ? id : '')
-  const [invoice, setInvoice] = useState<Invoice>({
-    issueDate: new Date().toISOString().substring(0, 10),
-    draft: true,
-    ioType: ioType
-  })
+  const [invoice, setInvoice] = useState<Invoice>({})
 
   const load = () => {
     setLoading(true)
@@ -61,7 +59,25 @@ export function InvoiceForm({ id, ioType }: Props) {
 
   }
   useEffect(() => { !token && setToken(Cookies.get('token') || '') }, [])
-  useEffect(() => { token && invoiceId != '' && load() }, [token])
+  useEffect(() => {
+    if (token) {
+      if (invoiceId != '') {
+        load()
+      } else {
+        setLoading(true)
+
+        setInvoice({
+          issueDate: new Date().toISOString().substring(0, 10),
+          draft: true,
+          ioType: ioType,
+          currency: settings.currency,
+          profileId: settings.invoice?.profileId,
+          invoiceTypeCode: 'SATIS'
+        })
+        setTimeout(() => setLoading(false), 100)
+      }
+    }
+  }, [token])
 
 
   return (<StandartForm
@@ -95,14 +111,19 @@ export function InvoiceForm({ id, ioType }: Props) {
           } />
         <TsnInput title={t('Invoice Number')} defaultValue={invoice?.ID}
           onBlur={e => setInvoice({ ...invoice, ID: e.target.value })} />
-
+        <TsnSelect
+          title={t('Currency')}
+          list={currencyList}
+          defaultValue={invoice.currency}
+          onValueChange={e => setInvoice({ ...invoice, currency: e })}
+        />
       </div>
       <div className='grid grid-cols-1 lg:grid-cols-4 gap-4'>
 
         <TsnSelectRemote
           className='col-span-2'
-          apiPath='/db/firms'
-          title={t('Firm')}
+          apiPath={`/db/firms?type=${invoice.ioType == 0 ? 'c' : 'v'}`}
+          title={invoice.ioType == 0 ? t('Customer') : t('Vendor')}
           defaultValue={invoice.firm?._id}
           onValueChange={e => setInvoice({ ...invoice, firm: { ...invoice.firm, _id: e } })}
         />

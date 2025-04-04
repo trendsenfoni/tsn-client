@@ -1,10 +1,17 @@
+import { AddressField } from './AddressField'
+
 export interface Settings {
   currency?: string | any | 'USD' | 'EUR' | 'TRY' | 'GBP' | 'RUB' | 'AZN' | 'AED'
-  invoiceNumberPrefix?: string
   taxScheme?: string | 'VKN' | 'TVKN'
   taxOffice?: string
   taxNumber?: string
   partyName?: string
+  address?: AddressField
+  invoice?: {
+    prefix?: string
+    profileId?: string | any | 'TEMELFATURA' | 'TICARIFATURA'
+
+  }
 }
 
 

@@ -14,6 +14,7 @@ import { firmTypeList, firmTypeName } from '@/types/Firm'
 import { TsnSwitch } from '@/components/ui216/tsn-switch'
 import { TsnPanel } from '@/components/ui216/tsn-panel'
 import { TsnInputAddress } from '@/components/ui216/tsn-input-address'
+import { Settings } from '@/types/Settings'
 
 interface Props {
   id: string
@@ -26,9 +27,9 @@ export function FirmForm({ id, ftype }: Props) {
   const [loading, setLoading] = useState(false)
   const router = useRouter()
   const { t } = useLanguage()
-  const [firm, setFirm] = useState<Firm>({ type: ftype })
   const [title, setTitle] = useState('')
-
+  const settings = JSON.parse(Cookies.get('dbSettings') || '{}') as Settings
+  const [firm, setFirm] = useState<Firm>({ type: ftype, currency: settings.currency || 'TRY' })
 
   const load = () => {
     setLoading(true)
