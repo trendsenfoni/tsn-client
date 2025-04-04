@@ -15,10 +15,9 @@ export interface Invoice {
   ID?: string
   lineCountNumberic?: number
   currency?: string | 'USD' | 'TRY' | 'EUR' | 'RUB' | 'GBP' | undefined
-  note?: string[]
-  accountingSupplierParty?: Party
-  accountingCustomerParty?: Party
+  exchangeRate?: ExchangeRate
   taxTotal?: TaxTotal
+  withholdingTaxTotal?: TaxTotal[]
   legalMonetaryTotal?: {
     lineExtensionAmount?: number
     taxExclusiveAmount?: number
@@ -27,6 +26,9 @@ export interface Invoice {
     chargeTotalAmount?: number
     payableAmount?: number
   }
+  accountingSupplierParty?: Party
+  accountingCustomerParty?: Party
+  note?: string[]
   draft?: boolean
 }
 
@@ -37,7 +39,7 @@ export interface InvoiceLine {
   issueDate?: string
   issueTime?: string
   ID?: string
-  note?: string
+  note?: string[]
   item?: Item
   invoicedQuantity?: number
   unitCode?: string
@@ -45,6 +47,7 @@ export interface InvoiceLine {
   lineExtensionAmount?: number
   currency?: string | 'USD' | 'TRY' | 'EUR' | 'RUB' | 'GBP' | undefined
   taxTotal?: TaxTotal
+  withholdingTaxTotal?: TaxTotal[]
 }
 
 export interface TaxTotal {
@@ -66,6 +69,13 @@ export interface TaxSubtotal {
       taxTypeCode?: string
     }
   }
+}
+
+export interface ExchangeRate {
+  sourceCurrencyCode?: string
+  targetCurrencyCode?: string
+  calculationRate?: number
+  date?: string
 }
 
 export function invoiceTypeName(ioType: number, t: any) {

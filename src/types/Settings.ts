@@ -2,7 +2,7 @@ import { AddressField } from './AddressField'
 
 export interface Settings {
   currency?: string | any | 'USD' | 'EUR' | 'TRY' | 'GBP' | 'RUB' | 'AZN' | 'AED'
-  taxScheme?: string | 'VKN' | 'TVKN'
+  // taxScheme?: string | 'VKN' | 'TCKN'  // TODO: buraya genel olarak party identification eklenecek
   taxOffice?: string
   taxNumber?: string
   partyName?: string

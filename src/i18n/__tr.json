@@ -134,5 +134,7 @@
   "Tax Code": "Vergi Kodu",
   "Rate": "Oran",
   "Settings": "Ayarlar",
-  "Currency": "Para Birimi"
+  "Currency": "Para Birimi",
+  "City Subdivision": "Mahalle",
+  "Avenue": "Cadde"
 }

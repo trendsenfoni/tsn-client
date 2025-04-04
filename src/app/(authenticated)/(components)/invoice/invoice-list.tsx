@@ -65,7 +65,7 @@ export function InvoiceList({ ioType, title }: Props) {
           <TsnSelect title={t('Draft?')}
             className='mb-1 mt-1 lg:max-w-36'
             list={[{ _id: ' ', text: '*' }, { _id: 'false', text: t('Normal') }, { _id: 'true', text: t('Draft') }]}
-            defaultValue={filter.draft || 'false'}
+            defaultValue={filter.draft || ' '}
             onValueChange={e => setFilter({ ...filter, draft: e })}
           />
 

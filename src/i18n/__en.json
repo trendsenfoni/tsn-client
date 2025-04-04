@@ -133,5 +133,7 @@
   "Tax Code": "Tax Code",
   "Rate": "Rate",
   "Settings": "Settings",
-  "Currency": "Currency"
+  "Currency": "Currency",
+  "City Subdivision": "City Subdivision",
+  "Avenue": "Avenue"
 }

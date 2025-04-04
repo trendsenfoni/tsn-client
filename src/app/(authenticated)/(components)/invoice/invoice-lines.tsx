@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react'
 import { deleteItem, getItem, getList, postItem, putItem } from '@/lib/fetch'
 import { useRouter } from 'next/navigation'
 import Cookies from 'js-cookie'
-import { InvoiceLine } from '@/types/Invoice'
+import { Invoice, InvoiceLine } from '@/types/Invoice'
 import { useToast } from '@/components/ui/use-toast'
 import { Table, TableBody, TableCell, TableFooter, TableHead, TableHeader, TableRow } from '@/components/ui/table'
 import { useLanguage } from '@/i18n'
@@ -16,8 +16,9 @@ import { ButtonConfirm } from '@/components/button-confirm'
 interface Props {
   invoiceId?: string
   onAddNewInvoice?: () => void
+  onChange?: (e?: string) => void
 }
-export function GridInvoiceLine({ invoiceId, onAddNewInvoice }: Props) {
+export function GridInvoiceLine({ invoiceId, onAddNewInvoice, onChange }: Props) {
   const [lines, setLines] = useState<InvoiceLine[]>([])
   const [token, setToken] = useState('')
   const { toast } = useToast()
@@ -40,14 +41,17 @@ export function GridInvoiceLine({ invoiceId, onAddNewInvoice }: Props) {
     if (!line._id) {
       postItem(`/db/invoiceLines`, token, line)
         .then(result => {
+          onChange && onChange(invoiceId)
           lines.push(result as InvoiceLine)
           setLines(lines)
+
         })
         .catch(err => toast({ title: t('Error'), description: t(err || ''), variant: 'destructive' }))
         .finally(() => setLoading(false))
     } else {
       putItem(`/db/invoiceLines/${line._id}`, token, line)
         .then(result => {
+          onChange && onChange(invoiceId)
           let foundIndex = lines.findIndex(e => e._id == line._id)
           if (foundIndex > -1) {
             lines[foundIndex] = (result as InvoiceLine)
@@ -66,6 +70,7 @@ export function GridInvoiceLine({ invoiceId, onAddNewInvoice }: Props) {
     setLoading(true)
     deleteItem(`/db/invoiceLines/${line._id}`, token)
       .then(result => {
+        onChange && onChange(invoiceId)
         const foundIndex = lines.findIndex(e => e._id == line._id)
         if (foundIndex > -1) {
           lines.splice(foundIndex, 1)
