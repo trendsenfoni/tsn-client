@@ -1,4 +1,6 @@
-export interface DatabaseType {
+import { Settings } from './Settings'
+
+export interface Database {
   _id?: string
   owner?: string
   identifier?: string
@@ -7,5 +9,6 @@ export interface DatabaseType {
   dbHost?: string
   dbName?: string
   passive?: boolean
+  settings?: Settings
 }
 

@@ -7,6 +7,7 @@ import {
   SelectGroup,
   SelectItem,
   SelectLabel,
+  SelectSeparator,
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select"
@@ -14,7 +15,7 @@ import { useEffect, useState } from 'react'
 import Cookies from 'js-cookie'
 import { useLanguage } from '@/i18n'
 import { Button } from './ui/button'
-import { DatabaseIcon, DatabaseZapIcon, ListIcon, RefreshCcwDotIcon } from 'lucide-react'
+import { DatabaseIcon, DatabaseZapIcon, ListIcon, RefreshCcwDotIcon, Settings2Icon } from 'lucide-react'
 import { getItem, postItem } from '@/lib/fetch'
 import { DatabaseType } from '@/types/DatabaseType'
 import { useToast } from './ui/use-toast'
@@ -108,6 +109,10 @@ export function DatabaseSelect() {
               <SelectGroup>
                 <SelectLabel onClick={() => router.push('/databases')} className='cursor-pointer flex items-center gap-2'>
                   <ListIcon size={'16px'} />  {t('Database List')}
+                </SelectLabel>
+                <SelectSeparator />
+                <SelectLabel onClick={() => router.push('/settings')} className='cursor-pointer flex items-center gap-2'>
+                  <Settings2Icon size={'16px'} />  {t('Settings')}
                 </SelectLabel>
               </SelectGroup>
             </SelectContent>

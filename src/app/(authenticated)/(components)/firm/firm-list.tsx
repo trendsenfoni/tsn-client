@@ -4,7 +4,7 @@ import { useLanguage } from '@/i18n'
 import { ListGrid } from '@/components/ui216/list-grid'
 import { TableCell, TableHead } from '@/components/ui/table'
 import { Firm } from '@/types/Firm'
-import { firmTypeList, firmTypeName } from '@/lib/utils'
+import { firmTypeList, firmTypeName } from '@/types/Firm'
 import { TsnListType, TsnSelect } from '@/components/ui216/tsn-select'
 import { useSearchParams } from 'next/navigation'
 

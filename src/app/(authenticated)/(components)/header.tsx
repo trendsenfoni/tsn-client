@@ -40,7 +40,7 @@ export function Header() {
         <div className=" hidden gap-4 text-sm font-medium lg:flex  md:items-center">
           {MENU.map((e, index) =>
             <CustomLink key={'menu' + index} className="flex flex-col items-center rounded-md px-3 py-2 hover:bg-gray-100 dark:hover:bg-gray-800" href={e.href}>
-              <div className='text-2xl ' style={{ textShadow: '1px 1px 1px black' }}>{e.icon}</div> {t(e.text)}
+              <div className='text-2xl  drop-shadow-[1px_1px_1px_black] dark:drop-shadow-none' >{e.icon}</div> {t(e.text)}
             </CustomLink>
           )}
 

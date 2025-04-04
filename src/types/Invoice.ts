@@ -78,22 +78,22 @@ export function invoiceTypeName(ioType: number, t: any) {
 
 export function getProfileIdList(t: any) {
   return [
-    { _id: 'TEMELFATURA', text: t('TEMELFATURA') },
-    { _id: 'TICARIFATURA', text: t('TICARIFATURA') },
-    { _id: 'EARSIVFATURA', text: t('EARSIVFATURA') },
-    { _id: 'IHRACAT', text: t('IHRACAT') },
-    { _id: 'YOLCUBERABERFATURA', text: t('YOLCUBERABERFATURA') },
+    { _id: 'TEMELFATURA', name: t('TEMELFATURA') },
+    { _id: 'TICARIFATURA', name: t('TICARIFATURA') },
+    { _id: 'EARSIVFATURA', name: t('EARSIVFATURA') },
+    { _id: 'IHRACAT', name: t('IHRACAT') },
+    { _id: 'YOLCUBERABERFATURA', name: t('YOLCUBERABERFATURA') },
   ]
 }
 
 export function getInvoiceTypeCodeList(t: any) {
   return [
-    { _id: 'SATIS', text: t('SATIS') },
-    { _id: 'IADE', text: t('IADE') },
-    { _id: 'TEVKIFAT', text: t('TEVKIFAT') },
-    { _id: 'ISTISNA', text: t('ISTISNA') },
-    { _id: 'OZELMATRAH', text: t('OZELMATRAH') },
-    { _id: 'IHRACKAYITLI', text: t('IHRACKAYITLI') },
+    { _id: 'SATIS', name: t('SATIS') },
+    { _id: 'IADE', name: t('IADE') },
+    { _id: 'TEVKIFAT', name: t('TEVKIFAT') },
+    { _id: 'ISTISNA', name: t('ISTISNA') },
+    { _id: 'OZELMATRAH', name: t('OZELMATRAH') },
+    { _id: 'IHRACKAYITLI', name: t('IHRACKAYITLI') },
   ]
 }
 
@@ -119,15 +119,15 @@ export function showWithholdingTax(val?: number) {
 }
 
 export const withholdingTaxRateList = [
-  { _id: '0', text: '0/10' },
-  { _id: '0.1', text: '1/10' },
-  { _id: '0.2', text: '2/10' },
-  { _id: '0.3', text: '3/10' },
-  { _id: '0.4', text: '4/10' },
-  { _id: '0.5', text: '5/10' },
-  { _id: '0.6', text: '6/10' },
-  { _id: '0.7', text: '7/10' },
-  { _id: '0.8', text: '8/10' },
-  { _id: '0.9', text: '9/10' },
-  { _id: '0.10', text: '10/10' },
+  { _id: '0', name: '0/10' },
+  { _id: '0.1', name: '1/10' },
+  { _id: '0.2', name: '2/10' },
+  { _id: '0.3', name: '3/10' },
+  { _id: '0.4', name: '4/10' },
+  { _id: '0.5', name: '5/10' },
+  { _id: '0.6', name: '6/10' },
+  { _id: '0.7', name: '7/10' },
+  { _id: '0.8', name: '8/10' },
+  { _id: '0.9', name: '9/10' },
+  { _id: '0.10', name: '10/10' },
 ]

@@ -17,6 +17,10 @@ export default function PurchasePage() {
       <Button onClick={() => router.push('/purchase/orders')} variant={'outline'} className='flex justify-start gap-4'>
         <span className='text-2xl'>🚚📝</span>{t('Purchase Orders')}
       </Button>
+      <Button onClick={() => router.push('/purchase/invoices')} variant={'outline'} className='flex justify-start gap-4'>
+        <span className='text-2xl'>↘️🧾</span>
+        {t('Incoming Invoices')}
+      </Button>
     </div>
   </MenuPage>)
 }

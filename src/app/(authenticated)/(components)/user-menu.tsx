@@ -46,7 +46,7 @@ export function UserMenu() {
             <Image
               priority
               alt="Avatar"
-              className="rounded-full shadow-lg"
+              className="rounded-full shadow-[1px_1px_2px_2px_black] dark:shadow-none"
               height="48"
               src={userInfo?.image || "/img/avatar-place-holder.png"}  // TODO:// session user image
               style={{

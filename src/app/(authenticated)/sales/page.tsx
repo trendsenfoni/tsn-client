@@ -19,7 +19,7 @@ export default function SalesPage() {
         {t('Sales Orders')}
       </Button>
       <Button onClick={() => router.push('/sales/invoices')} variant={'outline'} className='flex justify-start gap-4'>
-        <span className='text-2xl'>📤🧾</span>
+        <span className='text-2xl'>🧾↗️</span>
         {t('Outgoing Invoices')}
       </Button>
     </div>

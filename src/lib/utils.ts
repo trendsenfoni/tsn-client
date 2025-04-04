@@ -44,39 +44,3 @@ export function today() {
 }
 
 
-
-export function firmTypeList(firmType: string, t: any) {
-  if (firmType == 'c') {
-    return [
-      { _id: 'c', text: t('Customer') },
-      { _id: 'cv', text: t('Customer & Vendor') },
-      { _id: 'cc', text: t('Customer Candidate') },
-    ]
-  } else if (firmType == 'v') {
-    return [
-      { _id: 'v', text: t('Vendor') },
-      { _id: 'cv', text: t('Customer & Vendor') },
-    ]
-  } else if (firmType == 'cc') {
-    return [
-      { _id: 'cc', text: t('Customer Candidate') },
-    ]
-  } else {
-    return [
-      { _id: 'c', text: t('Customer') },
-      { _id: 'v', text: t('Vendor') },
-      { _id: 'cv', text: t('Customer & Vendor') },
-      { _id: 'cc', text: t('Customer Candidate') },
-    ]
-  }
-}
-
-export function firmTypeName(firmType: string, t: any) {
-  switch (firmType) {
-    case 'c': return t('Customer')
-    case 'v': return t('Vendor')
-    case 'cv': return t('Customer & Vendor')
-    case 'cc': return t('Customer Candidate')
-    default: return t('Unknown')
-  }
-}

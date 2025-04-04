@@ -131,5 +131,7 @@
   "Sequence": "Sequence",
   "Percent": "Percent",
   "Tax Code": "Tax Code",
-  "Rate": "Rate"
+  "Rate": "Rate",
+  "Settings": "Settings",
+  "Currency": "Currency"
 }

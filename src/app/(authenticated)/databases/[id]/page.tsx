@@ -6,7 +6,7 @@ import { usePathname, useRouter } from 'next/navigation'
 import { useToast } from '@/components/ui/use-toast'
 import { useEffect, useState } from 'react'
 import Cookies from 'js-cookie'
-import { DatabaseType } from '@/types/DatabaseType'
+import { Database } from '@/types/Database'
 import { getItem, postItem, putItem } from '@/lib/fetch'
 import { StandartForm } from '@/components/ui216/standart-form'
 import { TsnSwitch } from '@/components/ui216/tsn-switch'
@@ -19,12 +19,12 @@ export default function EditPage({ params }: Props) {
   const [loading, setLoading] = useState(false)
   const router = useRouter()
   const { t } = useLanguage()
-  const [database, setDatabase] = useState<DatabaseType>()
+  const [database, setDatabase] = useState<Database>()
 
   const load = () => {
     setLoading(true)
-    getItem(`/databases/${database?._id}`, token)
-      .then(result => setDatabase(result as DatabaseType))
+    getItem(`/databases/${params.id}`, token)
+      .then(result => setDatabase(result as Database))
       .catch(err => toast({ title: t('Error'), description: t(err || ''), variant: 'destructive' }))
       .finally(() => setLoading(false))
   }
@@ -46,11 +46,11 @@ export default function EditPage({ params }: Props) {
 
   }
   useEffect(() => { !token && setToken(Cookies.get('token') || '') }, [])
-  useEffect(() => { token && database?._id && load() }, [token])
+  useEffect(() => { token && params.id != 'addnew' && load() }, [token])
 
 
   return (<StandartForm
-    title={t('Orders')}
+    title={t('Database')}
     onSaveClick={() => save()}
     onCancelClick={() => router.back()}
   >
