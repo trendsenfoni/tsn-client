@@ -18,20 +18,21 @@ export interface Invoice {
   exchangeRate?: ExchangeRate
   taxTotal?: TaxTotal
   withholdingTaxTotal?: TaxTotal[]
-  legalMonetaryTotal?: {
-    lineExtensionAmount?: number
-    taxExclusiveAmount?: number
-    taxInclusiveAmount?: number
-    allowanceTotalAmount?: number
-    chargeTotalAmount?: number
-    payableAmount?: number
-  }
+  legalMonetaryTotal?: LegalMonetaryTotal
   accountingSupplierParty?: Party
   accountingCustomerParty?: Party
   note?: string[]
   draft?: boolean
 }
 
+export interface LegalMonetaryTotal {
+  lineExtensionAmount?: number
+  taxExclusiveAmount?: number
+  taxInclusiveAmount?: number
+  allowanceTotalAmount?: number
+  chargeTotalAmount?: number
+  payableAmount?: number
+}
 export interface InvoiceLine {
   _id?: string
   invoice?: string
@@ -128,16 +129,215 @@ export function showWithholdingTax(val?: number) {
   }
 }
 
-export const withholdingTaxRateList = [
-  { _id: '0', name: '0/10' },
-  { _id: '0.1', name: '1/10' },
-  { _id: '0.2', name: '2/10' },
-  { _id: '0.3', name: '3/10' },
-  { _id: '0.4', name: '4/10' },
-  { _id: '0.5', name: '5/10' },
-  { _id: '0.6', name: '6/10' },
-  { _id: '0.7', name: '7/10' },
-  { _id: '0.8', name: '8/10' },
-  { _id: '0.9', name: '9/10' },
-  { _id: '0.10', name: '10/10' },
-]
+// export const withholdingTaxRateList = [
+//   { _id: '0', name: '0/10' },
+//   { _id: '0.1', name: '1/10' },
+//   { _id: '0.2', name: '2/10' },
+//   { _id: '0.3', name: '3/10' },
+//   { _id: '0.4', name: '4/10' },
+//   { _id: '0.5', name: '5/10' },
+//   { _id: '0.6', name: '6/10' },
+//   { _id: '0.7', name: '7/10' },
+//   { _id: '0.8', name: '8/10' },
+//   { _id: '0.9', name: '9/10' },
+//   { _id: '0.10', name: '10/10' },
+// ]
+
+export const UNIT_CODES: any = {
+  "NIU": "Adet",
+  "GRM": "g",
+  "KGM": "kg",
+  "MTR": "m",
+  "CMT": "cm",
+  "MMT": "mm",
+  "LTR": "l",
+  "MLT": "ml",
+  "MTK": "m²",
+  "DMK": "dm²",
+  "CMK": "cm²",
+  "MMK": "mm²",
+  "MTQ": "m³",
+  "C62": "Adet(Unit)",
+  "CTM": "Karat",
+  "SET": "Set",
+  "EA": "Each",
+  "PR": "Çift",
+  "D30": "Brüt Kalori",
+  "D40": "Bin Litre",
+  "GT": "Gross Ton",
+  "CEN": "Yüz Adet",
+  "3I": "Kg-Adet",
+  "H87": "Parça",
+  "HUR": "Saat",
+  "DAY": "Gün",
+  "MIN": "Dakika",
+  "SEC": "Saniye",
+  "NAR": "Number of articles",
+  "PK": "Paket",
+  "BX": "Kutu",
+  "CT": "Karton",
+  "T3": "Bin Adet",
+  "GWH": "Gigawatt Saat",
+  "MWH": "Megawatt Saat",
+  "KWH": "Kilowatt Saat",
+  "KWT": "Kilowatt"
+}
+
+export function getUnitCodeList(t: any) {
+  return Object.keys(UNIT_CODES).map(key => ({ _id: key, name: t(UNIT_CODES[key]) }))
+}
+
+export function getUnitName(unitCode: string) {
+  return UNIT_CODES[unitCode] || unitCode
+}
+
+export const TAX_TYPE_CODES = {
+  "0003": "GV Stopajı",
+  "0011": "KV Stopajı",
+  "0015": "KDV",
+  "0021": "BMV",
+  "0022": "SMV",
+  "0061": "Kaynak Kullanımı Destekleme Fonu Kesintisi",
+  "0071": "Petrol Ve Doğalgaz Ürünlerine İlişkin Özel Tüketim Vergisi",
+  "0073": "Kolalı Gazoz, Alkollü İçecekler Ve Tütün Mamullerine İlişkin Özel Tüketim Vergisi",
+  "0074": "Dayanıklı Tüketim Ve Diğer Mallara İlişkin Özel Tüketim Vergisi",
+  "0075": "Alkollü İçeceklere İlişkin Özel Tüketim Vergisi",
+  "0076": "Tütün Mamullerine İlişkin Özel Tüketim Vergisi",
+  "0077": "Kolalı Gazozlara İlişkin Özel Tüketim Vergisi",
+  "1047": "Damga Vergisi",
+  "1048": "5035 Sayılı Kanuna Göre Damga Vergisi",
+  "4071": "Elektrik Ve Havagazı Tüketim Vergisi",
+  "4080": "ÖİV",
+  "4081": "5035 SKG ÖİV",
+  "4171": "Petrol Ve Doğalgaz Ürünlerine İlişkin ÖTV Tevkifatı",
+  "8001": "Borsa Tescil Ücreti",
+  "8002": "Enerji Fonu",
+  "8004": "TRT Payı",
+  "8005": "Elektrik Tüketim Vergisi",
+  "8006": "Telsiz Kullanım Ücreti",
+  "8007": "Telsiz Ruhsat Ücreti",
+  "8008": "Çevre Temizlik Vergisi",
+  "9021": "4961 Banka Sigorta Muameleleri Vergisi",
+  "9040": "Mera Fonu",
+  "9077": "Motorlu Taşıt Araçlarına İlişkin Özel Tüketim Vergisi (Tescile Tabi Olanlar)",
+  "9944": "Belediyelere Ödenen Hal Rüsumu"
+}
+
+export function getTaxTypeName(taxTypeCode?: string) {
+  if (taxTypeCode) {
+    if (TAX_TYPE_CODES[taxTypeCode]) {
+      return TAX_TYPE_CODES[taxTypeCode] || ''
+    } else {
+      return 'UNKNOWN'
+    }
+  } else {
+    return 'UNKNOWN'
+  }
+}
+
+export const WITHHOLDING_TAX_TYPE_CODES = {
+  "601": {
+    "name": "Yapim İşleri İle Bu İşlerle Birlikte İfa Edilen Mühendislik mimarlik ve Etüt-Proje Hizmetleri",
+    "rate": 40
+  },
+  "602": {
+    "name": "Etüt, Plan-Proje, Danişmanlik, Denetim ve Benzeri Hizmetler",
+    "rate": 90
+  },
+  "603": {
+    "name": "Makine, Teçhizat, Demirbaş ve Taşitlara Ait Tadil, Bakim ve Onarim Hizmetleri",
+    "rate": 70
+  },
+  "604": {
+    "name": "Yemek Servis Hizmeti",
+    "rate": 50
+  },
+  "605": {
+    "name": "Organizasyon Hizmeti",
+    "rate": 50
+  },
+  "606": {
+    "name": "İşgücü Temin Hizmetleri",
+    "rate": 90
+  },
+  "607": {
+    "name": "Özel Güvenlik Hizmeti",
+    "rate": 90
+  },
+  "608": {
+    "name": "Yapi Denetim Hizmetleri",
+    "rate": 90
+  },
+  "609": {
+    "name": "Fason Olarak Yaptirilan Tekstil ve Konfeksiyon İşleri, Çanta ve Ayakkabi Dikim İşleri ve Bu İşlere Aracilik Hizmetleri",
+    "rate": 70
+  },
+  "610": {
+    "name": "Turistik Mağazalara Verilen Müşteri Bulma / Götürme Hizmetleri",
+    "rate": 90
+  },
+  "611": {
+    "name": "Spor Kulüplerinin Yayin, Reklâm ve İsim Hakki Gelirlerine Konu İşlemleri",
+    "rate": 90
+  },
+  "612": {
+    "name": "Temizlik Hizmeti",
+    "rate": 90
+  },
+  "613": {
+    "name": "Çevre ve Bahçe Bakim Hizmetleri",
+    "rate": 90
+  },
+  "614": {
+    "name": "Servis Taşimaciliği Hizmeti",
+    "rate": 50
+  },
+  "615": {
+    "name": "Her Türlü Baski ve Basim Hizmetleri",
+    "rate": 70
+  },
+  "616": {
+    "name": "Diğer Hizmetler",
+    "rate": 50
+  },
+  "617": {
+    "name": "Hurda Metalden Elde Edilen Külçe Teslimleri",
+    "rate": 70
+  },
+  "618": {
+    "name": "Hurda Metalden Elde Edilenler Dişindaki Bakir, Çinko ve Alüminyum Külçe Teslimleri",
+    "rate": 70
+  },
+  "619": {
+    "name": "Bakir, Çinko ve Alüminyum Ürünlerinin Teslimi",
+    "rate": 70
+  },
+  "620": {
+    "name": "İstisnadan Vazgeçenlerin Hurda ve Atik Teslimi",
+    "rate": 70
+  },
+  "621": {
+    "name": "Metal, Plastik, Lastik, Kauçuk, Kâğit ve Cam Hurda ve Atiklardan Elde Edilen Hammadde Teslimi",
+    "rate": 90
+  },
+  "622": {
+    "name": "Pamuk, Tiftik, Yün ve Yapaği İle Ham Post ve Deri Teslimleri",
+    "rate": 90
+  },
+  "623": {
+    "name": "Ağaç ve Orman Ürünleri Teslimi",
+    "rate": 50
+  },
+  "624": {
+    "name": "Yük Taşimaciliği Hizmeti",
+    "rate": 20
+  },
+  "625": {
+    "name": "Ticari Reklam Hizmetleri",
+    "rate": 30
+  },
+  "626": {
+    "name": "Diğer Teslimler",
+    "rate": 20
+  }
+}

@@ -6,7 +6,7 @@ import { usePathname, useRouter, useSearchParams } from 'next/navigation'
 import { useToast } from '@/components/ui/use-toast'
 import { useEffect, useState } from 'react'
 import Cookies from 'js-cookie'
-import { getInvoiceTypeCodeList, getProfileIdList, Invoice, invoiceTypeName } from '@/types/Invoice'
+import { getInvoiceTypeCodeList, getProfileIdList, getTaxTypeName, Invoice, invoiceTypeName, LegalMonetaryTotal, showWithholdingTax, TaxTotal } from '@/types/Invoice'
 import { getItem, postItem, putItem } from '@/lib/fetch'
 import { StandartForm } from '@/components/ui216/standart-form'
 import { TsnListType, TsnSelect } from '@/components/ui216/tsn-select'
@@ -28,6 +28,11 @@ interface Props {
   id: string
   ioType: number
 }
+
+interface NameValue {
+  name: string
+  value: number
+}
 export function InvoiceForm({ id, ioType }: Props) {
   const [token, setToken] = useState('')
   const { toast } = useToast()
@@ -39,11 +44,16 @@ export function InvoiceForm({ id, ioType }: Props) {
   const settings = JSON.parse(Cookies.get('dbSettings') || '{}') as Settings
   const [invoiceId, setInvoiceId] = useState(id != 'addnew' ? id : '')
   const [invoice, setInvoice] = useState<Invoice>({})
+  const [tevkifat, setTevkifat] = useState<NameValue[]>([])
+  const [vergi, setVergi] = useState<NameValue[]>([])
 
   const load = () => {
     setLoading(true)
     getItem(`/db/invoices/${invoiceId}`, token)
-      .then(result => setInvoice(result as Invoice))
+      .then((result: Invoice) => {
+        setInvoice(result)
+        calcVergiler(result.taxTotal, result.withholdingTaxTotal, result.legalMonetaryTotal)
+      })
       .catch(err => toast({ title: t('Error'), description: t(err || ''), variant: 'destructive' }))
       .finally(() => setLoading(false))
   }
@@ -65,6 +75,36 @@ export function InvoiceForm({ id, ioType }: Props) {
     }
 
   }
+
+  const calcVergiler = (taxTotal?: TaxTotal, withholdingTaxTotal?: TaxTotal[], legalMonetaryTotal?: LegalMonetaryTotal) => {
+    if (taxTotal && taxTotal.taxSubtotal) {
+      const v = taxTotal.taxSubtotal.map(e => {
+        return {
+          name: `${getTaxTypeName(e.taxCategory?.taxScheme?.taxTypeCode)} %${e.percent}:`,
+          value: e.taxAmount
+        } as NameValue
+      })
+      setVergi(v)
+    }
+    if (withholdingTaxTotal) {
+      const t = withholdingTaxTotal.map(e => {
+        if (e.taxSubtotal && e.taxSubtotal.length > 0) {
+          return {
+            name: `${showWithholdingTax(e.taxSubtotal[0].percent)}`,
+            value: e.taxAmount
+          } as NameValue
+        } else {
+          return {
+            name: '',
+            value: 0
+          } as NameValue
+        }
+      })
+      console.log(`t:`, t)
+      setTevkifat(t)
+    }
+  }
+
   useEffect(() => { !token && setToken(Cookies.get('token') || '') }, [])
   useEffect(() => {
     if (token) {
@@ -246,7 +286,6 @@ export function InvoiceForm({ id, ioType }: Props) {
 
 
       <GridInvoiceLine invoiceId={invoice._id} onAddNewInvoice={() => {
-        console.log(`invoice2:`, invoice)
         postItem(`/db/invoices`, token, invoice)
           .then((result: Invoice) => {
             setInvoice(result)
@@ -258,11 +297,19 @@ export function InvoiceForm({ id, ioType }: Props) {
       }}
         onChange={e => {
           setTotalLoading(true)
+
           getItem(`/db/invoices/getHeader/${invoice._id}`, token)
             .then((result: Invoice) => {
-              setInvoice({ ...invoice, legalMonetaryTotal: result.legalMonetaryTotal })
+              setInvoice({
+                ...invoice,
+                legalMonetaryTotal: result.legalMonetaryTotal,
+                taxTotal: result.taxTotal,
+                withholdingTaxTotal: result.withholdingTaxTotal,
+                lineCountNumberic: result.lineCountNumberic
+              })
+              calcVergiler(result.taxTotal, result.withholdingTaxTotal, result.legalMonetaryTotal)
             })
-            .catch(err => toast({ title: t('Error1'), description: t(err || ''), variant: 'destructive' }))
+            .catch(err => toast({ title: t('Error'), description: t(err || ''), variant: 'destructive' }))
             .finally(() => setTotalLoading(false))
         }}
       />
@@ -275,8 +322,8 @@ export function InvoiceForm({ id, ioType }: Props) {
           {!totalLoading &&
             <div className='flex flex-col gap-2 font-mono'>
               <TotalElem title={t('Sub Total')} amount={moneyFormat(invoice.legalMonetaryTotal?.taxExclusiveAmount)} />
-              <TotalElem title={t('VAT')} amount={moneyFormat(invoice.taxTotal?.taxAmount)} />
-              {/* <TotalElem title={t('WHT')} amount={moneyFormat(invoice.withHoldingTaxAmount)} /> */}
+              <TotalElem title={t('VAT')} amount={vergi.map(e => e.name + ' ' + moneyFormat(e.value)).join(' ')} />
+              <TotalElem title={t('WHT')} amount={tevkifat.map(e => e.name + ' ' + moneyFormat(e.value)).join(' ')} />
               <TotalElem title={t('Discount')} amount={moneyFormat(invoice.legalMonetaryTotal?.allowanceTotalAmount)} />
               <TotalElem title={t('Charge')} amount={moneyFormat(invoice.legalMonetaryTotal?.chargeTotalAmount)} />
               <TotalElem

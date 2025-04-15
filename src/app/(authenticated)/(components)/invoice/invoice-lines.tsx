@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react'
 import { deleteItem, getItem, getList, postItem, putItem } from '@/lib/fetch'
 import { useRouter } from 'next/navigation'
 import Cookies from 'js-cookie'
-import { Invoice, InvoiceLine } from '@/types/Invoice'
+import { getUnitName, Invoice, InvoiceLine } from '@/types/Invoice'
 import { useToast } from '@/components/ui/use-toast'
 import { Table, TableBody, TableCell, TableFooter, TableHead, TableHeader, TableRow } from '@/components/ui/table'
 import { useLanguage } from '@/i18n'
@@ -26,12 +26,21 @@ export function GridInvoiceLine({ invoiceId, onAddNewInvoice, onChange }: Props)
   const router = useRouter()
   const { t } = useLanguage()
   const [openNewLine, setOpenNewLine] = useState(false)
+  const [whtList, setWhtList] = useState([])
+
   const load = () => {
     console.log('invoiceId', invoiceId)
     if (!invoiceId) return
     setLoading(true)
     getList(`/db/invoiceLines?invoice=${invoiceId}`, token)
-      .then(result => setLines(result.docs as InvoiceLine[]))
+      .then(result => {
+        setLines(result.docs as InvoiceLine[])
+        getList(`/db/constants/withholdingTaxTypeCodes`, token)
+          .then((w: any) => {
+            setWhtList(w)
+          })
+          .catch(err => toast({ title: t('Error'), description: t(err || ''), variant: 'destructive' }))
+      })
       .catch(err => toast({ title: 'Error', description: err || '', variant: 'destructive' }))
       .finally(() => setLoading(false))
   }
@@ -111,7 +120,7 @@ export function GridInvoiceLine({ invoiceId, onAddNewInvoice, onChange }: Props)
             <TableCell colSpan={2} className=''>
               <div className='flex gap-2 items-end text-sm'>
                 <span className="font-bold" >{e.invoicedQuantity}</span>
-                <span >{e.unitCode}</span>
+                <span >{getUnitName(e.unitCode || '')}</span>
               </div>
             </TableCell>
             <TableCell colSpan={2} className=''>
@@ -131,6 +140,7 @@ export function GridInvoiceLine({ invoiceId, onAddNewInvoice, onChange }: Props)
               <div className='w-full flex justify-center gap-2'>
                 <InvoiceLinePopup
                   title={t('Edit Line')}
+                  whtList={whtList}
                   defaultValue={e}
                   trigger={
                     <div className={`cursor-pointer px-2 py-2 rounded-md bg-blue-800 text-white hover:bg-blue-500 hover:text-white`}>
@@ -138,6 +148,7 @@ export function GridInvoiceLine({ invoiceId, onAddNewInvoice, onChange }: Props)
                     </div>
                   }
                   onChange={e => saveLine(e)}
+
                 />
                 <ButtonConfirm
                   onOk={() => deleteLine(e)}
@@ -174,6 +185,7 @@ export function GridInvoiceLine({ invoiceId, onAddNewInvoice, onChange }: Props)
       {!loading && invoiceId &&
         <InvoiceLinePopup
           title={t('New Line')}
+          whtList={whtList}
           trigger={<div className={`py-1 rounded-lg bg-green-600 text-white hover:bg-green-800 hover:text-white px-2 flex gap-1 `}>
             <ListTreeIcon size={'20px'} /><PlusSquareIcon size={'20px'} />
           </div>}
