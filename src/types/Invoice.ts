@@ -13,7 +13,7 @@ export interface Invoice {
   issueTime?: string
   uuid?: string
   ID?: string
-  lineCountNumberic?: number
+  lineCountNumeric?: number
   currency?: string | 'USD' | 'TRY' | 'EUR' | 'RUB' | 'GBP' | undefined
   exchangeRate?: ExchangeRate
   taxTotal?: TaxTotal

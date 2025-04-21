@@ -99,3 +99,7 @@ h2 {
   @apply scroll-m-20 border-b pb-2 text-3xl font-semibold tracking-tight transition-colors first:mt-0;
 
 }
+
+.metin-golge {
+  text-shadow: 1px 0 0 #21252933, -1px 0 0 #21252933, 0 1px 0 #21252933, 0 -1px 0 #21252933, 1px 1px #21252933, -1px -1px 0 #21252933, 1px -1px 0 #21252933, -1px 1px 0 #0003;
+}

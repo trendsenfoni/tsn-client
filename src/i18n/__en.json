@@ -107,6 +107,7 @@
   "TEMELFATURA": "Basic Invoice",
   "TICARIFATURA": "Commercial Invoice",
   "EARSIVFATURA": "E-Archive",
+  "IHRACAT": "Export",
   "YOLCUBERABERFATURA": "Invoice With Passenger",
   "SATIS": "Sales",
   "IADE": "Return",

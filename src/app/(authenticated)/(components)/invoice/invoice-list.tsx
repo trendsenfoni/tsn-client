@@ -22,7 +22,8 @@ export function InvoiceList({ ioType, title }: Props) {
       title={title}
       onHeaderPaint={() => {
         return (<>
-          <TableHead>{t('Date/Number')}</TableHead>
+          <TableHead>{t('Invoice Number')}</TableHead>
+          <TableHead>{t('Date')}</TableHead>
           <TableHead>{t('Firm')}</TableHead>
           <TableHead>{t('Total')}</TableHead>
           <TableHead className='text-center'>qwerty</TableHead>
@@ -30,20 +31,30 @@ export function InvoiceList({ ioType, title }: Props) {
       }}
       onRowPaint={(e: Invoice, index) => {
         return (<>
-          <TableCell className=''>
+          <TableCell className='text-[0.875rem]'>
             <div className='flex flex-col'>
-              <span className=''>{e.issueDate}</span>
-              <span className=''>{e.issueTime}</span>
+              <span className='font-bold'>{e.ID}</span>
+              <div className='flex flex-col md:flex-row gap-1'>
+                {ProfileDiv(e.profileId)}
+                {InvoiceTypeDiv(e.invoiceTypeCode)}
+              </div>
 
             </div>
           </TableCell>
-          <TableCell className=''>
+          <TableCell className='text-[0.875rem]'>
             <div className='flex flex-col'>
-              <span className=''>{e.firm?.name}</span>
-              <span className=''>{e.ID}</span>
+              <span className=''>{e.issueDate}</span>
+              <span className='text-[80%] text-muted-foreground'>{e.issueTime?.substring(0, 8)}</span>
+
             </div>
           </TableCell>
-          <TableCell className=''>
+          <TableCell className='text-[0.875rem]'>
+            <div className='flex flex-col'>
+              <span className=''>{e.firm?.name}</span>
+              <span className='text-[80%] text-muted-foreground'>{e.lineCountNumeric} Kalem</span>
+            </div>
+          </TableCell>
+          <TableCell className='text-[0.875rem]'>
             <div className='flex flex-col'>
               <span className=''>{moneyFormat(e.legalMonetaryTotal?.taxInclusiveAmount)} {e.currency}</span>
               <span className='flex flex-col text-[80%] text-muted-foreground'>{moneyFormat(e.taxTotal?.taxAmount)} {e.currency}
@@ -53,8 +64,8 @@ export function InvoiceList({ ioType, title }: Props) {
               </span>
             </div>
           </TableCell>
-          <TableCell className='text-center'>
-            qwerty
+          <TableCell className='text-center text-[0.875rem]'>
+            {e.draft && <span className={`text-[80%] px-[6px] py-[2px] rounded-md text-center metin-golge bg-[#254547] text-white w-16`}>TASLAK</span>}
           </TableCell>
         </>)
       }}
@@ -74,4 +85,48 @@ export function InvoiceList({ ioType, title }: Props) {
 
     />
   )
+}
+
+function ProfileDiv(profileId: string) {
+  const className = 'text-[80%] px-[3px] py-[2px] rounded-md text-center metin-golge'
+  switch (profileId) {
+    case 'TEMELFATURA':
+      return (<span className={`${className} bg-[#47d1de] text-white w-16`}>Temel</span>)
+    case 'TICARIFATURA':
+      return (<span className={`${className} bg-[#9ba037] text-white w-16`}>Ticari</span>)
+    case 'EARSIVFATURA':
+      return (<span className={`${className} bg-[#9f4555] text-white w-16`}>E-Arşiv</span>)
+    case 'IHRACAT':
+      return (<span className={`${className} bg-[#990099] text-white w-16`}>İhracat</span>)
+    case 'YOLCUBERABERFATURA':
+      return (<span className={`${className} bg-[#994555] text-white w-20`}>YolcuBeraber</span>)
+    default:
+      return (
+        <span className={`${className} bg-gray-600 text-white w-16`}>{profileId}</span>
+      )
+  }
+
+}
+
+function InvoiceTypeDiv(invoiceTypeCode: string) {
+  const className = 'text-[80%] px-[3px] py-[2px] rounded-md text-center metin-golge'
+  switch (invoiceTypeCode) {
+    case 'SATIS':
+      return (<span className={`${className} bg-[#3437f5] text-white w-16`}>Satış</span>)
+    case 'IADE':
+      return (<span className={`${className} bg-[#ee2e2e] text-white w-16`}>İade</span>)
+    case 'TEVKIFAT':
+      return (<span className={`${className} bg-[#1b9c37] text-white w-16`}>Tevkifat</span>)
+    case 'ISTISNA':
+      return (<span className={`${className} bg-[#ecf01c] text-white w-16`}>İstisna</span>)
+    case 'OZELMATRAH':
+      return (<span className={`${className} bg-[#4c2d7c] text-white w-20`}>ÖzelMatrah</span>)
+    case 'IHRACKAYITLI':
+      return (<span className={`${className} bg-[#255032] text-white w-20`}>İhraçKayıtlı</span>)
+    default:
+      return (
+        <span className={`${className} bg-gray-600 text-white w-16`}>{invoiceTypeCode}</span>
+      )
+  }
+
 }

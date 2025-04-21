@@ -113,7 +113,8 @@ export function ListGrid({
   }
 
   const deleteRecord = (id: any) => {
-    deleteItem(`${apiPath}/${id}`, token)
+    let url = `${apiPath.split('?')[0]}/${id}`
+    deleteItem(url, token)
       .then(result => {
         load(1, search)
       })
