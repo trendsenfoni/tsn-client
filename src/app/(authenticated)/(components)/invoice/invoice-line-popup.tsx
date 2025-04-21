@@ -65,6 +65,7 @@ export function InvoiceLinePopup({
   const [vatAmount, setVatAmount] = useState(0)
   const [whtRate, setWhtRate] = useState(0)
   const [whtTaxTypeCode, setWhtTaxTypeCode] = useState('')
+  const [whtTaxTypeName, setWhtTaxTypeName] = useState('')
 
   const { toast } = useToast()
   const { t } = useLanguage()
@@ -217,11 +218,12 @@ export function InvoiceLinePopup({
               defaultValue={whtTaxTypeCode}
               list={whtList.map(e => ({ _id: e._id, name: `${e._id} - ${showWithholdingTax(e.rate)} - ${e.name}` }))}
               onValueChange={e => {
-                setWhtTaxTypeCode(e)
                 const found = whtList.find(k => k._id == e)
                 if (found) {
                   const ta = Math.round(100 * vatAmount * found.rate / 100) / 100
                   setWhtRate(found.rate || 0)
+                  setWhtTaxTypeCode(found._id)
+                  setWhtTaxTypeName(found.name)
                   setInvoiceLine({
                     ...invoiceLine,
                     withholdingTaxTotal: [{
@@ -255,6 +257,7 @@ export function InvoiceLinePopup({
               onClick={() => {
                 setClearingWHT(true)
                 setWhtTaxTypeCode('')
+                setWhtTaxTypeName('')
                 setWhtRate(0)
                 setInvoiceLine({ ...invoiceLine, withholdingTaxTotal: [] })
                 setTimeout(() => setClearingWHT(false), 200)
@@ -291,13 +294,16 @@ export function InvoiceLinePopup({
       setWhtRate(wht.taxAmount || 0)
       if (wht.taxSubtotal && wht.taxSubtotal.length > 0) {
         setWhtTaxTypeCode(wht.taxSubtotal[0].taxCategory?.taxScheme?.taxTypeCode || '')
+        setWhtTaxTypeName(wht.taxSubtotal[0].taxCategory?.taxScheme?.name || '')
       } else {
         setWhtTaxTypeCode('')
+        setWhtTaxTypeName('')
       }
 
     } else {
       setWhtRate(0)
       setWhtTaxTypeCode('')
+      setWhtTaxTypeName('')
     }
   }, [token])
   return (<>
@@ -323,6 +329,9 @@ export function InvoiceLinePopup({
         </div>
         <AlertDialogFooter className='flex justify-end items-center gap-4'>
           <div className='flex justify-start'>
+            {/* <pre>
+              {JSON.stringify(invoiceLine.withholdingTaxTotal, null, 2)}
+            </pre> */}
           </div>
           <div className='flex flex-row justify-end items-center gap-2'>
             <AlertDialogAction onClick={e => {

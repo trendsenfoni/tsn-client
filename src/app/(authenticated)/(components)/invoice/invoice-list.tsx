@@ -46,10 +46,10 @@ export function InvoiceList({ ioType, title }: Props) {
           <TableCell className=''>
             <div className='flex flex-col'>
               <span className=''>{moneyFormat(e.legalMonetaryTotal?.taxInclusiveAmount)} {e.currency}</span>
-              <span className='flex flex-col text-[80%]'>{moneyFormat(e.taxTotal?.taxAmount)}
-                {/* {e.withHoldingTaxAmount! > 0 &&
-                  <span>WHT:{moneyFormat(e.withHoldingTaxAmount)}</span>
-                } */}
+              <span className='flex flex-col text-[80%] text-muted-foreground'>{moneyFormat(e.taxTotal?.taxAmount)} {e.currency}
+                {e.withholdingTaxTotal &&
+                  <span>{t('WHT')}:{moneyFormat(e.withholdingTaxTotal.reduce((acc, w) => acc += (w.taxAmount || 0), 0))} {e.currency}</span>
+                }
               </span>
             </div>
           </TableCell>

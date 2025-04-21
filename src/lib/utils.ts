@@ -9,11 +9,25 @@ export function moneyFormat(x?: number, decimal: number = 2) {
   if (!x) {
     x = 0
   }
-  let ondalik = 1
-  Array.from(Array(decimal).keys()).forEach(() => ondalik = ondalik * 10)
-  x = Math.round(ondalik * x) / ondalik
+  // let ondalik = 1
+  // Array.from(Array(decimal).keys()).forEach(() => ondalik = ondalik * 10)
+  // x = Math.round(ondalik * x) / ondalik
+  // let kusurat = x - Math.floor(x)
+  // let suffix = ''
+  // if (kusurat == 0) {
+  //   suffix = '.00'
+  // } else if (kusurat > 0 && kusurat.toString().length == 2) {
+  //   suffix = '0'
+  // } else if (kusurat > 0 && kusurat.toString().length == 3) {
+  //   suffix = '0'
+  // } else if (kusurat > 0 && kusurat.toString().length == 4) {
+  //   suffix = ''
+  // } else {
+  //   suffix == ''
+  // }
 
-  return x.toLocaleString("en-US") + (x - Math.floor(x) == 0 && decimal > 0 ? '.' + '0'.repeat(decimal) : '')
+  return x.toLocaleString("en-US", { minimumFractionDigits: decimal, maximumFractionDigits: decimal })
+  // return x.toLocaleString("en-US") + (x - Math.floor(x) == 0 && decimal > 0 ? '.' + '0'.repeat(decimal - (x - Math.floor(x)).toString().length + 1) : '0'.repeat(decimal - (x - Math.floor(x)).toString().length + 1))
   // return x.toLocaleString() + (x - Math.floor(x) == 0 ? '.00' : '')
 
 

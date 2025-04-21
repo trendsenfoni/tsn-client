@@ -29,7 +29,6 @@ export function GridInvoiceLine({ invoiceId, onAddNewInvoice, onChange }: Props)
   const [whtList, setWhtList] = useState([])
 
   const load = () => {
-    console.log('invoiceId', invoiceId)
     if (!invoiceId) return
     setLoading(true)
     getList(`/db/invoiceLines?invoice=${invoiceId}`, token)

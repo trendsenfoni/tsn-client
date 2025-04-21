@@ -61,7 +61,6 @@ export function InvoiceForm({ id, ioType }: Props) {
   const save = () => {
     // o && setInvoice(o)
     setLoading(true)
-    console.log(`invoice:`, invoice)
     if (!invoice?._id) {
       postItem(`/db/invoices`, token, invoice)
         .then(result => router.back())
@@ -87,10 +86,11 @@ export function InvoiceForm({ id, ioType }: Props) {
       setVergi(v)
     }
     if (withholdingTaxTotal) {
+      console.log(`withholdingTaxTotal:`, withholdingTaxTotal)
       const t = withholdingTaxTotal.map(e => {
         if (e.taxSubtotal && e.taxSubtotal.length > 0) {
           return {
-            name: `${showWithholdingTax(e.taxSubtotal[0].percent)}`,
+            name: `${e.taxSubtotal[0].taxCategory?.taxScheme?.taxTypeCode} ${showWithholdingTax(e.taxSubtotal[0].percent)} - ${e.taxSubtotal[0].taxCategory?.taxScheme?.name}`,
             value: e.taxAmount
           } as NameValue
         } else {
@@ -100,7 +100,6 @@ export function InvoiceForm({ id, ioType }: Props) {
           } as NameValue
         }
       })
-      console.log(`t:`, t)
       setTevkifat(t)
     }
   }
@@ -208,7 +207,6 @@ export function InvoiceForm({ id, ioType }: Props) {
                   }
                   const found = (data.TCMB_AnlikKurBilgileri || []).find((e: any) => e.CurrencyName == currencyName)
                   if (found) {
-                    console.log(`found:`, found)
                     setInvoice({ ...invoice, exchangeRate: { ...invoice.exchangeRate, calculationRate: found.ForexSelling } })
                   }
                 })
@@ -322,8 +320,20 @@ export function InvoiceForm({ id, ioType }: Props) {
           {!totalLoading &&
             <div className='flex flex-col gap-2 font-mono'>
               <TotalElem title={t('Sub Total')} amount={moneyFormat(invoice.legalMonetaryTotal?.taxExclusiveAmount)} />
-              <TotalElem title={t('VAT')} amount={vergi.map(e => e.name + ' ' + moneyFormat(e.value)).join(' ')} />
-              <TotalElem title={t('WHT')} amount={tevkifat.map(e => e.name + ' ' + moneyFormat(e.value)).join(' ')} />
+              <div className={`grid grid-cols-3  max-w-[350px]`}>
+                <Label className={`text-xs md:text-lg`} >{t('VAT')}</Label>
+                <div className={`text-xs md:text-sm text-muted-foreground`}>
+                  {vergi.map(e => e.name + ' ' + moneyFormat(e.value) + ' ' + invoice.currency || 'TL').join(`, `)}
+                </div>
+                <div className='flex justify-end'>{moneyFormat(vergi.reduce((acc, e) => acc += e.value, 0))}</div>
+              </div>
+              <div className={`grid grid-cols-3 max-w-[350px]`}>
+                <Label className={`text-xs md:text-lg`} >{t('WHT')}</Label>
+                <div className={`text-xs md:text-sm text-muted-foreground text-wrap`}>
+                  {tevkifat.map(e => e.name + ' ' + moneyFormat(e.value) + ' ' + invoice.currency || 'TL').join(`, `)}
+                </div>
+                <div className='flex justify-end'>{moneyFormat(tevkifat.reduce((acc, e) => acc += e.value, 0))}</div>
+              </div>
               <TotalElem title={t('Discount')} amount={moneyFormat(invoice.legalMonetaryTotal?.allowanceTotalAmount)} />
               <TotalElem title={t('Charge')} amount={moneyFormat(invoice.legalMonetaryTotal?.chargeTotalAmount)} />
               <TotalElem

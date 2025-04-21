@@ -8,7 +8,7 @@
   "scope": "/",
   "short_name": "TrendSenfoni",
   "start_url": "/",
-  "theme_color": "#3366ff",
+  "theme_color": "#111127",
   "prefer_related_applications": false,
   "display_override": [
     "window-controls-overlay",
@@ -23,7 +23,7 @@
   },
   "icons": [
     {
-      "src": "img/icon-black.png",
+      "src": "img/icon.png",
       "sizes": "512x512",
       "type": "image/png",
       "purpose": "any"
