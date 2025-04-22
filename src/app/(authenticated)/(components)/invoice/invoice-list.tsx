@@ -1,8 +1,9 @@
 "use client"
 
 import { useLanguage } from '@/i18n'
-import { ListGrid } from '@/components/ui216/list-grid'
-import { TableCell, TableHead } from '@/components/ui/table'
+// import { ListTable } from '@/components/ui216/list-table'
+import { ListGrid } from './list-grid'
+// import { TableCell, TableHead } from '@/components/ui/table'
 import { Invoice } from '@/types/Invoice'
 
 import { TsnSelect } from '@/components/ui216/tsn-select'
@@ -21,17 +22,17 @@ export function InvoiceList({ ioType, title }: Props) {
       options={{ type: 'Update' }}
       title={title}
       onHeaderPaint={() => {
-        return (<>
-          <TableHead>{t('Invoice Number')}</TableHead>
-          <TableHead>{t('Date')}</TableHead>
-          <TableHead>{t('Firm')}</TableHead>
-          <TableHead>{t('Total')}</TableHead>
-          <TableHead className='text-center'>qwerty</TableHead>
-        </>)
+        return (<div className='w-full grid grid-cols-5 gap-2'>
+          <div>{t('Invoice Number')}</div>
+          <div>{t('Date')}</div>
+          <div>{t('Firm')}</div>
+          <div className='text-end'>{t('Total')}</div>
+          <div className='text-center'>{t('Status')}</div>
+        </div>)
       }}
       onRowPaint={(e: Invoice, index) => {
-        return (<>
-          <TableCell className='text-[0.875rem]'>
+        return (<div className='w-full grid grid-cols-5 gap-2'>
+          <div className='text-[0.875rem]'>
             <div className='flex flex-col'>
               <span className='font-bold'>{e.ID}</span>
               <div className='flex flex-col md:flex-row gap-1'>
@@ -40,21 +41,21 @@ export function InvoiceList({ ioType, title }: Props) {
               </div>
 
             </div>
-          </TableCell>
-          <TableCell className='text-[0.875rem]'>
+          </div>
+          <div className='text-[0.875rem]'>
             <div className='flex flex-col'>
               <span className=''>{e.issueDate}</span>
               <span className='text-[80%] text-muted-foreground'>{e.issueTime?.substring(0, 8)}</span>
 
             </div>
-          </TableCell>
-          <TableCell className='text-[0.875rem]'>
+          </div>
+          <div className='text-[0.875rem]'>
             <div className='flex flex-col'>
               <span className=''>{e.firm?.name}</span>
               <span className='text-[80%] text-muted-foreground'>{e.lineCountNumeric} Kalem</span>
             </div>
-          </TableCell>
-          <TableCell className='text-[0.875rem]'>
+          </div>
+          <div className='text-end text-[0.875rem]'>
             <div className='flex flex-col'>
               <span className=''>{moneyFormat(e.legalMonetaryTotal?.taxInclusiveAmount)} {e.currency}</span>
               <span className='flex flex-col text-[80%] text-muted-foreground'>{moneyFormat(e.taxTotal?.taxAmount)} {e.currency}
@@ -63,11 +64,11 @@ export function InvoiceList({ ioType, title }: Props) {
                 }
               </span>
             </div>
-          </TableCell>
-          <TableCell className='text-center text-[0.875rem]'>
+          </div>
+          <div className='text-center text-[0.875rem]'>
             {e.draft && <span className={`text-[80%] px-[6px] py-[2px] rounded-md text-center metin-golge bg-[#254547] text-white w-16`}>TASLAK</span>}
-          </TableCell>
-        </>)
+          </div>
+        </div>)
       }}
       defaultFilter={{ closed: false }}
       onFilterPanel={(filter, setFilter) => {

@@ -1,7 +1,7 @@
 "use client"
 
 import { useLanguage } from '@/i18n'
-import { ListGrid } from '@/components/ui216/list-grid'
+import { ListTable } from '@/components/ui216/list-table'
 import { TableCell, TableHead } from '@/components/ui/table'
 import { useEffect, useState } from 'react'
 import { Skeleton } from '@/components/ui/skeleton'
@@ -14,7 +14,7 @@ import { FilterCategory } from './filter-category'
 export default function ListPage() {
   const { t } = useLanguage()
   return (
-    <ListGrid
+    <ListTable
       apiPath='/db/items'
       options={{ type: 'Update' }}
       title={t('Items')}

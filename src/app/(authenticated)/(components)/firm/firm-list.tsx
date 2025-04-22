@@ -1,7 +1,7 @@
 "use client"
 
 import { useLanguage } from '@/i18n'
-import { ListGrid } from '@/components/ui216/list-grid'
+import { ListTable } from '@/components/ui216/list-table'
 import { TableCell, TableHead } from '@/components/ui/table'
 import { Firm } from '@/types/Firm'
 import { firmTypeList, firmTypeName } from '@/types/Firm'
@@ -19,7 +19,7 @@ export function FirmList({ type }: Props) {
   const title = type == 'c' ? t('Curstomers') : (type == 'v' ? t('Vendors') : (type == 'cv' ? t('Customers & Vendors') : 'Customer Candidates'))
 
   return (
-    <ListGrid
+    <ListTable
       apiPath={`/db/firms?type=${type}`}
       options={{ type: 'Update' }}
       title={title}

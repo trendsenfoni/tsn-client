@@ -1,13 +1,13 @@
 "use client"
 
 import { useLanguage } from '@/i18n'
-import { ListGrid } from '@/components/ui216/list-grid'
+import { ListTable } from '@/components/ui216/list-table'
 import { TableCell, TableHead } from '@/components/ui/table'
 import { TsnSelectRemote } from '@/components/ui216/tsn-select-remote'
 export default function DatabasesPage() {
   const { t } = useLanguage()
   return (
-    <ListGrid
+    <ListTable
       apiPath='/db/models'
       options={{ type: 'Update' }}
       title={t('Models')}

@@ -8,21 +8,12 @@ import { useToast } from '@/components/ui/use-toast'
 import { PaginationType } from '@/types/PaginationType'
 import { useLanguage } from '@/i18n'
 import Loading from '@/components/loading'
-import {
-  Table,
-  TableBody,
-  TableCaption,
-  TableCell,
-  TableFooter,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from "@/components/ui/table"
+
 import { Input } from '@/components/ui/input'
 import { EditIcon, FilterIcon, PlusSquareIcon, Trash2Icon } from 'lucide-react'
 import Pagination from '@/components/ui216/pagination'
 import { ButtonConfirm } from '@/components/button-confirm'
-import { FilterPanel } from './filter-panel'
+import { FilterPanel } from '../../../../components/ui216/filter-panel'
 
 interface OptionProps {
   type?: 'List' | 'Update'
@@ -120,6 +111,10 @@ export function ListGrid({
       })
       .catch(err => toast({ title: 'error', description: err || '', variant: 'destructive' }))
   }
+
+  const classBgOdd = 'bg-slate-300 bg-opacity-10 hover:bg-blue-500 hover:bg-opacity-10'
+  const classBgEven = 'hover:bg-blue-500 hover:bg-opacity-10'
+
   useEffect(() => { !token && setToken(Cookies.get('token') || '') }, [])
   useEffect(() => { token && load(1, '', filter) }, [token])
 
@@ -162,35 +157,33 @@ export function ListGrid({
 
     <hr />
     {!loading && <>
-      <Table className='text-[70%] md:text-base lg:text-[110%]'>
+      <div className='w-full text-[70%] md:text-base lg:text-[110%]'>
         {onHeaderPaint &&
-          <TableHeader>
-            <TableRow>
-              {onHeaderPaint()}
-              {options.type == 'Update' && (options.showAddNew || options.showEdit || options.showDelete) &&
-                <TableHead className=" w-12 ">
-                  <div className='w-full flex justify-end l11g:ju11stify-center'>
-                    {options.showAddNew &&
-                      <div
-                        onClick={() => router.push(`${pathName}/addnew?${searchParams.toString()}`)}
-                        className={`w-8 cursor-pointer px-2 py-2 rounded-md bg-green-800 text-white hover:bg-green-500 hover:text-white`}>
-                        <PlusSquareIcon size={'16px'} />
-                      </div>
+          <div className='w-full flex flex-row items-center border-b mb-1 p-1'>
+            {onHeaderPaint()}
+            {options.type == 'Update' && (options.showAddNew || options.showEdit || options.showDelete) &&
+              <div className=" w-20 ">
+                <div className='w-full flex justify-end lg:justify-center'>
+                  {options.showAddNew &&
+                    <div
+                      onClick={() => router.push(`${pathName}/addnew?${searchParams.toString()}`)}
+                      className={`w-8 cursor-pointer px-2 py-2 rounded-md bg-green-800 text-white hover:bg-green-500 hover:text-white`}>
+                      <PlusSquareIcon size={'16px'} />
+                    </div>
 
-                    }
-                    {!options.showAddNew && <>#</>}
-                  </div>
-                </TableHead>
-              }
-            </TableRow>
-          </TableHeader>
+                  }
+                  {!options.showAddNew && <>#</>}
+                </div>
+              </div>
+            }
+          </div>
         }
-        <TableBody >
+        <div >
           {list.map((e, index) => (
-            <TableRow key={(e._id || 'grid' + index)} className='items-center'>
+            <div key={(e._id || 'grid' + index)} className={`w-full flex flex-row items-center rounded my-1 p-1 ${index % 2 == 1 ? classBgOdd : classBgEven}`}>
               {onRowPaint && onRowPaint(e, index)}
 
-              <TableCell className="w-18">
+              <div className="w-20">
                 <div className='w-full flex gap-2'>
                   {options.type == 'Update' && options.showEdit && e._id && <>
                     <div
@@ -219,21 +212,18 @@ export function ListGrid({
                     </ButtonConfirm>
                   }
                 </div>
-              </TableCell>
-            </TableRow>
+              </div>
+            </div>
           ))}
-        </TableBody>
-        {options.paging && <TableFooter className='bg-transparent'>
-          <TableRow className=' hover:bg-transparent'>
-            <TableCell colSpan={5} >
-              <Pagination pagination={pagination} onPageClick={(pageNo: number) => {
-                setPagination({ ...pagination, page: pageNo })
-              }} />
-            </TableCell>
-          </TableRow>
-        </TableFooter>
+        </div>
+        {options.paging &&
+          <div className='w-full'>
+            <Pagination pagination={pagination} onPageClick={(pageNo: number) => {
+              setPagination({ ...pagination, page: pageNo })
+            }} />
+          </div>
         }
-      </Table>
+      </div>
     </>}
     {loading && <div className='flex w-full h-full justify-center items-center'>
       <Loading />

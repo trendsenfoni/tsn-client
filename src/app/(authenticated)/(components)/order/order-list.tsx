@@ -1,7 +1,7 @@
 "use client"
 
 import { useLanguage } from '@/i18n'
-import { ListGrid } from '@/components/ui216/list-grid'
+import { ListTable } from '@/components/ui216/list-table'
 import { TableCell, TableHead } from '@/components/ui/table'
 import { Order } from '@/types/Order'
 
@@ -16,7 +16,7 @@ interface Props {
 export function OrderList({ type, title }: Props) {
   const { t } = useLanguage()
   return (
-    <ListGrid
+    <ListTable
       apiPath={`/db/orders?type=${type}`}
       options={{ type: 'Update' }}
       title={title}
